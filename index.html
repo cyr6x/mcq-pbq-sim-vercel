@@ -317,6 +317,29 @@ select, input { font-family: var(--font-ui); }
 .legend-item { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--text-dim); }
 .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
 
+/* RIGHT PROGRESS / DOMAIN COVERAGE PANEL */
+.rpanel {
+  width: 188px; flex-shrink: 0;
+  background: var(--surface2); border-left: 1px solid var(--border);
+  display: flex; flex-direction: column; overflow-y: auto;
+  transition: width 0.2s ease;
+}
+.rpanel.collapsed { width: 0; border-left: none; }
+.rpanel-inner { width: 188px; padding: 14px; display: flex; flex-direction: column; }
+.rpanel-toggle {
+  position: absolute; right: 0; top: 50%;
+  width: 18px; height: 40px; background: var(--surface2); border: 1px solid var(--border);
+  border-right: none; border-radius: 4px 0 0 4px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: var(--text-muted); transition: all 0.2s; z-index: 50;
+}
+.rpanel-toggle:hover { color: var(--accent); background: var(--accent-dim); }
+.cov-row { display: grid; grid-template-columns: 22px 1fr 32px; gap: 7px; align-items: center; margin-bottom: 8px; }
+.cov-row .cl { color: var(--text-muted); font-weight: 700; font-size: 10px; }
+.cov-track { height: 7px; border-radius: 4px; background: var(--border); overflow: hidden; }
+.cov-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #7c5cff); width: 0%; transition: width .3s ease; }
+.cov-pct { text-align: right; color: var(--text-muted); font-family: var(--font-mono); font-size: 10px; }
+
 /* CONTENT AREA */
 .content-area {
   flex: 1; overflow-y: auto; padding: 24px;
@@ -843,11 +866,17 @@ select, input { font-family: var(--font-ui); }
 
 /* RESPONSIVE */
 @media (max-width: 700px) {
-  .sidebar { display: none; }
+  .sidebar, .rpanel { display: none; }
   .q-stem { font-size: 15px; }
   .dnd-layout, .match-layout { flex-direction: column; }
   .mode-grid { grid-template-columns: 1fr; }
 }
+/* KEYS HINT IN TOP BAR */
+.tb-keys {
+  font-size: 10px; color: var(--text-dim); white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+@media (max-width: 1140px) { .tb-keys { display: none; } }
 /* ============================================================
    APP SHELL, ROUTER TABS & THEMES (fresh UX layer)
 ============================================================ */
@@ -1080,6 +1109,7 @@ body:not([data-nav="hidden"]) .tab-screen.active{margin-left:212px;}
     <div class="tb-sep"></div>
     <div class="tb-domain-tag" id="tb-domain">Domain 1.0 — General Security Concepts</div>
     <div class="tb-qcount" id="tb-qcount">Q 1 of 90</div>
+    <div class="tb-keys" aria-hidden="true">Keys: 1–9 · A–D answer · ←→ navigate · F flag · P pause</div>
     <div class="tb-spacer"></div>
     <button class="tb-flag-btn" id="tb-flag-btn" onclick="toggleFlag()" aria-label="Flag question for review">
       <span class="flag-icon">⚑</span> <span id="flag-label">Flag</span>
@@ -1119,6 +1149,23 @@ body:not([data-nav="hidden"]) .tab-screen.active{margin-left:212px;}
     <!-- CONTENT -->
     <div class="content-area" id="content-area">
       <!-- Question rendered here -->
+    </div>
+
+    <!-- RIGHT PROGRESS PANEL TOGGLE -->
+    <button class="rpanel-toggle" id="rpanel-toggle" onclick="toggleRpanel()" aria-label="Toggle progress panel" title="Toggle progress">&#8249;</button>
+    <!-- RIGHT PROGRESS / DOMAIN COVERAGE PANEL -->
+    <div class="rpanel" id="rpanel">
+      <div class="rpanel-inner">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--text-dim);margin-bottom:8px">Progress</div>
+        <div class="sidebar-stats">
+          <div class="sidebar-stat"><span class="sidebar-stat-label">Answered</span><span class="sidebar-stat-val" id="rp-answered">0/0</span></div>
+          <div class="sidebar-stat"><span class="sidebar-stat-label">Flagged</span><span class="sidebar-stat-val" id="rp-flagged">0</span></div>
+          <div class="sidebar-stat"><span class="sidebar-stat-label">Remaining</span><span class="sidebar-stat-val" id="rp-remaining">0</span></div>
+        </div>
+        <hr class="sidebar-divider">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--text-dim);margin-bottom:10px">Domain Coverage</div>
+        <div id="cov-rows"></div>
+      </div>
     </div>
   </div>
 
@@ -1779,6 +1826,7 @@ function updateTimer() {
 // NAVIGATOR
 // ============================================================
 function buildNavigator() {
+  applyPanels();
   const grid = $('q-grid');
   grid.innerHTML = '';
   S.questions.forEach((q,i) => {
@@ -1813,6 +1861,34 @@ function updateNavigator() {
   $('sb-answered').textContent = `${answered}/${total}`;
   $('sb-flagged').textContent = flagged;
   $('sb-remaining').textContent = total-answered;
+  $('rp-answered').textContent = `${answered}/${total}`;
+  $('rp-flagged').textContent = flagged;
+  $('rp-remaining').textContent = total-answered;
+  updateDomainCoverage();
+}
+
+function updateDomainCoverage() {
+  const rows = $('cov-rows');
+  if (!rows) return;
+  if (!rows.dataset.built) {
+    rows.innerHTML = Object.keys(DOMAIN_WEIGHTS).map(d =>
+      `<div class="cov-row"><span class="cl">${d.replace('.0','')}</span><div class="cov-track"><div class="cov-fill" id="cov-${d}"></div></div><span class="cov-pct" id="covp-${d}">0%</span></div>`
+    ).join('');
+    rows.dataset.built = '1';
+  }
+  const agg = {};
+  S.questions.forEach(q => {
+    if (!q.domain) return;
+    const g = agg[q.domain] || (agg[q.domain] = { n:0, a:0 });
+    g.n++; if (isAnswered(q.id)) g.a++;
+  });
+  Object.keys(DOMAIN_WEIGHTS).forEach(d => {
+    const g = agg[d];
+    const pct = g && g.n ? Math.round(g.a/g.n*100) : 0;
+    const f = $('cov-'+d), p = $('covp-'+d);
+    if (f) f.style.width = pct+'%';
+    if (p) p.textContent = pct+'%';
+  });
 }
 
 function isAnswered(qid) {
@@ -3152,15 +3228,25 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape') document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'));
 
   if(!e.altKey&&!e.ctrlKey&&!e.metaKey){
+    const typing=['INPUT','TEXTAREA','SELECT'].includes((e.target&&e.target.tagName)||'');
+    if(typing)return;
+    if(e.key==='ArrowRight'){e.preventDefault();nextQ();return;}
+    if(e.key==='ArrowLeft'){e.preventDefault();prevQ();return;}
+    if(e.key==='f'||e.key==='F'){e.preventDefault();toggleFlag();return;}
+    if(e.key==='p'||e.key==='P'){e.preventDefault();togglePause();return;}
     const key=e.key.toUpperCase();
-    if(['A','B','C','D','E'].includes(key)&&(q.type==='mcq-single'||q.type==='mcq-multi')){
-      const opt=q.options?.find(o=>o.id===key);if(!opt)return;
-      if(q.type==='mcq-single'){S.answers[q.id]=key;renderQ();}
+    let letter=['A','B','C','D','E'].includes(key)?key:null;
+    if(!letter&&/^[1-9]$/.test(key)&&(q.type==='mcq-single'||q.type==='mcq-multi')){
+      letter=(q.options?.[parseInt(key)-1]||{}).id||null;
+    }
+    if(letter&&(q.type==='mcq-single'||q.type==='mcq-multi')){
+      const opt=q.options?.find(o=>o.id===letter);if(!opt)return;
+      if(q.type==='mcq-single'){S.answers[q.id]=letter;renderQ();}
       else{
         const cur=Array.isArray(S.answers[q.id])?[...S.answers[q.id]]:[];
-        const idx=cur.indexOf(key);
+        const idx=cur.indexOf(letter);
         if(idx>=0)cur.splice(idx,1);
-        else if(cur.length<(q.selectCount||2))cur.push(key);
+        else if(cur.length<(q.selectCount||2))cur.push(letter);
         S.answers[q.id]=cur;renderQ();
       }
     }
@@ -3168,22 +3254,30 @@ document.addEventListener('keydown',e=>{
 });
 
 // ============================================================
-// SIDEBAR TOGGLE
+// EXAM PANEL TOGGLES (hide/show, persisted)
 // ============================================================
-let sidebarOpen = true;
-function toggleSidebar() {
+let _panels = Object.assign({left:true,right:true}, (()=>{try{return JSON.parse(localStorage.getItem('sy0701_panels')||'null')||{};}catch(e){return{};}})());
+function _savePanels(){try{localStorage.setItem('sy0701_panels',JSON.stringify(_panels));}catch(e){}}
+function applyPanels(){
   const sb = document.getElementById('sidebar');
-  const btn = document.getElementById('sidebar-toggle');
-  sidebarOpen = !sidebarOpen;
-  sb.classList.toggle('collapsed', !sidebarOpen);
-  btn.textContent = sidebarOpen ? '‹' : '›';
-  btn.style.left = sidebarOpen ? '204px' : '0';
+  const rp = document.getElementById('rpanel');
+  if (sb) {
+    sb.classList.toggle('collapsed', !_panels.left);
+    const btn = document.getElementById('sidebar-toggle');
+    if (btn) { btn.textContent = _panels.left ? '‹' : '›'; btn.style.left = _panels.left ? '204px' : '0'; }
+  }
+  if (rp) {
+    rp.classList.toggle('collapsed', !_panels.right);
+    const btn2 = document.getElementById('rpanel-toggle');
+    if (btn2) btn2.textContent = _panels.right ? '›' : '‹';
+  }
 }
+function toggleRpanel(){ _panels.right = !_panels.right; _savePanels(); applyPanels(); }
+function toggleSidebar(){ _panels.left = !_panels.left; _savePanels(); applyPanels(); }
 
 // Position toggle button
 document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('sidebar-toggle');
-  if (btn) btn.style.left = '204px';
+  applyPanels();
 });
 
 // ============================================================
@@ -3372,7 +3466,7 @@ const _origBuild = buildExamQuestions;
 
 console.log('SY0-701 v2 — AI-Powered Dark Mode Exam Simulator');
 console.log(`Seed: ${SEED_QUESTIONS.length} MCQs · ${PBQ_SEEDS.length} PBQs (all 7 types)`);
-console.log('Keyboard: A–D · Alt+F flag · Alt+N/P nav · Ctrl+End/Home');
+console.log('Keyboard: A–D / 1–9 answer · ←/→ navigate · F flag · P pause · Alt+F/N/P · Ctrl+End/Home');
 
 // ============================================================
 // APP SHELL: STATS · ROUTER · TABS · SETTINGS (fresh UX layer)
