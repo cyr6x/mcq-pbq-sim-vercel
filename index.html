@@ -223,6 +223,34 @@ select, input { font-family: var(--font-ui); }
   transition: all 0.15s;
 }
 .tb-end-btn:hover { border-color: var(--danger); color: var(--danger); }
+.tb-pause-btn {
+  background: none; border: 1px solid var(--border); color: var(--text-muted);
+  padding: 6px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600;
+  transition: all 0.15s;
+}
+.tb-pause-btn:hover { border-color: var(--accent); color: var(--accent); }
+.tb-pause-btn.paused { border-color: var(--warning); color: var(--warning); background: var(--warning-dim); }
+.pause-overlay {
+  position: fixed; inset: 0; z-index: 9500;
+  background: rgba(15,17,23,0.97); backdrop-filter: blur(6px);
+  display: none; align-items: center; justify-content: center;
+}
+.pause-overlay.open { display: flex; }
+.pause-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 36px 44px; text-align: center;
+  box-shadow: var(--shadow-lg); max-width: 420px;
+}
+.pause-card h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+.pause-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+.pause-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 16px; border-radius: 999px; margin-bottom: 16px;
+  background: var(--warning-dim); border: 1px solid var(--warning); color: var(--warning);
+  font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+}
+.pause-bars { width: 14px; height: 14px; display: inline-flex; gap: 3px; }
+.pause-bars span { flex: 1; background: currentColor; border-radius: 1px; }
 
 /* MIDDLE: SIDEBAR + CONTENT */
 .exam-body {
@@ -936,6 +964,7 @@ select, input { font-family: var(--font-ui); }
     <button class="tb-flag-btn" id="tb-flag-btn" onclick="toggleFlag()" aria-label="Flag question for review">
       <span class="flag-icon">⚑</span> <span id="flag-label">Flag</span>
     </button>
+    <button class="tb-pause-btn" id="tb-pause-btn" onclick="togglePause()" aria-label="Pause exam"><span class="pause-bars"><span></span><span></span></span> <span id="pause-label">Pause</span></button>
     <div class="timer" id="timer" aria-live="polite" aria-label="Time remaining">90:00</div>
     <button class="tb-end-btn" onclick="triggerEndExam()" aria-label="End exam">End Exam</button>
   </div>
@@ -979,6 +1008,15 @@ select, input { font-family: var(--font-ui); }
       <button class="btn-mark-review" id="btn-mark" onclick="toggleFlag()">⚑ Mark for Review</button>
     </div>
     <button class="btn-nav" id="btn-next" onclick="nextQ()" aria-label="Next question">Next →</button>
+  </div>
+</div>
+
+<div class="pause-overlay" id="pause-overlay">
+  <div class="pause-card">
+    <div class="pause-badge"><span class="pause-bars"><span></span><span></span></span> Paused</div>
+    <h2>Exam Paused</h2>
+    <p>The timer is stopped and questions are hidden. Your progress is kept - resume when you're ready.</p>
+    <button class="btn-result primary" onclick="togglePause()" aria-label="Resume exam">Resume Exam</button>
   </div>
 </div>
 
@@ -1092,6 +1130,8 @@ const S = {
   candidate: '',
   sessionHistory: [],  // track wrong answers for weak-domain filter
   timeWarnShown: false,
+  pausedMs: 0,
+  pauseStart: null,
   hintUsed: new Set(),
 };
 
@@ -2652,7 +2692,7 @@ function computeAndShowResults() {
   const rawPct=maxPts?Math.round(totalPts/maxPts*100):0;
   const scaled=calcScaledScore(rawPct);
   const passed=scaled>=750;
-  const timeUsed=S.startTime?Math.floor((S.endTime-S.startTime)/1000):0;
+  const timeUsed=S.startTime?Math.floor((S.endTime-S.startTime-(S.pausedMs||0))/1000):0;
 
   // Results UI
   const scoreEl=$('r-score');scoreEl.textContent=scaled;scoreEl.className=`score-val ${passed?'pass':'fail'}`;
@@ -2662,7 +2702,7 @@ function computeAndShowResults() {
   $('r-sub').textContent=`SY0-701 CompTIA Security+ · Scaled Score: ${scaled} · ${passed?'PASS (≥750)':'FAIL (<750)'}`;
 
   // Time-pressured detection (questions answered in last 5 mins)
-  const examDuration = S.endTime - S.startTime;
+  const examDuration = S.endTime - S.startTime - (S.pausedMs || 0);
   const timePressured = S.questions.filter(q => {
     const t = _questionTimings[q.id];
     return t && isAnswered(q.id) && t < 30;
@@ -2896,7 +2936,7 @@ async function processPDF(file) {
 $('btn-begin').addEventListener('click',async()=>{
   S.candidate=$('candidate-name').value||'Candidate';
   S.reviewMode=false;S.reviewFilter='all';S.flags=new Set();
-  S.answers={};S.startTime=Date.now();S.timeWarnShown=false;S.hintUsed=new Set();
+  S.answers={};S.startTime=Date.now();S.timeWarnShown=false;S.hintUsed=new Set();S.pausedMs=0;S.pauseStart=null;
 
   // Try AI generation
   openModal('modal-generating');
@@ -2929,6 +2969,7 @@ function restartExam(){showScreen('welcome-screen');renderPastResults();}
 document.addEventListener('keydown',e=>{
   const active=document.querySelector('.screen.active');
   if(!active||active.id!=='exam-screen')return;
+  if(S.pauseStart!==null)return;
   const q=S.questions[S.currentIdx];
   if(!q)return;
 
@@ -2996,6 +3037,39 @@ function startQuestionTimer(qid) {
 }
 
 // ============================================================
+// PAUSE / RESUME
+// ============================================================
+function togglePause() {
+  if (S.pauseStart === null) pauseExam();
+  else resumeExam();
+}
+
+function pauseExam() {
+  if (S.pauseStart !== null) return;
+  const active = document.querySelector('.screen.active');
+  if (!active || active.id !== 'exam-screen') return;
+  S.pauseStart = Date.now();
+  if (S.timerHandle) { clearInterval(S.timerHandle); S.timerHandle = null; }
+  const q = S.questions[S.currentIdx];
+  if (q) { recordQuestionTime(q.id); _qStartTime = null; }
+  $('pause-overlay').classList.add('open');
+  $('pause-label').textContent = 'Resume';
+  $('tb-pause-btn').classList.add('paused');
+}
+
+function resumeExam() {
+  if (S.pauseStart === null) return;
+  S.pausedMs += Date.now() - S.pauseStart;
+  S.pauseStart = null;
+  $('pause-overlay').classList.remove('open');
+  $('pause-label').textContent = 'Pause';
+  $('tb-pause-btn').classList.remove('paused');
+  const q = S.questions[S.currentIdx];
+  if (q) startQuestionTimer(q.id);
+  startTimer();
+}
+
+// ============================================================
 // STUDY SESSION SUMMARY
 // ============================================================
 function buildStudySummary() {
@@ -3036,7 +3110,7 @@ function showStudySummary() {
   const totalQ = S.questions.length;
   const correct = S.questions.filter(q => computeScore(q) >= 0.7).length;
   const pct = Math.round(correct / totalQ * 100);
-  const timeUsed = S.startTime ? Math.floor((Date.now() - S.startTime) / 1000) : 0;
+  const timeUsed = S.startTime ? Math.floor((Date.now() - S.startTime - (S.pausedMs || 0)) / 1000) : 0;
   const avgTime = totalQ ? Math.round(timeUsed / totalQ) : 0;
 
   // Inject a study-specific results view
