@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>22mcq-pbq — SY0-701 Security+ Exam Simulator</title>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('appTheme')||'slate';}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -42,7 +43,11 @@
 html { height: 100%; }
 body {
   font-family: var(--font-ui);
-  background: var(--bg);
+  background:
+    radial-gradient(1150px 540px at 12% -10%, rgba(102,116,158,0.12), transparent 62%),
+    radial-gradient(950px 470px at 86% 0%, rgba(70,84,120,0.10), transparent 60%),
+    radial-gradient(1200px 640px at 50% 110%, rgba(38,44,60,0.15), transparent 66%),
+    var(--bg);
   color: var(--text);
   height: 100%;
   overflow: hidden;
@@ -843,6 +848,121 @@ select, input { font-family: var(--font-ui); }
   .dnd-layout, .match-layout { flex-direction: column; }
   .mode-grid { grid-template-columns: 1fr; }
 }
+/* ============================================================
+   APP SHELL, ROUTER TABS & THEMES (fresh UX layer)
+============================================================ */
+html[data-theme="light"] {
+  --bg:#e7e9ef; --surface:#fbfcfe; --surface2:#eef0f4;
+  --border:#ccd0da; --border-light:#a9afbe;
+  --accent:#2b63d8; --accent-dim:rgba(43,99,216,.10); --accent-glow:rgba(43,99,216,.24);
+  --success:#188a4a; --warning:#a8640a; --danger:#c0392b;
+  --warning-dim:rgba(168,100,10,.12); --danger-dim:rgba(192,57,43,.10); --success-dim:rgba(24,138,74,.12);
+  --text:#171b26; --text-muted:#4d566b; --text-dim:#818a9b;
+  --shadow:0 2px 10px rgba(24,28,40,.07); --shadow-lg:0 12px 34px rgba(24,28,40,.14);
+  color-scheme: light;
+}
+html[data-theme="amoled"] {
+  --bg:#000000; --surface:#060709; --surface2:#0a0b0e;
+  --border:#141519; --border-light:#20222a;
+  --shadow:0 6px 22px rgba(0,0,0,.5);
+  color-scheme: dark;
+}
+html[data-theme="amoled"] body { background:#000; }
+html[data-theme="light"] body {
+  background:
+    radial-gradient(1150px 540px at 12% -10%, rgba(120,138,175,0.16), transparent 62%),
+    radial-gradient(980px 480px at 86% 2%, rgba(140,150,176,0.14), transparent 60%),
+    var(--bg);
+}
+/* SIDEBAR SHELL */
+.app-nav{position:fixed;top:0;bottom:0;left:0;width:212px;z-index:190;
+  background:var(--surface2);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;padding:16px 12px;transition:transform .18s ease;}
+body[data-nav="hidden"] .app-nav{transform:translateX(-110%);visibility:hidden;}
+@media(min-width:941px){.app-nav{transform:none !important;visibility:visible !important;}}
+.nav-brand{display:flex;align-items:center;gap:10px;padding:4px 8px 14px;border-bottom:1px solid var(--border);margin-bottom:10px;}
+.nav-logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--accent),#7c5cff);display:grid;place-items:center;font-weight:800;color:#fff;font-size:12px;flex-shrink:0;}
+.nav-brand b{font-size:14px;display:block;}
+.nav-brand small{display:block;font-size:9px;color:var(--text-dim);letter-spacing:1.4px;text-transform:uppercase;margin-top:1px;}
+.nav-label{font-size:9.5px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--text-dim);margin:12px 8px 5px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:7px;border:1px solid transparent;
+  color:var(--text-muted);font-size:13px;font-weight:600;cursor:pointer;background:none;width:100%;text-align:left;}
+.nav-item:hover{background:var(--accent-dim);color:var(--accent);}
+.nav-item.active{background:var(--accent-dim);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent-glow);}
+.ni-ico{display:grid;place-items:center;width:17px;height:17px;border-radius:4px;background:var(--border);
+  color:var(--text-muted);font-size:9px;font-weight:800;flex-shrink:0;}
+.nav-item:hover .ni-ico,.nav-item.active .ni-ico{background:var(--accent);color:#fff;}
+.nav-foot{margin-top:auto;padding:12px 8px 2px;border-top:1px solid var(--border);font-size:10px;color:var(--text-dim);line-height:1.6;}
+.nav-burger{position:fixed;top:10px;left:12px;z-index:200;display:none;width:40px;height:40px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--border);color:var(--text-muted);cursor:pointer;font-size:15px;}
+body[data-nav="hidden"] .nav-burger{display:none !important;}
+@media(max-width:940px){
+  .app-nav{transform:translateX(-110%);}
+  .app-nav.open{transform:none;}
+  body:not([data-nav="hidden"]) .nav-burger{display:flex !important;}
+}
+/* TAB SCREENS */
+.tab-screen.active{display:block;overflow-y:auto;}
+.tab-wrap{max-width:1050px;margin:0 auto;padding:30px 26px 70px;}
+body:not([data-nav="hidden"]) .tab-screen.active{margin-left:212px;}
+@media(max-width:940px){body:not([data-nav="hidden"]) .tab-screen.active{margin-left:0;padding-top:62px;}}
+.tab-eyebrow{font-size:10px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--accent);}
+.tab-title{font-size:27px;font-weight:700;margin:7px 0 7px;}
+.tab-sub{font-size:13px;color:var(--text-muted);max-width:660px;line-height:1.55;}
+.tab-head{margin-bottom:22px;}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;}
+.stat-card .k{font-size:9.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-dim);}
+.stat-card .v{font-size:24px;font-weight:800;margin-top:6px;}
+.stat-card .s{font-size:11px;color:var(--text-muted);margin-top:2px;}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:16px;}
+.panel h3{font-size:11px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px;}
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;}
+.quick-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;cursor:pointer;text-align:left;transition:border-color .15s;color:var(--text);width:100%;}
+.quick-card:hover{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent-glow);}
+.quick-card b{display:block;font-size:14px;margin-bottom:4px;}
+.quick-card span{font-size:11.5px;color:var(--text-muted);line-height:1.5;}
+.set-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(126px,1fr));gap:10px;}
+.set-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 10px;text-align:center;cursor:pointer;color:var(--text);width:100%;}
+.set-card:hover{border-color:var(--accent);}
+.set-card .k{font-size:8.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--text-dim);}
+.set-card .n{font-size:21px;font-weight:800;margin-top:2px;}
+.set-card .d{font-size:10px;color:var(--text-muted);margin-top:4px;line-height:1.4;}
+.row-list{display:flex;flex-direction:column;gap:9px;}
+.review-row{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;}
+.review-row .idx{width:26px;height:26px;border-radius:7px;background:var(--surface2);border:1px solid var(--border);display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.review-row .t{font-size:12.5px;color:var(--text);line-height:1.5;flex:1;min-width:0;}
+.review-row .m{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+.mini-tag{font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding:2.5px 8px;border-radius:4px;border:1px solid var(--border);color:var(--text-muted);}
+.mini-tag.pbq{border-color:transparent;color:var(--accent);background:var(--accent-dim);}
+.mini-tag.bad{border-color:transparent;color:var(--warning);background:var(--warning-dim);}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.chip{padding:6px 13px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);font-size:11px;font-weight:700;cursor:pointer;}
+.chip.selected{border-color:var(--accent);color:var(--accent);background:var(--accent-dim);}
+.bar-row{display:grid;grid-template-columns:76px 1fr 48px;gap:10px;align-items:center;margin-bottom:10px;font-size:11px;font-weight:700;}
+.bar-row .lbl{color:var(--text-muted);font-size:10px;}
+.bar-row .pct{text-align:right;font-family:var(--font-mono);color:var(--text-muted);}
+.bar-track{grid-column:1/2;height:8px;border-radius:4px;background:var(--surface2);border:1px solid var(--border);overflow:hidden;display:none;}
+.bar-track-full{grid-column:2/3;height:8px;border-radius:4px;background:var(--surface2);border:1px solid var(--border);overflow:hidden;}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),#7c5cff);border-radius:4px;min-width:2px;}
+.ring-wrap{display:grid;place-items:center;}
+.ring-num{position:absolute;font-size:34px;font-weight:800;}
+/* SETTINGS (tab + in-exam layer) */
+.themeset{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.theme-card{border:1.5px solid var(--border);border-radius:var(--radius);padding:12px;cursor:pointer;background:var(--surface);color:var(--text);}
+.theme-card.selected{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent-glow);}
+.theme-prev{height:46px;border-radius:6px;margin-bottom:9px;border:1px solid var(--border);}
+.theme-name{font-size:11px;font-weight:700;}
+.field-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 2px;border-bottom:1px solid var(--border);font-size:12.5px;}
+.field-row:last-child{border-bottom:none;}
+.field-row select{background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 10px;font-size:12px;}
+.settings-layer{position:fixed;inset:0;z-index:9600;background:var(--bg);overflow-y:auto;display:none;}
+.settings-layer.open{display:block;}
+.settings-head{position:sticky;top:0;display:flex;align-items:center;gap:12px;padding:11px 16px;background:var(--surface);border-bottom:1px solid var(--border);z-index:5;}
+.settings-head b{font-size:15px;}
+.settings-head .settings-back{border:1px solid var(--border);background:none;color:var(--text-muted);border-radius:var(--radius-sm);padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;}
+.settings-head .settings-back:hover{color:var(--accent);border-color:var(--accent);}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
@@ -966,6 +1086,7 @@ select, input { font-family: var(--font-ui); }
     </button>
     <button class="tb-pause-btn" id="tb-pause-btn" onclick="togglePause()" aria-label="Pause exam"><span class="pause-bars"><span></span><span></span></span> <span id="pause-label">Pause</span></button>
     <div class="timer" id="timer" aria-live="polite" aria-label="Time remaining">90:00</div>
+    <button class="tb-pause-btn" id="tb-settings-btn" onclick="openSettingsLayer()" aria-label="Settings"><span>Settings</span></button>
     <button class="tb-end-btn" onclick="triggerEndExam()" aria-label="End exam">End Exam</button>
   </div>
 
@@ -1009,6 +1130,41 @@ select, input { font-family: var(--font-ui); }
     </div>
     <button class="btn-nav" id="btn-next" onclick="nextQ()" aria-label="Next question">Next →</button>
   </div>
+</div>
+
+<!-- ==================== APP SHELL: NAV ==================== -->
+<button class="nav-burger" id="nav-burger" onclick="document.getElementById('app-nav').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+<nav class="app-nav" id="app-nav" aria-label="Primary navigation">
+  <div class="nav-brand">
+    <div class="nav-logo">22</div>
+    <div><b>22mcq-pbq</b><small>SY0-701 &middot; Trainer</small></div>
+  </div>
+  <div class="nav-label">Train</div>
+  <button class="nav-item" data-route="#/"><span class="ni-ico">C</span>Command Center</button>
+  <button class="nav-item" data-route="#/exam"><span class="ni-ico">E</span>Exams</button>
+  <button class="nav-item" data-route="#/study"><span class="ni-ico">S</span>Study</button>
+  <button class="nav-item" data-route="#/lab"><span class="ni-ico">L</span>PBQ Lab</button>
+  <div class="nav-label">Improve</div>
+  <button class="nav-item" data-route="#/review"><span class="ni-ico">R</span>Review</button>
+  <button class="nav-item" data-route="#/analytics"><span class="ni-ico">A</span>Analytics</button>
+  <button class="nav-item" data-route="#/settings"><span class="ni-ico">&#9881;</span>Settings</button>
+  <div class="nav-foot">Learn the misses.<br>Retest them.<br>Prove it under time.</div>
+</nav>
+<!-- TAB SCREENS (fresh UX layer) -->
+<div id="screen-dashboard" class="screen tab-screen"><div class="tab-wrap" id="dashboard-root"></div></div>
+<div id="screen-sets" class="screen tab-screen"><div class="tab-wrap" id="sets-root"></div></div>
+<div id="screen-study" class="screen tab-screen"><div class="tab-wrap" id="study-root"></div></div>
+<div id="screen-lab" class="screen tab-screen"><div class="tab-wrap" id="lab-root"></div></div>
+<div id="screen-review" class="screen tab-screen"><div class="tab-wrap" id="review-root"></div></div>
+<div id="screen-analytics" class="screen tab-screen"><div class="tab-wrap" id="analytics-root"></div></div>
+<div id="screen-settings" class="screen tab-screen"><div class="tab-wrap" id="settings-root"></div></div>
+<!-- SETTINGS STASH LAYER (phone-stack forward/back; also reachable mid-exam) -->
+<div class="settings-layer" id="settings-layer">
+  <div class="settings-head">
+    <button class="settings-back" onclick="closeSettingsLayer()">&#8592; Back</button>
+    <b>Settings</b>
+  </div>
+  <div class="tab-wrap" id="settings-layer-root"></div>
 </div>
 
 <div class="pause-overlay" id="pause-overlay">
@@ -1512,6 +1668,7 @@ function uuid() { return crypto.randomUUID ? crypto.randomUUID() : Math.random()
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   $(id).classList.add('active');
+  document.body.dataset.nav=(id==='exam-screen'||id==='results-screen'||id==='review-screen')?'hidden':'visible';
 }
 function openModal(id) { $(id).classList.add('open'); }
 function closeModal(id) { $(id).classList.remove('open'); }
@@ -1532,7 +1689,8 @@ function buildExamQuestions() {
     const available = shuffle([...SEED_QUESTIONS]);
     available.forEach(q => {
       const d = q.domain;
-      const target = Math.ceil(83 * DOMAIN_WEIGHTS[d]/100);
+      const focus = S.examFocus;
+      const target = Math.ceil(focus && focus !== 'all' ? (d===focus ? 46 : 9.25) : 83 * DOMAIN_WEIGHTS[d]/100);
       if ((usedDomains[d]||0) < target) { mcqs.push(q); usedDomains[d]=(usedDomains[d]||0)+1; }
     });
     // Fill remaining
@@ -1560,14 +1718,22 @@ function buildExamQuestions() {
     const domain = S.studyDomain;
     let pool = domain==='all' ? allQ : allQ.filter(q=>q.domain===domain);
     let pbqPool = domain==='all' ? allPBQ : allPBQ.filter(q=>q.domain===domain);
-    const typeMCQ = $('type-mcq').checked;
-    const typePBQ = $('type-pbq').checked;
+    const typeMCQ = (S.launchOpts && 'mcq' in S.launchOpts) ? !!S.launchOpts.mcq : $('type-mcq').checked;
+    const typePBQ = (S.launchOpts && 'pbq' in S.launchOpts) ? !!S.launchOpts.pbq : $('type-pbq').checked;
+    if (S.launchOpts && Array.isArray(S.launchOpts.explicitIds)) {
+      const idx = {};
+      [...SEED_QUESTIONS, ...PBQ_SEEDS].forEach(q => idx[q.id]=q);
+      S.questions = S.launchOpts.explicitIds.map(id => idx[id]).filter(Boolean);
+      S.timeRemaining = 0;
+      S.showExplanations = true;
+    } else {
     let qs = [];
     if (typeMCQ) qs = [...pool.slice(0,count)];
-    if (typePBQ && pbqPool.length) qs = [...qs.slice(0,count-2), ...shuffle(pbqPool).slice(0,2)];
+    if (typePBQ && pbqPool.length) { const pbqCount = (S.launchOpts && S.launchOpts.pbqOnly) ? count : 2; qs = [...qs.slice(0,Math.max(0,count-pbqCount)), ...shuffle(pbqPool).slice(0,pbqCount)]; }
     S.questions = shuffle(qs).slice(0,count);
     S.timeRemaining = 0;
     S.showExplanations = true;
+    }
   }
 
   // Shuffle MCQ options
@@ -1600,8 +1766,8 @@ function updateTimer() {
   const el = $('timer');
   el.textContent = display;
   el.className = 'timer';
-  if (t<=300) el.classList.add('red');
-  else if (t<=900) el.classList.add('amber');
+  if (t<=PREFS.red) el.classList.add('red');
+  else if (t<=PREFS.amber) el.classList.add('amber');
 
   // Danger chips when <5min
   if (t<=300) {
@@ -2665,6 +2831,7 @@ function calcScaledScore(rawPct) {
 }
 
 function computeAndShowResults() {
+  recordAttempt('exam');
   const domainScores={};
   Object.keys(DOMAINS).forEach(d=>domainScores[d]={pts:0,max:0,pbqs:0,pbqPts:0});
 
@@ -2961,7 +3128,7 @@ $('btn-begin').addEventListener('click',async()=>{
 });
 
 function saveSessionResult(score,passed,mode){try{const h=JSON.parse(localStorage.getItem('sy0701_history')||'[]');h.unshift({date:new Date().toLocaleDateString(),time:new Date().toLocaleTimeString(),score,passed,mode});localStorage.setItem('sy0701_history',JSON.stringify(h.slice(0,5)));}catch(e){}}
-function restartExam(){showScreen('welcome-screen');renderPastResults();}
+function restartExam(){S.questions=[];location.hash='#/';route();}
 
 // ============================================================
 // KEYBOARD SHORTCUTS
@@ -3106,6 +3273,7 @@ function buildStudySummary() {
 }
 
 function showStudySummary() {
+  recordAttempt('study');
   const { domainPerf, weakObjs } = buildStudySummary();
   const totalQ = S.questions.length;
   const correct = S.questions.filter(q => computeScore(q) >= 0.7).length;
@@ -3205,6 +3373,343 @@ const _origBuild = buildExamQuestions;
 console.log('SY0-701 v2 — AI-Powered Dark Mode Exam Simulator');
 console.log(`Seed: ${SEED_QUESTIONS.length} MCQs · ${PBQ_SEEDS.length} PBQs (all 7 types)`);
 console.log('Keyboard: A–D · Alt+F flag · Alt+N/P nav · Ctrl+End/Home');
+
+// ============================================================
+// APP SHELL: STATS · ROUTER · TABS · SETTINGS (fresh UX layer)
+// ============================================================
+const PREFS_KEY='appPrefs';
+const PREFS=Object.assign({amber:900,red:300},(()=>{try{return JSON.parse(localStorage.getItem(PREFS_KEY)||'null')||{};}catch(e){return{};}})());
+function savePrefs(){try{localStorage.setItem(PREFS_KEY,JSON.stringify(PREFS));}catch(e){}}
+
+const ATTEMPTS_KEY='sy0701_attempts_v2', STATS_KEY='sy0701_stats';
+function _loadJson(k,d){try{return JSON.parse(localStorage.getItem(k))??d;}catch(e){return d;}}
+function _saveJson(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+function recordAttempt(mode){
+  if(!S.questions||!S.questions.length)return;
+  let correct=0;
+  const perDom={};
+  const items=S.questions.map(q=>{
+    const sc=computeScore(q);
+    const ok=sc>=0.999;
+    if(ok)correct++;
+    const pd=perDom[q.domain]||(perDom[q.domain]={n:0,ok:0});
+    pd.n++;if(ok)pd.ok++;
+    return{id:q.id,d:q.domain,type:q.type,ok,sec:Math.round(_questionTimings[q.id]||0)};
+  });
+  const rec={mode,at:Date.now(),total:items.length,correct,
+    score:items.length?Math.round(correct/items.length*100):0,
+    dur:Math.round(((S.endTime||Date.now())-(S.startTime||Date.now())-(S.pausedMs||0))/1000),items};
+  const attempts=_loadJson(ATTEMPTS_KEY,[]);attempts.push(rec);
+  while(attempts.length>40)attempts.shift();
+  _saveJson(ATTEMPTS_KEY,attempts);
+  const stats=_loadJson(STATS_KEY,{});
+  items.forEach(it=>{
+    const st=stats[it.id]||(stats[it.id]={a:0,w:0,last:false});
+    st.a++;if(!it.ok)st.w++;st.last=it.ok;st.d=it.d;st.type=it.type;
+  });
+  _saveJson(STATS_KEY,stats);
+}
+
+function weakestDomains(n){
+  const agg={};
+  _loadJson(ATTEMPTS_KEY,[]).forEach(a=>a.items.forEach(it=>{
+    const g=agg[it.d]||(agg[it.d]={n:0,ok:0});
+    g.n++;if(it.ok)g.ok++;
+  }));
+  return Object.entries(agg).map(([d,g])=>({d,acc:g.ok/g.n,n:g.n}))
+    .filter(x=>x.n>=3).sort((a,b)=>a.acc-b.acc).slice(0,n||2);
+}
+
+function missedLastTime(){
+  const a=_loadJson(ATTEMPTS_KEY,[]);
+  return a.length?a[a.length-1].items.filter(i=>!i.ok).map(i=>i.id):[];
+}
+function everMissed(){
+  const st=_loadJson(STATS_KEY,{});
+  return Object.entries(st).filter(([,v])=>v.w>0).map(([k])=>k);
+}
+
+// ---------- LAUNCH ENGINE ----------
+function _resetForLaunch(cfg){
+  clearInterval(S.timerHandle);S.timerHandle=null;
+  S.mode=cfg.mode||'study';S.currentIdx=0;S.reviewMode=false;S.reviewFilter='all';
+  S.flags=new Set();S.answers={};S.startTime=Date.now();S.endTime=null;
+  S.timeWarnShown=false;S.hintUsed=new Set();S.pausedMs=0;S.pauseStart=null;
+  Object.keys(_questionTimings).forEach(k=>delete _questionTimings[k]);
+  S.studyCount=cfg.count||20;S.studyDomain=cfg.domain||'all';
+  S.launchOpts=cfg.launchOpts||(cfg.pbq===false?{mcq:true,pbq:false}:{mcq:true,pbq:true,pbqCount:cfg.pbqCount!=null?cfg.pbqCount:2});
+  S.examFocus=cfg.focus||null;
+}
+function launchSession(cfg){
+  _resetForLaunch(cfg);
+  buildExamQuestions();
+  if(cfg.timeLimit)S.timeRemaining=cfg.timeLimit;
+  S.showExplanations=cfg.explain!==undefined?!!cfg.explain:S.mode==='study';
+  buildNavigator();
+  showScreen('exam-screen');
+  renderQ();
+  startTimer();
+}
+function retestIds(ids){
+  const list=[...new Set(ids)].slice(0,25);
+  if(!list.length)return;
+  launchSession({mode:'study',count:list.length,explain:true,launchOpts:{mcq:false,pbq:false,explicitIds:list}});
+}
+
+// ---------- ROUTER ----------
+const ROUTES={'#/':'screen-dashboard','#/exam':'screen-sets','#/study':'screen-study','#/lab':'screen-lab','#/review':'screen-review','#/analytics':'screen-analytics','#/settings':'screen-settings'};
+let _lastHash=null;
+function route(){
+  let h=location.hash||'#/';
+  if(!ROUTES[h])h='#/';
+  const examOn=S.questions.length&&!S.endTime&&$('exam-screen').classList.contains('active');
+  if(examOn){
+    if(_lastHash&&h!==_lastHash)location.hash=_lastHash;
+    return;
+  }
+  _lastHash=h;
+  const map={'screen-dashboard':renderDashboard,'screen-sets':renderSets,'screen-study':renderStudy,'screen-lab':renderLab,'screen-review':renderReview,'screen-analytics':renderAnalytics,'screen-settings':renderSettingsPage};
+  showScreen(ROUTES[h]);
+  (map[ROUTES[h]]||renderDashboard)();
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.route===h));
+  const nav=document.getElementById('app-nav');if(nav)nav.classList.remove('open');
+}
+window.addEventListener('hashchange',route);
+document.querySelectorAll('.nav-item[data-route]').forEach(b=>b.addEventListener('click',()=>{location.hash=b.dataset.route;}));
+
+// ---------- TAB RENDERERS ----------
+function setTheme(t){
+  document.documentElement.dataset.theme=t;
+  try{localStorage.setItem('appTheme',t);}catch(e){}
+  ['screen-settings','settings-layer'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.querySelectorAll('[data-themeopt]').forEach(c=>c.classList.toggle('selected',c.dataset.themeopt===t));
+  });
+}
+function setPref(key,val){
+  PREFS[key]=Math.round(Number(val));
+  if(PREFS.red>=PREFS.amber)PREFS.red=Math.max(60,PREFS.amber-300);
+  savePrefs();
+  refreshSettingsUI();
+}
+function _qIndex(){const idx={};[...SEED_QUESTIONS,...PBQ_SEEDS].forEach(q=>idx[q.id]=q);return idx;}
+function refreshSettingsUI(){
+  if($('screen-settings').classList.contains('active'))renderSettingsPage();
+  if($('settings-layer').classList.contains('open'))$('settings-layer-root').innerHTML=settingsBoardMarkup('Mid-Exam','Exam is paused while Settings is open. Press Back to resume exactly where you left off.');
+}
+function renderSettings(){
+  const stats=_loadJson(STATS_KEY,{});
+  const attempts=_loadJson(ATTEMPTS_KEY,[]);
+  const t=document.documentElement.dataset.theme||'slate';
+  return `
+  <div class="panel">
+    <h3>Appearance</h3>
+    <div class="themeset">
+      ${[['slate','Slate Dark','linear-gradient(135deg,#10141d 55%,#1a2030)'],['light','Light','linear-gradient(135deg,#e7e9ef 55%,#c9cede)'],['amoled','AMOLED','linear-gradient(135deg,#000 60%,#111)']]
+        .map(([id,name,prev])=>`<button class="theme-card ${t===id?'selected':''}" data-themeopt="${id}" onclick="setTheme('${id}')"><div class="theme-prev" style="background:${prev}"></div><div class="theme-name">${name}</div></button>`).join('')}
+    </div>
+  </div>
+  <div class="panel">
+    <h3>Timer Warnings</h3>
+    <div class="field-row"><span>Amber warning at</span><select onchange="setPref('amber',this.value)">${[10,15,20,30].map(m=>`<option value="${m*60}" ${PREFS.amber===m*60?'selected':''}>${m} minutes</option>`).join('')}</select></div>
+    <div class="field-row"><span>Critical warning at</span><select onchange="setPref('red',this.value)">${[1,3,5].map(m=>`<option value="${m*60}" ${PREFS.red===m*60?'selected':''}>${m} minutes</option>`).join('')}</select></div>
+  </div>
+  <div class="panel">
+    <h3>Data</h3>
+    <div class="field-row"><span>${attempts.length} recorded attempts · ${Object.keys(stats).length} tracked questions</span>
+    <button class="quick-card" style="max-width:200px" onclick="if(confirm('Erase all attempt history and mastery stats?')){_saveJson(ATTEMPTS_KEY,[]);_saveJson(STATS_KEY,{});refreshSettingsUI();}">Reset progress data</button></div>
+  </div>`;
+}
+let _settingsCtx=null;
+function settingsBoardMarkup(eyebrow,sub){
+  return`<div class="tab-head"><div class="tab-eyebrow">${eyebrow}</div><div class="tab-title">Settings</div><div class="tab-sub">${sub}</div></div>
+  ${renderSettings()}`;
+}
+function renderSettingsPage(){
+  $('settings-root').innerHTML=settingsBoardMarkup('System','Theme, timer warnings and progress data. These settings also apply mid-exam — open them from the exam top bar; the exam pauses while Settings is open.');
+}
+
+function renderDashboard(){
+  const attempts=_loadJson(ATTEMPTS_KEY,[]);
+  const exams=attempts.filter(a=>a.mode==='exam');
+  const base=exams.length?exams:attempts;
+  const recent=base.slice(-5);
+  const readiness=recent.length?Math.round(recent.reduce((s,a)=>s+a.score,0)/recent.length):0;
+  const avg=attempts.length?Math.round(attempts.reduce((s,a)=>s+a.score,0)/attempts.length):0;
+  const stats=_loadJson(STATS_KEY,{});
+  const mastered=Object.values(stats).filter(s=>s.a>=2&&s.last).length;
+  const nb=missedLastTime().length;
+  const weak=weakestDomains(3);
+  $('dashboard-root').innerHTML=`
+  <div class="tab-head"><div class="tab-eyebrow">Command Center</div><div class="tab-title">Readiness ${readiness}%</div>
+  <div class="tab-sub">${attempts.length?`Based on your last ${recent.length} session${recent.length>1?'s':''}. ${readiness>=75?'You are tracking well — keep drilling weak domains.':readiness>=50?'You are mid-charge — drill weakest domains, then retest misses.':'Early days. Run a full exam to establish your baseline.'}`:'No sessions yet. Launch your first exam or drill to establish a baseline.'}</div></div>
+  <div class="stat-row">
+    <div class="stat-card"><div class="k">Exams</div><div class="v">${attempts.length}</div><div class="s">all sessions recorded</div></div>
+    <div class="stat-card"><div class="k">Average score</div><div class="v">${avg}%</div><div class="s">last 40 sessions</div></div>
+    <div class="stat-card"><div class="k">Mastered</div><div class="v">${mastered}</div><div class="s">2+ attempts, correct last</div></div>
+    <div class="stat-card"><div class="k">Needs review</div><div class="v" style="color:${nb?'var(--warning)':'var(--success)'}">${nb}</div><div class="s">missed in last session</div></div>
+  </div>
+  <div class="panel"><h3>Quick Start</h3><div class="quick-grid">
+    <button class="quick-card" onclick="location.hash='#/exam'"><b>Full Exam</b><span>90 questions · 90 min · SY0-701 blueprint</span></button>
+    <button class="quick-card" onclick="launchSession({mode:'study',count:15,timeLimit:900})"><b>Quick Drill</b><span>15 mixed questions · 15 min</span></button>
+    <button class="quick-card" onclick="location.hash='#/lab'"><b>PBQ Lab</b><span>Hands-on performance-based scenarios</span></button>
+    <button class="quick-card" onclick="location.hash='#/review'"><b>Review Queue</b><span>${nb?nb+' question'+(nb>1?'s':'')+' missed last time':'Nothing outstanding — nice'}</span></button>
+  </div></div>
+  <div class="panel"><h3>Weakest Domains</h3>${weak.length?`<div class="bar-row">${weak.map(w=>`
+    <div style="display:grid;grid-template-columns:76px 1fr 48px;gap:10px;align-items:center;margin-bottom:10px;width:100%">
+      <span class="mini-tag bad">DO ${w.d}</span>
+      <div class="bar-track-full"><div class="bar-fill" style="width:${Math.round(w.acc*100)}%"></div></div>
+      <span class="pct">${Math.round(w.acc*100)}%</span>
+    </div>`).join('')}</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${weak.map(w=>`<button class="chip" onclick="launchSession({mode:'study',count:15,domain:'${w.d}',timeLimit:900})">Drill ${w.d} × 15</button>`).join('')}</div>`
+    :'<div style="color:var(--text-dim);font-size:12px">Not enough data yet — finish a couple of sessions and your weakest domains will appear here.</div>'}</div>`;
+}
+
+const EXAM_SETS=[
+  {name:'Full Exam',n:'90',kid:'Timed · Blueprint',cfg:{mode:'exam'}},
+  {name:'Set 2',n:'65',kid:'Timed · Balanced',cfg:{mode:'study',count:65,timeLimit:3900}},
+  {name:'Set 3',n:'45',kid:'Timed · Balanced',cfg:{mode:'study',count:45,timeLimit:2700}},
+  {name:'Set 4',n:'30',kid:'Timed · Balanced',cfg:{mode:'study',count:30,timeLimit:1800}},
+  {name:'Set 5',n:'20',kid:'Timed · Balanced',cfg:{mode:'study',count:20,timeLimit:1200}},
+  {name:'Set 6',n:'10',kid:'Timed · Balanced',cfg:{mode:'study',count:10,timeLimit:600}},
+  {name:'D1',n:'30',kid:'Domain 1 · Concepts',cfg:{mode:'study',count:30,domain:'1.0',timeLimit:1800}},
+  {name:'D2',n:'30',kid:'Domain 2 · Threats',cfg:{mode:'study',count:30,domain:'2.0',timeLimit:1800}},
+  {name:'D3',n:'30',kid:'Domain 3 · Architecture',cfg:{mode:'study',count:30,domain:'3.0',timeLimit:1800}},
+  {name:'D4',n:'30',kid:'Domain 4 · Operations',cfg:{mode:'study',count:30,domain:'4.0',timeLimit:1800}},
+  {name:'D5',n:'30',kid:'Domain 5 · Program Mgmt',cfg:{mode:'study',count:30,domain:'5.0',timeLimit:1800}},
+];
+function renderSets(){
+  $('sets-root').innerHTML=`
+  <div class="tab-head"><div class="tab-eyebrow">Exams</div><div class="tab-title">Exam Sets</div>
+  <div class="tab-sub">Set 1 is the full blueprint exam (pass/fail scoring). Sets 2–6 are balanced timed drills. D1–D5 hammer one domain each.</div></div>
+  <div class="set-grid">${EXAM_SETS.map((s,i)=>`
+    <button class="set-card" onclick='launchSession(${JSON.stringify(s.cfg)})'>
+      <div class="k">${s.kid}</div><div class="n">${s.n}</div><div class="d">${s.name}</div>
+    </button>`).join('')}</div>
+  <div class="panel" style="margin-top:16px"><h3>Recent Attempts</h3>${attemptRowsHtml(4)}</div>`;
+}
+
+const STUDY_MODES=[
+  {name:'Tutor Mode',d:'20 questions · untimed · explanations shown as you go',cfg:{mode:'study',count:20,explain:true}},
+  {name:'Speed Sprint',d:'50 questions · 25 min · exam discipline',cfg:{mode:'study',count:50,timeLimit:1500,explain:false}},
+  {name:'Random Mixed',d:'25 questions · MCQ + PBQ · untimed',cfg:{mode:'study',count:25,pbqCount:4}},
+  {name:'Weakest 20',d:'Auto-picked from your worst tracked questions',cfg:{mode:'study',count:20,explain:true}},
+];
+function weakestTwenty(){
+  const stats=_loadJson(STATS_KEY,{}),idx=_qIndex();
+  const scored=Object.entries(stats).filter(([id])=>idx[id]).map(([id,st])=>({id,r:st.w/st.a+(st.last?0:0.2),a:st.a}));
+  scored.sort((x,y)=>y.r-x.r||y.a-x.a);
+  let ids=scored.slice(0,20).map(x=>x.id);
+  if(ids.length<15){[...SEED_QUESTIONS].sort(()=>Math.random()-0.5).forEach(q=>{if(ids.length<20&&!ids.includes(q.id))ids.push(q.id);});}
+  return ids;
+}
+function renderStudy(){
+  $('study-root').innerHTML=`
+  <div class="tab-head"><div class="tab-eyebrow">Study</div><div class="tab-title">Study Modes</div>
+  <div class="tab-sub">Learn without the clock, or rehearse under pressure. Every attempt feeds your Review queue and Analytics.</div></div>
+  <div class="quick-grid">${STUDY_MODES.map((m,i)=>`
+    <button class="quick-card" onclick='${i===3?`retestIds(weakestTwenty())`:`launchSession(${JSON.stringify(m.cfg)})`}'>
+      <b>${m.name}</b><span>${m.d}</span>
+    </button>`).join('')}
+    <button class="quick-card" onclick='retestIds(missedLastTime())'><b>Retest Misses</b><span>Retake the questions you missed in your latest session</span></button>
+  </div>`;
+}
+
+function pbqFamilies(){
+  const fams={'pbq-firewall':'Firewall Rules','pbq-log':'Log Analysis','pbq-sequence':'Incident Sequence','pbq-placement':'Network Placement','pbq-compliance':'Compliance Controls','pbq-vulnscan':'Vulnerability Scan','pbq-crypto':'Cryptography'};
+  return Object.entries(fams).map(([type,name])=>{
+    const seeds=PBQ_SEEDS.filter(q=>q.type===type);
+    return{name,type,n:seeds.length,ids:seeds.map(q=>q.id)};
+  }).filter(f=>f.n>0);
+}
+function launchPbqFamily(f){
+  launchSession({mode:'study',count:f.ids.length,explain:true,launchOpts:{mcq:false,pbq:false,explicitIds:f.ids}});
+}
+function renderLab(){
+  $('lab-root').innerHTML=`
+  <div class="tab-head"><div class="tab-eyebrow">PBQ Lab</div><div class="tab-title">Performance-Based Questions</div>
+  <div class="tab-sub">Each family isolates one hands-on scenario type. Explanations on; re-run any family as many times as you like.</div></div>
+  <div class="quick-grid">${pbqFamilies().map(f=>`
+    <button class="quick-card" onclick='launchPbqFamily(${JSON.stringify({name:f.name,type:f.type})})'>
+      <b>${f.name}</b><span>${f.n} scenario${f.n>1?'s':''} · untimed</span>
+    </button>`).join('')}</div>`;
+}
+
+function attemptRowsHtml(n){
+  const attempts=_loadJson(ATTEMPTS_KEY,[]).slice(-n).reverse();
+  if(!attempts.length)return'<div style="color:var(--text-dim);font-size:12px">No attempts recorded yet.</div>';
+  return`<div class="row-list">${attempts.map(a=>`<div class="review-row">
+    <div class="idx" style="color:${a.score>=75?'var(--success)':a.score>=50?'var(--warning)':'var(--danger)'}">${a.score}</div>
+    <div class="t">${a.mode==='exam'?'Full exam':'Drill'} · ${a.correct}/${a.total} correct · ${Math.floor(a.dur/60)}m${a.dur%60}s
+    <div class="m"><span class="mini-tag">${new Date(a.at).toLocaleDateString()}</span></div></div>
+  </div>`).join('')}</div>`;
+}
+function reviewRowHtml(id,idxObj){
+  const q=idxObj[id];if(!q)return'';
+  const stats=_loadJson(STATS_KEY,{})[id]||{};
+  const isP=q.type.indexOf('pbq')===0;
+  return`<div class="review-row"><div class="idx">${isP?'P':'M'}</div>
+  <div class="t">${esc((q.stem||'').slice(0,140))}${(q.stem||'').length>140?'…':''}
+    <div class="m"><span class="mini-tag ${isP?'pbq':''}">${isP?'PBQ '+q.type.replace('pbq-',''):'MCQ '+q.type.replace('mcq-','')}</span>
+    <span class="mini-tag">DO ${q.domain}</span>
+    ${stats.a?`<span class="mini-tag ${stats.last?'':'bad'}">${stats.last?'Recovered':'Missed'} · ${stats.a}×</span>`:''}</div></div>
+  <button class="chip" onclick="retestIds(['${id}'])">Single retest</button></div>`;
+}
+function renderReview(){
+  const idx=_qIndex();
+  const last=missedLastTime(), ever=everMissed();
+  $('review-root').innerHTML=`
+  <div class="tab-head"><div class="tab-eyebrow">Review</div><div class="tab-title">Review Queue</div>
+  <div class="tab-sub">Misses feed this queue automatically. Retest singles, or take the whole set of last-session misses.</div></div>
+  ${last.length?`<div class="panel"><h3>Missed Last Session · ${last.length}</h3>
+    <div style="margin-bottom:12px"><button class="chip selected" onclick="retestIds(missedLastTime())">Retest all ${Math.min(last.length,25)} misses</button></div>
+    <div class="row-list">${last.slice(0,25).map(id=>reviewRowHtml(id,idx)).join('')}</div></div>`:''}
+  ${ever.length?`<div class="panel"><h3>Ever Missed · ${ever.length}</h3>
+    <div style="margin-bottom:12px"><button class="chip selected" onclick="retestIds(everMissed())">Retest 25 worst</button></div>
+    <div class="row-list">${ever.slice(0,25).map(id=>reviewRowHtml(id,idx)).join('')}</div></div>`
+    :(!last.length?`<div class="panel"><h3>All Clear</h3><div style="color:var(--text-dim);font-size:12px">No misses tracked yet. Complete a session — everything you get wrong lands here automatically.</div></div>`:'')}`;
+}
+
+function renderAnalytics(){
+  const attempts=_loadJson(ATTEMPTS_KEY,[]);
+  const last12=attempts.slice(-12);
+  const agg={};
+  attempts.forEach(a=>a.items.forEach(it=>{const g=agg[it.d]||(agg[it.d]={n:0,ok:0});g.n++;if(it.ok)g.ok++;}));
+  const domains=Object.entries(agg).map(([d,g])=>({d,acc:Math.round(g.ok/g.n*100),n:g.n})).sort((a,b)=>b.acc-a.acc);
+  $('analytics-root').innerHTML=`
+  <div class="tab-head"><div class="tab-eyebrow">Analytics</div><div class="tab-title">Progress</div>
+  <div class="tab-sub">Trend of your recent sessions and accuracy by exam domain.</div></div>
+  <div class="stat-row">
+    <div class="stat-card"><div class="k">Sessions</div><div class="v">${attempts.length}</div><div class="s">last 40 kept</div></div>
+    <div class="stat-card"><div class="k">Best score</div><div class="v">${attempts.length?Math.max(...attempts.map(a=>a.score)):'—'}%</div><div class="s">of any session</div></div>
+    <div class="stat-card"><div class="k">Total questions</div><div class="v">${attempts.reduce((s,a)=>s+a.total,0)}</div><div class="s">answered across sessions</div></div>
+  </div>
+  <div class="panel"><h3>Score Trend</h3>${last12.length?`<div class="chart-box" style="display:flex;align-items:flex-end;gap:8px;height:130px">
+    ${last12.map(a=>`<div style="flex:1;text-align:center" title="${new Date(a.at).toLocaleDateString()} · ${a.score}%">
+      <div style="height:${Math.max(2,a.score)}px;background:linear-gradient(180deg,var(--accent),#7c5cff);border-radius:4px 4px 0 0;margin:auto;width:70%"></div>
+      <div style="font-size:9px;color:var(--text-dim);margin-top:4px">${a.score}</div></div>`).join('')}</div>`
+    :'<div style="color:var(--text-dim);font-size:12px">Complete a session to start the trend line.</div>'}</div>
+  <div class="panel"><h3>Domain Accuracy</h3>${domains.length?domains.map(d=>`
+    <div style="display:grid;grid-template-columns:76px 1fr 48px;gap:10px;align-items:center;margin-bottom:10px">
+      <span class="mini-tag">DO ${d.d}</span>
+      <div class="bar-track-full"><div class="bar-fill" style="width:${d.acc}%"></div></div>
+      <span class="pct">${d.acc}%</span></div>`).join(''):'<div style="color:var(--text-dim);font-size:12px">No data yet.</div>'}</div>
+  <div class="panel"><h3>Recent Attempts</h3>${attemptRowsHtml(8)}</div>`;
+}
+
+// ---------- IN-EXAM SETTINGS LAYER (phone-stack forward/back) ----------
+function openSettingsLayer(){
+  if(S.questions.length&&!S.endTime&&$('exam-screen').classList.contains('active')&&typeof pauseExam==='function')pauseExam();
+  $('settings-layer-root').innerHTML=settingsBoardMarkup('Mid-Exam','Exam is paused while Settings is open. Press Back to resume exactly where you left off.');
+  $('settings-layer').classList.add('open');
+}
+function closeSettingsLayer(){
+  $('settings-layer').classList.remove('open');
+  if(S.pauseStart!==null&&$('exam-screen').classList.contains('active')&&typeof resumeExam==='function')resumeExam();
+}
+
+route();
 </script>
 <!-- PDF.js CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
