@@ -6,52 +6,57 @@
 <title>22mcq-pbq — SY0-701 Security+ Exam Simulator</title>
 <script>try{document.documentElement.dataset.theme=localStorage.getItem('appTheme')||'slate';}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ================================================================
    DESIGN TOKENS
 ================================================================ */
 :root {
-  --bg:           #0F1117;
-  --surface:      #1A1D2E;
-  --surface2:     #151822;
-  --border:       #2A2D3E;
-  --border-light: #3A3D50;
-  --accent:       #4F8EF7;
-  --accent-dim:   rgba(79,142,247,0.12);
-  --accent-glow:  rgba(79,142,247,0.25);
-  --success:      #2ECC71;
-  --success-dim:  rgba(46,204,113,0.12);
-  --warning:      #F39C12;
-  --warning-dim:  rgba(243,156,18,0.12);
-  --danger:       #E74C3C;
-  --danger-dim:   rgba(231,76,60,0.12);
-  --text:         #E8EAF0;
-  --text-muted:   #8892A4;
-  --text-dim:     #5A6070;
-  --code-bg:      #0D1117;
-  --code-green:   #A8FF78;
-  --code-cyan:    #79FFE1;
-  --font-ui:      'IBM Plex Sans', sans-serif;
-  --font-mono:    'JetBrains Mono', 'IBM Plex Mono', monospace;
-  --radius:       8px;
-  --radius-sm:    4px;
-  --shadow:       0 4px 24px rgba(0,0,0,0.4);
-  --shadow-lg:    0 8px 48px rgba(0,0,0,0.6);
+  --bg:           #0A0C11;
+  --surface:      #12151C;
+  --surface2:     #0E1016;
+  --surface3:     #181C25;
+  --border:       #222834;
+  --border-light: #2E3644;
+  --accent:       #5B8CFF;
+  --accent-dim:   rgba(91,140,255,0.12);
+  --accent-glow:  rgba(91,140,255,0.28);
+  --success:      #34D399;
+  --success-dim:  rgba(52,211,153,0.12);
+  --warning:      #F5A524;
+  --warning-dim:  rgba(245,165,36,0.12);
+  --danger:       #EF5A5A;
+  --danger-dim:   rgba(239,90,90,0.12);
+  --text:         #E8EBF2;
+  --text-muted:   #98A2B3;
+  --text-dim:     #667085;
+  --code-bg:      #0B0E14;
+  --code-green:   #A6F79A;
+  --code-cyan:    #7DE9DF;
+  --font-ui:      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:    'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+  --radius:       10px;
+  --radius-sm:    6px;
+  --shadow:       0 2px 14px rgba(0,0,0,0.28);
+  --shadow-lg:    0 18px 48px rgba(0,0,0,0.5);
+  --ease:         cubic-bezier(.2,.7,.3,1);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { height: 100%; }
 body {
   font-family: var(--font-ui);
   background:
-    radial-gradient(1150px 540px at 12% -10%, rgba(102,116,158,0.12), transparent 62%),
-    radial-gradient(950px 470px at 86% 0%, rgba(70,84,120,0.10), transparent 60%),
-    radial-gradient(1200px 640px at 50% 110%, rgba(38,44,60,0.15), transparent 66%),
+    radial-gradient(900px 420px at 14% -12%, rgba(91,140,255,0.10), transparent 62%),
+    radial-gradient(760px 380px at 88% -4%, rgba(124,92,255,0.07), transparent 60%),
     var(--bg);
   color: var(--text);
   height: 100%;
   overflow: hidden;
   font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
@@ -246,6 +251,7 @@ select, input { font-family: var(--font-ui); }
   border-radius: var(--radius); padding: 36px 44px; text-align: center;
   box-shadow: var(--shadow-lg); max-width: 420px;
 }
+.pause-card .btn-result{display:inline-flex;margin:0 auto;}
 .pause-card h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
 .pause-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
 .pause-badge {
@@ -496,10 +502,11 @@ select, input { font-family: var(--font-ui); }
 .dnd-zone.drag-over { border-color: var(--accent); border-style: solid; background: var(--accent-dim); }
 .dnd-zone.correct { border-color: var(--success); background: var(--success-dim); }
 .dnd-zone.incorrect { border-color: var(--danger); background: var(--danger-dim); }
+.chip-ico{width:15px;height:15px;flex-shrink:0;color:var(--text-muted);}
 .drag-chip {
   display: inline-flex; align-items: center; gap: 6px;
   background: var(--surface); border: 1px solid var(--accent);
-  color: var(--text); padding: 6px 12px; border-radius: 20px;
+  color: var(--text); padding: 7px 12px; border-radius: 10px; line-height: 1.35;
   font-size: 12px; font-weight: 500; cursor: grab; user-select: none;
   transition: all 0.15s; width: fit-content;
 }
@@ -916,16 +923,19 @@ select, input { font-family: var(--font-ui); }
 .xrev-status{display:flex;gap:10px;justify-content:space-between;align-items:center;padding:10px 20px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;}
 .xrev-inc{color:var(--danger);font-weight:600;font-size:12px;}
 .xrev-flags{font-size:11px;color:var(--text-muted);font-weight:600;}
-.xrev-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--border);}
+.xrev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(222px,1fr));gap:1px;background:var(--border);}
 @media(min-width:640px){.xrev-grid{grid-template-columns:repeat(2,1fr);}}
-@media(min-width:1000px){.xrev-grid{grid-template-columns:repeat(3,1fr);}}
-.xrev-item{display:flex;align-items:center;gap:12px;min-height:54px;background:var(--surface);padding:12px 18px;cursor:pointer;font-size:13px;color:var(--text);text-align:left;border:none;width:100%;}
+@media(min-width:960px){.xrev-grid{grid-template-columns:repeat(3,1fr);}}
+.xrev-item{display:flex;align-items:center;gap:10px;min-height:46px;background:var(--surface);padding:9px 14px;cursor:pointer;font-size:13px;color:var(--text);text-align:left;border:none;width:100%;}
 .xrev-item:hover{background:var(--surface2);}
-.xrev-item .fl{color:var(--text-dim);font-size:14px;}
+.xrev-item .fl{color:var(--text-dim);display:grid;place-items:center;width:16px;height:16px;}
+.xrev-item .fl .ico{width:14px;height:14px;}
 .xrev-item.flagged .fl{color:var(--warning);font-weight:700;}
-.xrev-item .inc{color:var(--danger);font-size:10px;font-weight:800;margin-left:auto;text-transform:uppercase;letter-spacing:.6px;}
+.xrev-item .qn{font-family:var(--font-mono);font-weight:700;white-space:nowrap;}
+.xrev-item .inc{margin-left:auto;color:var(--text-dim);font-size:9.5px;font-weight:600;border:1px solid var(--border-light);border-radius:4px;padding:1px 5px;line-height:1.5;}
+.xrev-item .mini-tag{margin-left:2px;}
 .xrev-empty{padding:40px;text-align:center;color:var(--text-dim);font-size:13px;}
-.xrev-foot{display:flex;gap:8px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--border);background:var(--surface2);padding:14px 16px;}
+.xrev-foot{position:sticky;bottom:0;z-index:3;display:flex;gap:8px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--border);background:var(--surface2);padding:14px 16px;}
 .xrev-chip{border:1px solid var(--border);background:var(--surface);color:var(--text-muted);padding:8px 14px;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;}
 .xrev-chip:hover{color:var(--text);}
 .xrev-chip.selected{background:var(--accent);border-color:var(--accent);color:#fff;}
@@ -946,34 +956,33 @@ body[data-drawer="open"] .xhead-drawerbtn{border-color:var(--accent);color:var(-
    APP SHELL, ROUTER TABS & THEMES (fresh UX layer)
 ============================================================ */
 html[data-theme="light"] {
-  --bg:#e7e9ef; --surface:#fbfcfe; --surface2:#eef0f4;
-  --border:#ccd0da; --border-light:#a9afbe;
-  --accent:#2b63d8; --accent-dim:rgba(43,99,216,.10); --accent-glow:rgba(43,99,216,.24);
-  --success:#188a4a; --warning:#a8640a; --danger:#c0392b;
-  --warning-dim:rgba(168,100,10,.12); --danger-dim:rgba(192,57,43,.10); --success-dim:rgba(24,138,74,.12);
-  --text:#171b26; --text-muted:#4d566b; --text-dim:#818a9b;
-  --shadow:0 2px 10px rgba(24,28,40,.07); --shadow-lg:0 12px 34px rgba(24,28,40,.14);
+  --bg:#eef0f5; --surface:#ffffff; --surface2:#f4f6fa; --surface3:#eaedf4;
+  --border:#d8dde7; --border-light:#b7bfcd;
+  --accent:#2f6bff; --accent-dim:rgba(47,107,255,.09); --accent-glow:rgba(47,107,255,.22);
+  --success:#137a45; --warning:#9a5f06; --danger:#c23b3b;
+  --warning-dim:rgba(154,95,6,.10); --danger-dim:rgba(194,59,59,.09); --success-dim:rgba(19,122,69,.10);
+  --text:#151922; --text-muted:#4b5567; --text-dim:#7c8698;
+  --shadow:0 1px 3px rgba(20,26,40,.06); --shadow-lg:0 16px 38px rgba(20,26,40,.12);
   color-scheme: light;
 }
 html[data-theme="amoled"] {
-  --bg:#000000; --surface:#060709; --surface2:#0a0b0e;
-  --border:#141519; --border-light:#20222a;
-  --shadow:0 6px 22px rgba(0,0,0,.5);
+  --bg:#000000; --surface:#050608; --surface2:#000000; --surface3:#0B0D11;
+  --border:#15181F; --border-light:#232833;
+  --shadow:0 6px 22px rgba(0,0,0,.6);
   color-scheme: dark;
 }
 html[data-theme="amoled"] body { background:#000; }
 html[data-theme="light"] body {
   background:
-    radial-gradient(1150px 540px at 12% -10%, rgba(120,138,175,0.16), transparent 62%),
-    radial-gradient(980px 480px at 86% 2%, rgba(140,150,176,0.14), transparent 60%),
+    radial-gradient(900px 420px at 12% -10%, rgba(47,107,255,0.06), transparent 62%),
+    radial-gradient(760px 380px at 88% 0%, rgba(124,92,255,0.05), transparent 60%),
     var(--bg);
 }
 /* SIDEBAR SHELL */
 .app-nav{position:fixed;top:0;bottom:0;left:0;width:212px;z-index:190;
   background:var(--surface2);border-right:1px solid var(--border);
   display:flex;flex-direction:column;padding:16px 12px;transition:transform .18s ease;}
-body[data-nav="hidden"] .app-nav{transform:translateX(-110%);visibility:hidden;}
-@media(min-width:941px){.app-nav{transform:none !important;visibility:visible !important;}}
+body[data-nav="hidden"] .app-nav{transform:translateX(-110%);visibility:hidden;pointer-events:none;}
 .nav-brand{display:flex;align-items:center;gap:10px;padding:4px 8px 14px;border-bottom:1px solid var(--border);margin-bottom:10px;}
 .nav-logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--accent),#7c5cff);display:grid;place-items:center;font-weight:800;color:#fff;font-size:12px;flex-shrink:0;}
 .nav-brand b{font-size:14px;display:block;}
@@ -990,6 +999,7 @@ body[data-nav="hidden"] .app-nav{transform:translateX(-110%);visibility:hidden;}
 .nav-burger{position:fixed;top:10px;left:12px;z-index:200;display:none;width:40px;height:40px;border-radius:8px;
   background:var(--surface);border:1px solid var(--border);color:var(--text-muted);cursor:pointer;font-size:15px;}
 body[data-nav="hidden"] .nav-burger{display:none !important;}
+body[data-nav="hidden"] .tab-screen.active{margin-left:0;}
 @media(max-width:940px){
   .app-nav{transform:translateX(-110%);}
   .app-nav.open{transform:none;}
@@ -1060,15 +1070,241 @@ body:not([data-nav="hidden"]) .tab-screen.active{margin-left:212px;}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+/* ================================================================
+   POLISH LAYER — iconography, motion, layout refinements
+================================================================ */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+.ico{width:18px;height:18px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block;}
+button .ico{pointer-events:none;}
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-thumb{background:var(--border-light);border-radius:99px;border:2px solid transparent;background-clip:content-box;}
+::-webkit-scrollbar-thumb:hover{background:var(--text-dim);background-clip:content-box;}
+::-webkit-scrollbar-track{background:transparent;}
+
+/* Nav */
+.nav-brand{padding:6px 8px 16px;}
+.nav-logo{width:34px;height:34px;border-radius:9px;background:var(--accent);box-shadow:0 2px 8px rgba(0,0,0,.25);}
+.nav-logo .ico{width:18px;height:18px;stroke-width:2;}
+.nav-brand b{font-size:13.5px;letter-spacing:-.015em;}
+.nav-brand small{font-size:9px;letter-spacing:1.2px;margin-top:2px;}
+.nav-label{margin:14px 10px 6px;font-size:9px;letter-spacing:1.5px;}
+.nav-item{position:relative;gap:11px;padding:8px 10px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text-muted);transition:background .15s var(--ease),color .15s var(--ease);}
+.nav-item .ico{width:17px;height:17px;opacity:.85;}
+.nav-item:hover{background:var(--surface3);color:var(--text);}
+.nav-item:hover .ico{opacity:1;}
+.nav-item.active{background:var(--accent-dim);color:var(--accent);box-shadow:none;font-weight:600;}
+.nav-item.active .ico{opacity:1;}
+.nav-item.active::before{content:"";position:absolute;left:-6px;top:8px;bottom:8px;width:2px;border-radius:2px;background:var(--accent);}
+.nav-foot{margin-top:auto;padding:12px 10px 2px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10px;color:var(--text-dim);line-height:1.4;}
+.nav-foot #nav-cloud-state{display:inline-flex;align-items:center;gap:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nav-foot #nav-cloud-state::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--text-dim);flex-shrink:0;}
+.nav-foot #nav-cloud-state.online::before{background:var(--success);}
+.nav-ver{font-family:var(--font-mono);font-size:9px;opacity:.7;}
+.nav-burger{display:none;align-items:center;justify-content:center;padding:0;}
+@media(max-width:940px){body:not([data-nav="hidden"]) .nav-burger{display:flex !important;}}
+
+/* Screen + surface motion */
+.screen.active{animation:screenFade .2s var(--ease);}
+.tab-screen.active{animation:screenRise .24s var(--ease);}
+@keyframes screenFade{from{opacity:0}to{opacity:1}}
+@keyframes screenRise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.tab-wrap{padding:34px 30px 80px;max-width:1080px;}
+.tab-eyebrow{font-size:10px;letter-spacing:1.8px;font-weight:700;}
+.tab-title{font-size:26px;letter-spacing:-.025em;margin:6px 0 8px;}
+.tab-sub{font-size:13px;color:var(--text-muted);line-height:1.6;max-width:70ch;}
+
+/* Cards */
+.panel,.stat-card,.quick-card,.set-card,.review-row,.theme-card{border-radius:12px;}
+.panel{padding:20px;}
+.panel h3{font-size:10.5px;letter-spacing:1.2px;color:var(--text-dim);}
+.stat-card{padding:16px 18px;position:relative;overflow:hidden;}
+.stat-card .k{font-size:9px;letter-spacing:1.2px;}
+.stat-card .v{font-size:26px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;font-family:var(--font-mono);font-weight:600;}
+.stat-card .s{font-size:11px;}
+.quick-grid{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;}
+.quick-card{padding:16px 16px 17px;text-align:left;transition:border-color .16s var(--ease),transform .16s var(--ease),background .16s var(--ease);}
+.quick-card:hover{border-color:var(--accent);box-shadow:none;transform:translateY(-1px);background:var(--surface3);}
+.quick-card b{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;margin-bottom:5px;letter-spacing:-.01em;}
+.quick-card b .ico{width:16px;height:16px;color:var(--accent);}
+.quick-card span{font-size:11.5px;line-height:1.55;color:var(--text-muted);display:block;}
+.set-grid{grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px;}
+.section-label{font-size:10px;font-weight:600;letter-spacing:1.1px;text-transform:uppercase;color:var(--text-dim);margin:24px 0 10px;}
+.section-label:first-of-type{margin-top:4px;}
+.set-card{padding:14px 14px 15px;text-align:left;transition:border-color .16s var(--ease),transform .16s var(--ease),background .16s var(--ease);}
+.set-card:hover{background:var(--surface3);transform:translateY(-1px);}
+.set-card .k{font-size:10px;font-weight:600;letter-spacing:.1px;text-transform:none;color:var(--text-muted);}
+.set-card .n{font-family:var(--font-mono);font-size:24px;font-weight:600;letter-spacing:-.03em;line-height:1.1;display:flex;align-items:baseline;gap:5px;}
+.set-card .n em{font-family:var(--font-ui);font-style:normal;font-size:9px;font-weight:500;letter-spacing:.2px;color:var(--text-dim);text-transform:lowercase;}
+.set-card .d{font-size:10.5px;color:var(--text-dim);}
+.set-card.exam-set{border-color:rgba(91,140,255,.35);background:linear-gradient(160deg,rgba(91,140,255,.075),transparent 70%),var(--surface);}
+.set-card.exam-set:hover{border-color:var(--accent);}
+.review-row{padding:12px 14px;transition:border-color .15s var(--ease),background .15s var(--ease);}
+.review-row:hover{border-color:var(--border-light);background:var(--surface3);}
+.review-row .idx{font-family:var(--font-mono);font-weight:600;border-radius:8px;}
+.mini-tag{letter-spacing:.5px;}
+.chip{transition:border-color .15s var(--ease),background .15s var(--ease),color .15s var(--ease);font-weight:500;}
+.chip:hover{border-color:var(--border-light);color:var(--text);}
+.chip.selected:hover{border-color:var(--accent);color:var(--accent);}
+.theme-card{transition:border-color .16s var(--ease),transform .16s var(--ease);}
+.theme-card:hover{transform:translateY(-1px);}
+.bar-track-full{background:var(--surface3);}
+.bar-fill{background:linear-gradient(90deg,var(--accent),#7C8CFF);transition:width .45s var(--ease);}
+.pct{font-family:var(--font-mono);font-size:11px;font-weight:500;}
+
+/* Exam chrome */
+.xtopbar-in{max-width:1000px;gap:10px;min-height:56px;padding:8px 20px;}
+.xbrand{gap:9px;font-size:13px;font-weight:600;letter-spacing:-.01em;}
+.xbrand-ico{display:grid;place-items:center;width:26px;height:26px;border-radius:7px;background:var(--accent);color:#fff;}
+.xbrand-ico .ico{width:15px;height:15px;stroke-width:2;}
+.xchip{border-radius:999px;font-size:9.5px;letter-spacing:.9px;padding:3px 9px;color:var(--accent);border-color:rgba(91,140,255,.3);background:var(--accent-dim);text-transform:uppercase;}
+.xright{gap:6px;}
+.xbtn{border-radius:8px;padding:7px 12px;font-size:12px;font-weight:500;gap:6px;display:inline-flex;align-items:center;transition:background .15s var(--ease),border-color .15s var(--ease),color .15s var(--ease);}
+.xbtn .ico{width:15px;height:15px;}
+.xbtn-lg{padding:8px 12px;border-radius:9px;font-size:12px;}
+.xicon-btn{width:34px;height:34px;padding:0;justify-content:center;color:var(--text-muted);}
+.xicon-btn:hover{color:var(--text);background:var(--surface3);}
+.xicon-btn .ico-play{display:none;}
+#tb-pause-btn.paused .ico-pause{display:none;}
+#tb-pause-btn.paused .ico-play{display:block;}
+#tb-pause-btn.paused{color:var(--warning);border-color:rgba(245,165,36,.5);background:var(--warning-dim);}
+.xtimer-pill{padding:4px 12px 4px 10px;border-radius:999px;gap:7px;}
+.xtimer-ico{width:14px;height:14px;color:var(--text-dim);}
+.xtimer-pill .timer{font-family:var(--font-mono);font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:.02em;min-width:52px;text-align:center;}
+.xpaused-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;}
+.xpaused-badge .ico{width:12px;height:12px;}
+.xfocus{padding:9px 16px;font-size:12px;}
+.xmain{padding-bottom:2px;}
+.xwrap{max-width:1000px;padding:16px 20px 20px;gap:12px;}
+.xhead{padding-bottom:12px;gap:16px;}
+.xkicker{font-size:9px;letter-spacing:1.6px;color:var(--text-dim);font-weight:700;}
+.xqcount{font-family:var(--font-mono);font-size:15px;font-weight:600;letter-spacing:-.01em;margin-top:2px;}
+.xdom{font-size:10.5px;color:var(--text-muted);margin-top:2px;}
+.xkeys{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1px;color:var(--text-dim);}
+.xhead-btns{gap:6px;}
+.xbtn.flagged{color:var(--warning);border-color:rgba(245,165,36,.5);background:var(--warning-dim);}
+.xbtn.flagged .ico{fill:currentColor;fill-opacity:.18;}
+.xcard{border-radius:14px;padding:28px 32px 30px;box-shadow:var(--shadow);}
+.xcard .q-stem{font-size:16px;line-height:1.65;letter-spacing:-.01em;}
+.xcard .opt-row{border-radius:10px;padding:12px 14px;transition:background .14s var(--ease),border-color .14s var(--ease);}
+.xcard .opt-row:hover{background:var(--surface3);}
+.xedge{width:44px;height:44px;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);box-shadow:var(--shadow);display:grid;place-items:center;transition:color .15s var(--ease),border-color .15s var(--ease),transform .15s var(--ease);}
+.xedge .ico{width:19px;height:19px;}
+.xedge:hover{color:var(--text);border-color:var(--border-light);transform:translateY(-50%) scale(1.03);filter:none;}
+.xedge:disabled{opacity:.28;}
+.xedge-l{left:16px;}
+.xedge-r{right:16px;}
+.q-chip{border-radius:8px;font-family:var(--font-mono);font-size:11px;font-weight:500;}
+.xdrawer{border-left:1px solid var(--border);box-shadow:var(--shadow-lg);}
+.xrev-head{padding:14px 20px;}
+.xrev-head h1{font-size:14px;letter-spacing:-.01em;}
+.xrev-desc{font-size:12px;line-height:1.6;}
+.xrev-item{padding:12px 18px;transition:background .14s var(--ease);}
+.xrev-chip{border-radius:8px;font-size:11.5px;font-weight:500;}
+.xrev-foot{padding:12px 16px;}
+
+/* Results + review */
+.results-header{gap:22px;}
+.score-val{font-family:var(--font-mono);letter-spacing:-.03em;}
+.btn-result{transition:filter .15s var(--ease),background .15s var(--ease),border-color .15s var(--ease);}
+.btn-result.primary:hover{filter:brightness(1.08);}
+.btn-result.ghost:hover{background:var(--surface3);border-color:var(--border-light);}
+.results-wrap{max-width:920px;}
+.review-wrap{max-width:1000px;}
+.results-actions .ico{width:15px;height:15px;}
+
+/* Modals + pause */
+.modal-box{border-radius:14px;box-shadow:var(--shadow-lg);}
+.pause-badge .ico{width:13px;height:13px;}
+.pause-card{border-radius:16px;box-shadow:var(--shadow-lg);}
+
+/* Analytics */
+.hm{display:grid;grid-template-rows:repeat(7,12px);grid-auto-flow:column;grid-auto-columns:12px;gap:3px;overflow-x:auto;padding-bottom:4px;}
+.hm-cell{width:12px;height:12px;border-radius:3px;background:var(--surface3);border:1px solid var(--border);}
+.hm-cell.l1{background:rgba(91,140,255,.22);border-color:transparent;}
+.hm-cell.l2{background:rgba(91,140,255,.42);border-color:transparent;}
+.hm-cell.l3{background:rgba(91,140,255,.68);border-color:transparent;}
+.hm-cell.l4{background:var(--accent);border-color:transparent;}
+.hm-legend{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text-dim);}
+.hm-legend .hm-cell{flex-shrink:0;}
+.trend{display:flex;align-items:flex-end;gap:6px;height:158px;padding:8px 0 18px;}
+.trend-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0;position:relative;}
+.trend-bar{width:100%;max-width:34px;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,var(--accent),rgba(91,140,255,.35));transition:height .45s var(--ease);}
+.trend-lbl{position:absolute;bottom:-16px;font-family:var(--font-mono);font-size:9px;color:var(--text-dim);}
+.trend-meta{display:flex;justify-content:space-between;font-size:10.5px;color:var(--text-dim);margin-top:8px;}
+.cloud-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.cloud-input{flex:1;min-width:210px;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:8px;font-size:12px;transition:border-color .15s var(--ease);}
+.cloud-input:focus{outline:none;border-color:var(--accent);}
+.cloud-note{font-size:11.5px;color:var(--text-dim);line-height:1.6;margin-top:10px;}
+.cloud-state{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted);}
+.cloud-state::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--text-dim);}
+.cloud-state.online::before{background:var(--success);}
+.cloud-state.error::before{background:var(--danger);}
+.btn-primary{background:var(--accent);border:1px solid var(--accent);color:#fff;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;}
+.btn-primary:hover{filter:brightness(1.08);}
+.btn-secondary{background:var(--surface);border:1px solid var(--border);color:var(--text-muted);padding:8px 14px;border-radius:8px;font-size:12px;font-weight:500;}
+.btn-secondary:hover{color:var(--text);border-color:var(--border-light);}
+.btn-danger-ghost{background:none;border:1px solid var(--border);color:var(--text-muted);padding:8px 14px;border-radius:8px;font-size:12px;}
+.btn-danger-ghost:hover{border-color:var(--danger);color:var(--danger);}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+}
+@media(max-width:760px){
+  .tab-wrap{padding:24px 16px 64px;}
+  .xkeys{display:none;}
+  .xwrap{padding:12px 12px 14px;}
+  .xcard{padding:18px 16px 20px;border-radius:12px;}
+  .xhead{flex-wrap:wrap;gap:10px;}
+  .xhead-btns{width:100%;margin-left:0;justify-content:flex-end;}
+  .xhead-btns .xbtn-lg{flex:1;justify-content:center;}
+  .xedge{display:none;}
+  .xdrawer{width:min(300px,86vw);}
+  .xdrawer-in{width:100%;}
+  .xtopbar-in{min-height:52px;padding:6px 10px;gap:6px;}
+  .xbrand>span:not(.xchip){display:none;}
+  .xicon-btn{width:32px;height:32px;}
+  .xtimer-pill{padding:3px 10px 3px 8px;}
+  .tab-title{font-size:22px;}
+}
 </style>
 </head>
 <body>
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <symbol id="i-overview" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></symbol>
+  <symbol id="i-exam" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></symbol>
+  <symbol id="i-study" viewBox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-lab" viewBox="0 0 24 24"><path d="M9 3h6"/><path d="M10 3v6l-5.2 8.6A2 2 0 0 0 6.5 21h11a2 2 0 0 0 1.7-3.4L14 9V3"/><path d="M7 15h10"/></symbol>
+  <symbol id="i-review" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="i-analytics" viewBox="0 0 24 24"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4"/><path d="M4 4h11l-1.4 3.2a1 1 0 0 0 0 .8L15 11H4"/></symbol>
+  <symbol id="i-list-check" viewBox="0 0 24 24"><path d="M10 6h11"/><path d="M10 12h11"/><path d="M10 18h11"/><path d="m3 6 1.5 1.5L7 5"/><path d="m3 12 1.5 1.5L7 11"/><path d="m3 18 1.5 1.5L7 17"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12.5 5 5L20 6.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v5M14 11v5"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.2 9.3 4 4 0 0 0 6.5 19z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.9 18a2 2 0 0 0 1.7 3h16.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+</svg>
 
 <!-- ==================== WELCOME SCREEN ==================== -->
 <div id="welcome-screen" class="screen active">
   <div class="welcome-wrap">
     <div class="welcome-brand">
-      <div class="brand-icon">🛡️</div>
+      <div class="brand-icon"><svg class="ico"><use href="#i-shield"/></svg></div>
       <div>
         <div class="brand-name">SY0-701 Exam Simulator</div>
         <div class="brand-sub">CompTIA Security+ · AI-Powered Question Engine</div>
@@ -1084,12 +1320,12 @@ body:not([data-nav="hidden"]) .tab-screen.active{margin-left:212px;}
       <h2>Select Mode <span class="tag">Required</span></h2>
       <div class="mode-grid" id="mode-grid">
         <div class="mode-card selected" data-mode="exam">
-          <div class="mode-card-icon">📋</div>
+          <div class="mode-card-icon"><svg class="ico"><use href="#i-exam"/></svg></div>
           <div class="mode-card-title">Exam Mode</div>
           <div class="mode-card-desc">17 questions · 90 min · No hints · Mirrors real exam conditions</div>
         </div>
         <div class="mode-card" data-mode="study">
-          <div class="mode-card-icon">📖</div>
+          <div class="mode-card-icon"><svg class="ico"><use href="#i-study"/></svg></div>
           <div class="mode-card-title">Study Mode</div>
           <div class="mode-card-desc">10–90 questions · Instant feedback · Hints available · Domain filter</div>
         </div>
@@ -1141,7 +1377,7 @@ body:not([data-nav="hidden"]) .tab-screen.active{margin-left:212px;}
     <div class="setup-card">
       <h2>Study Materials <span class="tag" style="background:var(--warning-dim);color:var(--warning);border:1px solid var(--warning)">Coming Soon</span></h2>
       <div class="source-upload" id="pdf-upload-zone">
-        <div class="source-upload-icon">📄</div>
+        <div class="source-upload-icon"><svg class="ico"><use href="#i-file"/></svg></div>
         <div class="source-upload-text">Drop Messer / Seidl PDF files here or click to browse</div>
         <div class="source-upload-hint">Questions will be grounded in your uploaded materials</div>
         <input type="file" id="pdf-input" accept=".pdf" multiple style="display:none">
@@ -1169,19 +1405,30 @@ body:not([data-nav="hidden"]) .tab-screen.active{margin-left:212px;}
   <header class="xtopbar">
     <div class="xtopbar-in">
       <div class="xbrand">
-        <span class="xbrand-ico">&#128737;</span><span>22mcq-pbq</span>
+        <span class="xbrand-ico"><svg class="ico"><use href="#i-shield"/></svg></span><span>22mcq-pbq</span>
         <span class="xchip" id="x-mode-chip">Exam</span>
       </div>
       <div class="xright">
-        <button class="xbtn" id="tb-pause-btn" onclick="togglePause()" aria-label="Pause exam"><span id="pause-label">Pause</span></button>
-        <button class="xbtn" onclick="toggleFullscreen()" aria-label="Toggle fullscreen"><span id="fs-label">Fullscreen</span></button>
-        <button class="xbtn" onclick="openSettingsLayer()" aria-label="Settings"><span>Settings</span></button>
-        <button class="xbtn" onclick="openLeaveConfirm()" aria-label="Leave and save exam"><span>Home</span></button>
+        <button class="xbtn xicon-btn" id="tb-pause-btn" onclick="togglePause()" aria-label="Pause exam" title="Pause (P)">
+          <svg class="ico ico-pause"><use href="#i-pause"/></svg>
+          <svg class="ico ico-play"><use href="#i-play"/></svg>
+          <span class="sr-only" id="pause-label">Pause</span>
+        </button>
+        <button class="xbtn xicon-btn" onclick="toggleFullscreen()" aria-label="Toggle fullscreen" title="Fullscreen">
+          <svg class="ico"><use href="#i-expand"/></svg>
+          <span class="sr-only" id="fs-label">Fullscreen</span>
+        </button>
+        <button class="xbtn xicon-btn" onclick="openSettingsLayer()" aria-label="Settings" title="Settings">
+          <svg class="ico"><use href="#i-settings"/></svg>
+        </button>
+        <button class="xbtn xicon-btn" onclick="openLeaveConfirm()" aria-label="Leave and save exam" title="Leave and save">
+          <svg class="ico"><use href="#i-home"/></svg>
+        </button>
         <div class="xtimer-pill" id="timer-wrap">
-          <span class="xtimer-lbl">Time</span>
+          <svg class="ico xtimer-ico"><use href="#i-clock"/></svg>
           <div class="timer" id="timer" aria-live="polite" aria-label="Time remaining">90:00</div>
         </div>
-        <span class="xpaused-badge hidden" id="paused-badge">Paused</span>
+        <span class="xpaused-badge hidden" id="paused-badge"><svg class="ico"><use href="#i-pause"/></svg>Paused</span>
       </div>
     </div>
   </header>
@@ -1198,9 +1445,9 @@ body:not([data-nav="hidden"]) .tab-screen.active{margin-left:212px;}
         </div>
         <div class="xkeys" aria-hidden="true">Keys: 1-9 &middot; A-D answer &middot; &larr; &rarr; navigate &middot; F flag</div>
         <div class="xhead-btns">
-          <button class="xbtn xbtn-lg" id="tb-flag-btn" onclick="toggleFlag()" aria-label="Flag for review"><span id="flag-label">Flag for Review</span></button>
-          <button class="xbtn xbtn-lg" onclick="openExamReview()" aria-label="Open item review">Review</button>
-          <button class="xbtn xbtn-lg xhead-drawerbtn" onclick="toggleDrawer()" aria-label="Toggle navigator drawer">Navigator</button>
+          <button class="xbtn xbtn-lg" id="tb-flag-btn" onclick="toggleFlag()" aria-label="Flag for review"><svg class="ico"><use href="#i-flag"/></svg><span id="flag-label">Flag</span></button>
+          <button class="xbtn xbtn-lg" onclick="openExamReview()" aria-label="Open item review"><svg class="ico"><use href="#i-list-check"/></svg>Review</button>
+          <button class="xbtn xbtn-lg xhead-drawerbtn" onclick="toggleDrawer()" aria-label="Toggle navigator drawer"><svg class="ico"><use href="#i-grid"/></svg>Navigator</button>
         </div>
       </div>
       <section class="xcard" id="content-area">
@@ -1210,8 +1457,8 @@ body:not([data-nav="hidden"]) .tab-screen.active{margin-left:212px;}
   </main>
 
   <!-- FIXED EDGE ARROWS -->
-  <button class="xedge xedge-l" id="x-prev" onclick="prevClick()" aria-label="Previous question" title="Previous question">&#8249;</button>
-  <button class="xedge xedge-r" id="x-next" onclick="nextClick()" aria-label="Next question" title="Next question">&#8250;</button>
+  <button class="xedge xedge-l" id="x-prev" onclick="prevClick()" aria-label="Previous question" title="Previous question"><svg class="ico"><use href="#i-chevron-left"/></svg></button>
+  <button class="xedge xedge-r" id="x-next" onclick="nextClick()" aria-label="Next question" title="Next question"><svg class="ico"><use href="#i-chevron-right"/></svg></button>
 
   <!-- REVIEW PHASE (mid-exam) -->
   <div class="xreview" id="exam-review-phase">
@@ -1255,22 +1502,22 @@ body:not([data-nav="hidden"]) .tab-screen.active{margin-left:212px;}
 </div>
 
 <!-- ==================== APP SHELL: NAV ==================== -->
-<button class="nav-burger" id="nav-burger" onclick="document.getElementById('app-nav').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+<button class="nav-burger" id="nav-burger" onclick="document.getElementById('app-nav').classList.toggle('open')" aria-label="Open navigation"><svg class="ico"><use href="#i-menu"/></svg></button>
 <nav class="app-nav" id="app-nav" aria-label="Primary navigation">
   <div class="nav-brand">
-    <div class="nav-logo">22</div>
-    <div><b>22mcq-pbq</b><small>SY0-701 &middot; Trainer</small></div>
+    <div class="nav-logo"><svg class="ico"><use href="#i-shield"/></svg></div>
+    <div><b>22mcq-pbq</b><small>SY0-701 Simulator</small></div>
   </div>
-  <div class="nav-label">Train</div>
-  <button class="nav-item" data-route="#/"><span class="ni-ico">C</span>Command Center</button>
-  <button class="nav-item" data-route="#/exam"><span class="ni-ico">E</span>Exams</button>
-  <button class="nav-item" data-route="#/study"><span class="ni-ico">S</span>Study</button>
-  <button class="nav-item" data-route="#/lab"><span class="ni-ico">L</span>PBQ Lab</button>
-  <div class="nav-label">Improve</div>
-  <button class="nav-item" data-route="#/review"><span class="ni-ico">R</span>Review</button>
-  <button class="nav-item" data-route="#/analytics"><span class="ni-ico">A</span>Analytics</button>
-  <button class="nav-item" data-route="#/settings"><span class="ni-ico">&#9881;</span>Settings</button>
-  <div class="nav-foot">Learn the misses.<br>Retest them.<br>Prove it under time.</div>
+  <div class="nav-label">Practice</div>
+  <button class="nav-item" data-route="#/"><svg class="ico"><use href="#i-overview"/></svg>Overview</button>
+  <button class="nav-item" data-route="#/exam"><svg class="ico"><use href="#i-exam"/></svg>Exams</button>
+  <button class="nav-item" data-route="#/study"><svg class="ico"><use href="#i-study"/></svg>Study</button>
+  <button class="nav-item" data-route="#/lab"><svg class="ico"><use href="#i-lab"/></svg>PBQ Lab</button>
+  <div class="nav-label">Analyse</div>
+  <button class="nav-item" data-route="#/review"><svg class="ico"><use href="#i-review"/></svg>Review</button>
+  <button class="nav-item" data-route="#/analytics"><svg class="ico"><use href="#i-analytics"/></svg>Analytics</button>
+  <button class="nav-item" data-route="#/settings"><svg class="ico"><use href="#i-settings"/></svg>Settings</button>
+  <div class="nav-foot"><span id="nav-cloud-state">Local storage</span><span class="nav-ver">v2</span></div>
 </nav>
 <!-- TAB SCREENS (fresh UX layer) -->
 <div id="screen-dashboard" class="screen tab-screen"><div class="tab-wrap" id="dashboard-root"></div></div>
@@ -1283,7 +1530,7 @@ body:not([data-nav="hidden"]) .tab-screen.active{margin-left:212px;}
 <!-- SETTINGS STASH LAYER (phone-stack forward/back; also reachable mid-exam) -->
 <div class="settings-layer" id="settings-layer">
   <div class="settings-head">
-    <button class="settings-back" onclick="closeSettingsLayer()">&#8592; Back</button>
+    <button class="settings-back" onclick="closeSettingsLayer()"><svg class="ico"><use href="#i-arrow-left"/></svg>Back</button>
     <b>Settings</b>
   </div>
   <div class="tab-wrap" id="settings-layer-root"></div>
@@ -1291,10 +1538,10 @@ body:not([data-nav="hidden"]) .tab-screen.active{margin-left:212px;}
 
 <div class="pause-overlay" id="pause-overlay">
   <div class="pause-card">
-    <div class="pause-badge"><span class="pause-bars"><span></span><span></span></span> Paused</div>
-    <h2>Exam Paused</h2>
-    <p>The timer is stopped and questions are hidden. Your progress is kept - resume when you're ready.</p>
-    <button class="btn-result primary" onclick="togglePause()" aria-label="Resume exam">Resume Exam</button>
+    <div class="pause-badge"><svg class="ico"><use href="#i-pause"/></svg>Paused</div>
+    <h2>Exam paused</h2>
+    <p>The timer is stopped and questions are hidden. Your progress is saved.</p>
+    <button class="btn-result primary" onclick="togglePause()" aria-label="Resume exam"><svg class="ico"><use href="#i-play"/></svg>Resume exam</button>
   </div>
 </div>
 
@@ -1322,9 +1569,9 @@ body:not([data-nav="hidden"]) .tab-screen.active{margin-left:212px;}
       <div id="r-pbqs"></div>
     </div>
     <div class="results-actions">
-      <button class="btn-result primary" onclick="showReview()">📋 Review All Answers</button>
-      <button class="btn-result ghost" onclick="restartExam()">🔁 Retake Exam</button>
-      <button class="btn-result ghost" onclick="showScreen('welcome-screen')">🏠 Home</button>
+      <button class="btn-result primary" onclick="showReview()"><svg class="ico"><use href="#i-list-check"/></svg>Review All Answers</button>
+      <button class="btn-result ghost" onclick="restartExam()"><svg class="ico"><use href="#i-refresh"/></svg>Retake Exam</button>
+      <button class="btn-result ghost" onclick="showScreen('welcome-screen')"><svg class="ico"><use href="#i-home"/></svg>Home</button>
     </div>
   </div>
 </div>
@@ -1393,7 +1640,7 @@ body:not([data-nav="hidden"]) .tab-screen.active{margin-left:212px;}
 <!-- Time Warning 1:00 -->
 <div class="modal-overlay" id="modal-time-warn">
   <div class="modal-box">
-    <div class="modal-title" style="color:var(--warning)">⚠️ 1 Minute Remaining</div>
+    <div class="modal-title" style="color:var(--warning);display:flex;align-items:center;gap:8px"><svg class="ico" style="width:16px;height:16px"><use href="#i-alert"/></svg>1 minute remaining</div>
     <div class="modal-body">Your exam will auto-submit when the timer reaches 0:00. Please review your answers and unanswered questions now.</div>
     <div class="modal-btns">
       <button class="modal-btn-cancel" onclick="closeModal('modal-time-warn')">Continue</button>
@@ -1724,18 +1971,18 @@ const PBQ_SEEDS = [
   title:'Network Security Architecture Mapping',
   scenario:'A financial services firm is deploying a new layered network architecture with four zones: Internet-Facing Edge, DMZ, Internal Network, and Privileged Access Zone. Place each security control from the bank below into the correct network zone. Two controls are redundant or mismatched for this architecture — place them in the "Not Applicable / Remove" zone.',
   items:[
-    {id:'ctrl-waf', label:'Web Application Firewall (WAF)', icon:'🛡️', correct:'dmz'},
-    {id:'ctrl-ids', label:'IDS/IPS Sensor (Passive + Inline)', icon:'🔍', correct:'edge'},
-    {id:'ctrl-jump', label:'Jump Server / Bastion Host', icon:'🖥️', correct:'privileged'},
-    {id:'ctrl-radius', label:'RADIUS Authentication Server', icon:'🔐', correct:'internal'},
-    {id:'ctrl-dam', label:'Database Activity Monitor (DAM)', icon:'🗄️', correct:'internal'},
-    {id:'ctrl-honey', label:'Honeypot / Deception System', icon:'🍯', correct:'dmz'},
-    {id:'ctrl-mfa', label:'MFA Gateway / Identity Proxy', icon:'📲', correct:'edge'},
-    {id:'ctrl-casb', label:'Cloud Access Security Broker (CASB)', icon:'☁️', correct:'internal'},
-    {id:'ctrl-nac', label:'Network Access Control (NAC)', icon:'🔒', correct:'internal'},
-    {id:'ctrl-dlp', label:'DLP Sensor / Data Inspector', icon:'📊', correct:'edge'},
-    {id:'ctrl-vuln', label:'Vulnerability Scanner (active)', icon:'⚠️', correct:'na'},
-    {id:'ctrl-print', label:'Network Print Server', icon:'🖨️', correct:'na'},
+    {id:'ctrl-waf', label:'Web Application Firewall (WAF)', icon:'shield', correct:'dmz'},
+    {id:'ctrl-ids', label:'IDS/IPS Sensor (Passive + Inline)', icon:'target', correct:'edge'},
+    {id:'ctrl-jump', label:'Jump Server / Bastion Host', icon:'home', correct:'privileged'},
+    {id:'ctrl-radius', label:'RADIUS Authentication Server', icon:'lock', correct:'internal'},
+    {id:'ctrl-dam', label:'Database Activity Monitor (DAM)', icon:'file', correct:'internal'},
+    {id:'ctrl-honey', label:'Honeypot / Deception System', icon:'target', correct:'dmz'},
+    {id:'ctrl-mfa', label:'MFA Gateway / Identity Proxy', icon:'lock', correct:'edge'},
+    {id:'ctrl-casb', label:'Cloud Access Security Broker (CASB)', icon:'cloud', correct:'internal'},
+    {id:'ctrl-nac', label:'Network Access Control (NAC)', icon:'lock', correct:'internal'},
+    {id:'ctrl-dlp', label:'DLP Sensor / Data Inspector', icon:'grid', correct:'edge'},
+    {id:'ctrl-vuln', label:'Vulnerability Scanner (active)', icon:'alert', correct:'na'},
+    {id:'ctrl-print', label:'Network Print Server', icon:'file', correct:'na'},
   ],
   zones:[
     {id:'edge', label:'Internet-Facing Edge', desc:'Between internet and DMZ'},
@@ -1796,11 +2043,11 @@ const PBQ_SEEDS = [
   title:'Cryptography & PKI Configuration',
   scenario:'An organization is configuring TLS for an internal Certificate Authority that will issue certificates to a multi-domain financial application (covering app.finance.internal, api.finance.internal, and *.reports.finance.internal). Complete the PKI decision tree by selecting the correct option at each node.',
   nodes:[
-    {id:'n1', question:'Certificate Type for multi-domain coverage including wildcard subdomain', options:['DV (Domain Validation) Single-Domain','OV (Organization Validation) SAN + Wildcard','EV (Extended Validation) Single Subject','Self-signed certificate — no CA required'], correct:'OV (Organization Validation) SAN + Wildcard', icon:'📜'},
-    {id:'n2', question:'Key Exchange Algorithm — FIPS 140-3 compliant, forward secrecy required', options:['RSA static key exchange (no forward secrecy)','DHE with 1024-bit group (legacy)','ECDHE with P-256 or P-384 (FIPS-approved elliptic curve)','PSK (Pre-Shared Key) — static TLS session'], correct:'ECDHE with P-256 or P-384 (FIPS-approved elliptic curve)', icon:'🔑'},
-    {id:'n3', question:'Symmetric Cipher Suite for TLS 1.3 (select the ONLY valid option)', options:['AES-128-CBC with HMAC-SHA1','3DES-EDE-CBC (legacy compatibility)','AES-256-GCM (AEAD authenticated encryption)','RC4-128 stream cipher'], correct:'AES-256-GCM (AEAD authenticated encryption)', icon:'🔐'},
-    {id:'n4', question:'Certificate Revocation Method — must support stapling for performance', options:['CRL only (Certificate Revocation List)','OCSP with stapling enabled','Manual revocation via CA console','No revocation — internal CA only'], correct:'OCSP with stapling enabled', icon:'✅'},
-    {id:'n5', question:'CA Hierarchy — internal CA with offline root CA required', options:['Single-tier: Root CA issues end-entity certs directly','Two-tier: Offline Root CA → Online Issuing CA','Flat: All CAs at equal trust level','Self-signed: No hierarchy needed for internal'], correct:'Two-tier: Offline Root CA → Online Issuing CA', icon:'🏛️'},
+    {id:'n1', question:'Certificate Type for multi-domain coverage including wildcard subdomain', options:['DV (Domain Validation) Single-Domain','OV (Organization Validation) SAN + Wildcard','EV (Extended Validation) Single Subject','Self-signed certificate — no CA required'], correct:'OV (Organization Validation) SAN + Wildcard', icon:'file'},
+    {id:'n2', question:'Key Exchange Algorithm — FIPS 140-3 compliant, forward secrecy required', options:['RSA static key exchange (no forward secrecy)','DHE with 1024-bit group (legacy)','ECDHE with P-256 or P-384 (FIPS-approved elliptic curve)','PSK (Pre-Shared Key) — static TLS session'], correct:'ECDHE with P-256 or P-384 (FIPS-approved elliptic curve)', icon:'lock'},
+    {id:'n3', question:'Symmetric Cipher Suite for TLS 1.3 (select the ONLY valid option)', options:['AES-128-CBC with HMAC-SHA1','3DES-EDE-CBC (legacy compatibility)','AES-256-GCM (AEAD authenticated encryption)','RC4-128 stream cipher'], correct:'AES-256-GCM (AEAD authenticated encryption)', icon:'lock'},
+    {id:'n4', question:'Certificate Revocation Method — must support stapling for performance', options:['CRL only (Certificate Revocation List)','OCSP with stapling enabled','Manual revocation via CA console','No revocation — internal CA only'], correct:'OCSP with stapling enabled', icon:'check'},
+    {id:'n5', question:'CA Hierarchy — internal CA with offline root CA required', options:['Single-tier: Root CA issues end-entity certs directly','Two-tier: Offline Root CA → Online Issuing CA','Flat: All CAs at equal trust level','Self-signed: No hierarchy needed for internal'], correct:'Two-tier: Offline Root CA → Online Issuing CA', icon:'grid'},
   ],
   explanation:'SAN+Wildcard OV cert covers all three domains. ECDHE provides FIPS-compliant forward secrecy. TLS 1.3 mandates AEAD ciphers; AES-256-GCM is the correct choice. OCSP stapling reduces revocation check latency and supports caching. A two-tier CA hierarchy keeps the root offline, limiting blast radius if the issuing CA is compromised.',
   reference:'Objective 1.4 — Cryptography and PKI'
@@ -1819,7 +2066,7 @@ function uuid() { return crypto.randomUUID ? crypto.randomUUID() : Math.random()
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   $(id).classList.add('active');
-  document.body.dataset.nav=(id==='exam-screen'||id==='results-screen'||id==='review-screen')?'hidden':'visible';
+  document.body.dataset.nav=(id==='exam-screen'||id==='results-screen'||id==='review-screen'||id==='welcome-screen')?'hidden':'visible';
 }
 function openModal(id) { $(id).classList.add('open'); }
 function closeModal(id) { $(id).classList.remove('open'); }
@@ -1827,42 +2074,39 @@ function closeModal(id) { $(id).classList.remove('open'); }
 // ============================================================
 // EXAM SETUP
 // ============================================================
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function seededShuffle(arr,seed){
+  const r=mulberry32(seed>>>0),out=[...arr];
+  for(let i=out.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[out[i],out[j]]=[out[j],out[i]];}
+  return out;
+}
+const EXAM_VARIANTS=[
+  {id:1,name:'Exam A',seed:0x51C0DE01},
+  {id:2,name:'Exam B',seed:0x51C0DE02},
+  {id:3,name:'Exam C',seed:0x51C0DE03},
+  {id:4,name:'Exam D',seed:0x51C0DE04},
+];
 function buildExamQuestions() {
   const mode = S.mode;
   let allQ = shuffle([...SEED_QUESTIONS]);
   let allPBQ = shuffle([...PBQ_SEEDS]);
 
   if (mode === 'exam') {
-    // Full 90 question exam with domain weighting
-    let mcqs = [], usedDomains = {};
-    Object.keys(DOMAIN_WEIGHTS).forEach(d => usedDomains[d]=0);
-    
-    const available = shuffle([...SEED_QUESTIONS]);
+    const variant = EXAM_VARIANTS.find(v=>v.id===(S.examVariant||1)) || EXAM_VARIANTS[0];
+    const available = seededShuffle(SEED_QUESTIONS, variant.seed);
+    const picked = [];
+    const usedDomains = {};
     available.forEach(q => {
       const d = q.domain;
       const focus = S.examFocus;
       const target = Math.ceil(focus && focus !== 'all' ? (d===focus ? 46 : 9.25) : 83 * DOMAIN_WEIGHTS[d]/100);
-      if ((usedDomains[d]||0) < target) { mcqs.push(q); usedDomains[d]=(usedDomains[d]||0)+1; }
+      if ((usedDomains[d]||0) < target) { picked.push(q); usedDomains[d]=(usedDomains[d]||0)+1; }
     });
-    // Fill remaining
-    available.forEach(q => { if (!mcqs.find(x=>x.id===q.id) && mcqs.length<83) mcqs.push(q); });
-    while(mcqs.length < 83) mcqs.push({...mcqs[mcqs.length%mcqs.length], id:'fill-'+uuid()});
+    available.forEach(q => { if (picked.length<83 && !picked.some(x=>x.id===q.id)) picked.push(q); });
+    const mcqs = picked.slice(0,83);
 
-    // Interleave 7 PBQs randomly, no two within 8 questions
-    const pbqs = shuffle([...allPBQ]).slice(0,7);
-    const positions = [];
-    let lastPos = -9;
-    for(let i=0;i<7;i++) {
-      let pos;
-      do { pos = Math.floor(Math.random()*(mcqs.length+positions.length)); }
-      while(positions.some(p=>Math.abs(p-pos)<8) || pos===lastPos);
-      positions.push(pos); lastPos=pos;
-    }
-    positions.sort((a,b)=>a-b);
-
-    let result = [...mcqs];
-    positions.forEach((pos,i) => { result.splice(pos+i, 0, {...pbqs[i], _isPBQ:true}); });
-    S.questions = result.slice(0,90);
+    const pbqs = seededShuffle(PBQ_SEEDS, variant.seed ^ 0x9E3779B9).slice(0,7);
+    S.questions = [...pbqs.map(q=>({...q,_isPBQ:true})), ...mcqs].slice(0,90);
     S.timeRemaining = 5400;
   } else {
     const count = S.studyCount;
@@ -1889,7 +2133,11 @@ function buildExamQuestions() {
 
   // Shuffle MCQ options
   S.questions = S.questions.map(q => {
-    if (q.options) return {...q, options: shuffle(q.options)};
+    if (q.options) {
+      const letters='ABCDEFGH';
+      const options=shuffle(q.options).map((o,i)=>({...o,id:letters[i]||o.id}));
+      return {...q, options};
+    }
     if (q.type==='pbq-sequence') return {...q, items: shuffle(q.items)};
     return q;
   });
@@ -2017,7 +2265,7 @@ function renderQ() {
   $('tb-qcount').textContent = `${S.currentIdx+1} of ${S.questions.length}`;
   const isFlagged = S.flags.has(q.id);
   $('tb-flag-btn').className = 'xbtn xbtn-lg' + (isFlagged?' flagged':'');
-  $('flag-label').textContent = isFlagged ? 'Flagged' : 'Flag for Review';
+  $('flag-label').textContent = isFlagged ? 'Flagged' : 'Flag';
 
   // Edge arrows
   $('x-prev').disabled = S.currentIdx===0;
@@ -2085,7 +2333,7 @@ function renderQ() {
     if (!S.hintUsed.has(q.id)) {
       const hintBtn = document.createElement('button');
       hintBtn.className = 'hint-btn';
-      hintBtn.innerHTML = '💡 Hint <span style="color:var(--text-dim);font-size:10px">(−−10% score penalty in Study Mode)</span>';
+      hintBtn.innerHTML = 'Hint <span style="color:var(--text-dim);font-size:10px">(−−10% score penalty in Study Mode)</span>';
       hintBtn.onclick = () => { S.hintUsed.add(q.id); showHint(q, hintPanel); };
       card.appendChild(hintBtn);
     }
@@ -2119,7 +2367,7 @@ function renderExplanation(q, card) {
   exp.innerHTML = `
     <div class="exp-title">Explanation</div>
     <p>${esc(q.explanation||'')}</p>
-    ${q.reference?`<p style="font-size:11px;color:var(--text-dim);margin-top:6px">📖 ${esc(q.reference)}</p>`:''}
+    ${q.reference?`<p style="font-size:11px;color:var(--text-dim);margin-top:6px">${esc(q.reference)}</p>`:''}
   `;
   if (q.whyWrong) {
     const ww = document.createElement('div');
@@ -2271,7 +2519,7 @@ function renderPBQFirewall(q, card, ans) {
       html+=`<span style="color:${color};font-weight:700;font-size:13px">${esc(selected)}</span>`;
       if (!isCorrect) html+=` <span style="color:var(--text-dim);font-size:11px">→ ${esc(rule.correct)}</span>`;
     } else if (rule.locked) {
-      html+=`<span style="color:var(--text-muted);font-size:13px">${esc(selected)} 🔒</span>`;
+      html+=`<span style="color:var(--text-muted);font-size:13px">${esc(selected)} </span>`;
     } else {
       html+=`<select class="acl-select ${selected.toLowerCase()}" data-rule="${rule.id}" data-qid="${q.id}" onchange="updateACL(this,'${q.id}','${rule.id}')">
         <option ${selected==='Allow'?'selected':''}>Allow</option>
@@ -2573,7 +2821,7 @@ function renderPBQPlacement(q, card, ans) {
     if(!placed.has(item.id)){
       const chip=document.createElement('div');chip.className='drag-chip';chip.style.cssText='margin-bottom:6px;width:100%';
       chip.draggable=!inReview;
-      chip.innerHTML=`<span>${item.icon||'⬜'}</span>${esc(item.label)}`;
+      chip.innerHTML=`<svg class="ico chip-ico"><use href="#i-${item.icon||'shield'}"/></svg>${esc(item.label)}`;
       chip.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',item.id);chip.classList.add('dragging');});
       chip.addEventListener('dragend',()=>chip.classList.remove('dragging'));
       bank.appendChild(chip);
@@ -2602,7 +2850,7 @@ function renderPBQPlacement(q, card, ans) {
       const item=q.items.find(i=>i.id===itemId);
       if(!item)return;
       const chip=document.createElement('div');chip.className='drag-chip';chip.style.marginBottom='4px';chip.draggable=!inReview;
-      chip.innerHTML=`<span>${item.icon||'⬜'}</span>${esc(item.label)}`;
+      chip.innerHTML=`<svg class="ico chip-ico"><use href="#i-${item.icon||'shield'}"/></svg>${esc(item.label)}`;
       if(inReview){chip.style.cursor='default';const isCorrect=item.correct===zone.id;chip.style.borderColor=isCorrect?'var(--success)':'var(--danger)';}
       chip.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',item.id);chip.classList.add('dragging');});
       chip.addEventListener('dragend',()=>chip.classList.remove('dragging'));
@@ -2721,7 +2969,7 @@ function renderPBQVulnScan(q, card, ans) {
       else html+=`<td style="font-size:11px"><span style="color:${remCorrect?'var(--success)':'var(--danger)'}">${esc(remAns||'—')}${!remCorrect?` → ${esc(f.correctAction)}`:''}</span></td>`;
     } else {
       if(inPriority){
-        html+=`<td><span style="color:var(--danger);font-size:11px;font-weight:700">Priority #${ansCopy.priorityQueue.indexOf(f.id)+1} 🎯</span></td>`;
+        html+=`<td><span style="color:var(--danger);font-size:11px;font-weight:700">Priority #${ansCopy.priorityQueue.indexOf(f.id)+1}</span></td>`;
       } else {
         html+=`<td><select class="acl-select" style="font-size:11px" onchange="updateVulnRemediation('${q.id}','${f.id}',this.value)">
           <option value="">— Select —</option>
@@ -2737,7 +2985,7 @@ function renderPBQVulnScan(q, card, ans) {
 
   // Priority queue
   const pq=document.createElement('div');pq.className='priority-queue';
-  pq.innerHTML=`<h4>🎯 Priority Remediation Queue (drag top 3 from table above):</h4>`;
+  pq.innerHTML=`<h4>Priority Remediation Queue (drag top 3 from table above):</h4>`;
   const slots=document.createElement('div');slots.className='priority-slots';
 
   for(let i=0;i<q.prioritySlots;i++){
@@ -2800,7 +3048,7 @@ function renderPBQCrypto(q, card, ans) {
     const nodeEl=document.createElement('div');nodeEl.className='crypto-node';
     const isCorrect=inReview&&ansCopy[node.id]===node.correct;
 
-    nodeEl.innerHTML=`<div class="crypto-node-icon">${node.icon||'⚙️'}</div>
+    nodeEl.innerHTML=`<div class="crypto-node-icon">${node.icon?`<svg class="ico"><use href="#i-${node.icon}"/></svg>`:''}</div>
       <div style="flex:1"><div class="crypto-node-label">${esc(node.question)}</div></div>`;
 
     const sel=document.createElement('select');
@@ -3147,8 +3395,8 @@ function buildReview() {
     const header=document.createElement('div');header.className='review-card-header';
     header.innerHTML=`
       <span class="q-number-badge" style="background:var(--surface2);border:1px solid var(--border);color:var(--text-muted);padding:2px 10px;border-radius:3px;font-size:11px;font-weight:700;cursor:pointer" onclick="goToExamQ(${realIdx})">Q${realIdx+1}</span>
-      <span class="${score===1?'correct-banner':'incorrect-banner'}">${score===1?'✅ CORRECT':'❌ INCORRECT'} ${isPBQ?`(${Math.round(score*100)}% partial)`:''}</span>
-      ${S.flags.has(q.id)?'<span style="color:var(--warning);font-size:12px">⚑</span>':''}
+      <span class="${score===1?'correct-banner':'incorrect-banner'}">${score===1?'✓ CORRECT':'✗ INCORRECT'} ${isPBQ?`(${Math.round(score*100)}% partial)`:''}</span>
+      ${S.flags.has(q.id)?'<svg class="ico" style="width:12px;height:12px;color:var(--warning)"><use href="#i-flag"/></svg>':''}
       <span class="q-meta-tag domain" style="margin-left:auto">${q.domain} | ${esc(q.obj||'')}</span>
     `;
     card.appendChild(header);
@@ -3160,7 +3408,7 @@ function buildReview() {
     if(q.explanation){
       const exp=document.createElement('div');exp.className='review-explanation';
       exp.innerHTML=`<div class="exp-title">Explanation</div><p>${esc(q.explanation)}</p>
-        ${q.reference?`<p style="font-size:11px;color:var(--text-dim);margin-top:4px">📖 ${esc(q.reference)}</p>`:''}`;
+        ${q.reference?`<p style="font-size:11px;color:var(--text-dim);margin-top:4px">${esc(q.reference)}</p>`:''}`;
       if(q.whyWrong){
         const ww=document.createElement('div');ww.className='exp-why-wrong';
         ww.innerHTML=`<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-dim);margin:8px 0 4px">Why Other Options Are Incorrect</div>`;
@@ -3409,6 +3657,7 @@ function saveExamSnapshot(){
       flags:[...S.flags],timeRemaining:S.timeRemaining,elapsedMs:Date.now()-(S.startTime||Date.now()),
       times:Object.assign({},_questionTimings),studyCount:S.studyCount,launchOpts:S.launchOpts,
       examFocus:S.examFocus,showExplanations:S.showExplanations,timeLimit:S.timeLimit||null,
+      examVariant:S.examVariant||1,sessionLabel:S.sessionLabel||null,
       savedAt:Date.now()});
   }catch(e){}
 }
@@ -3435,11 +3684,12 @@ function resumeExamFromSnapshot(){
   S.timeRemaining=d.timeRemaining||0;S.timeLimit=d.timeLimit||null;
   S.startTime=Date.now()-(d.elapsedMs||0);S.endTime=null;
   S.studyCount=d.studyCount||20;S.launchOpts=d.launchOpts||null;S.examFocus=d.examFocus||null;
+  S.examVariant=d.examVariant||1;S.sessionLabel=d.sessionLabel||null;
   S.showExplanations=!!d.showExplanations;
   S.reviewMode=false;S.reviewPhase=false;S.reviewFilter='all';S.timeWarnShown=false;S.hintUsed=new Set();
   S.pausedMs=0;S.pauseStart=null;
   $('paused-badge').classList.add('hidden');
-  const chip=$('x-mode-chip');if(chip)chip.textContent=S.mode==='exam'?'Exam':'Study';
+  const chip=$('x-mode-chip');if(chip)chip.textContent=S.mode==='exam'?(S.sessionLabel||'Exam'):'Study';
   $('x-prev').disabled=S.currentIdx===0;
   document.getElementById('exam-screen').setAttribute('data-ephase','item');
   buildNavigator();
@@ -3515,7 +3765,8 @@ function renderExamReview(f){
     if(f==='flagged'&&!S.flags.has(q.id))return;
     const flagged=S.flags.has(q.id);
     rows.push(`<button class="xrev-item${flagged?' flagged':''}" onclick="jumpFromReview(${i})">
-      <span class="fl">&#9873;</span><span style="font-family:var(--font-mono);font-weight:700">Question ${i+1}</span>
+      <span class="fl"><svg class="ico"><use href="#i-flag"/></svg></span><span class="qn">Question ${i+1}</span>
+      ${String(q.type).indexOf('pbq')===0?'<span class="mini-tag pbq">PBQ</span>':''}
       ${!isAnswered(q.id)?'<span class="inc">Incomplete</span>':''}
     </button>`);
   });
@@ -3606,6 +3857,7 @@ function pauseExam() {
   if (q) { recordQuestionTime(q.id); _qStartTime = null; }
    $('pause-overlay').classList.add('open');
    $('pause-label').textContent = 'Resume';
+   $('tb-pause-btn').setAttribute('aria-label','Resume exam');
    $('tb-pause-btn').classList.add('paused');
    $('paused-badge').classList.remove('hidden');
    saveExamSnapshot();
@@ -3617,6 +3869,7 @@ function resumeExam() {
   S.pauseStart = null;
    $('pause-overlay').classList.remove('open');
    $('pause-label').textContent = 'Pause';
+   $('tb-pause-btn').setAttribute('aria-label','Pause exam');
    $('tb-pause-btn').classList.remove('paused');
    $('paused-badge').classList.add('hidden');
    const q = S.questions[S.currentIdx];
@@ -3721,7 +3974,7 @@ function showStudySummary() {
   const pbqEl = document.getElementById('r-pbqs');
   if (weakObjs.length) {
     pbqEl.innerHTML = `
-      <div style="font-size:13px;font-weight:700;color:var(--warning);margin-bottom:10px">⚠ Sub-objectives to Revisit:</div>
+      <div style="font-size:13px;font-weight:700;color:var(--warning);margin-bottom:10px;display:flex;align-items:center;gap:7px"><svg class="ico" style="width:14px;height:14px"><use href="#i-alert"/></svg>Sub-objectives to revisit</div>
       ${weakObjs.map(([obj, s]) => `
         <div class="pbq-result-row">
           <span class="pbq-type-label">Objective ${obj} — ${DOMAINS[s.domain] || s.domain}</span>
@@ -3729,7 +3982,7 @@ function showStudySummary() {
         </div>
       `).join('')}
       <div style="font-size:12px;color:var(--text-muted);margin-top:10px">
-        <button onclick="restartExam()" style="margin-top:4px;padding:6px 14px;background:var(--accent);border:none;border-radius:6px;color:white;font-size:12px;font-weight:700;cursor:pointer">📚 Launch Study Mode</button → Domain Focus</strong> to drill these objectives.
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><button onclick="location.hash='#/study'" style="padding:6px 14px;background:var(--accent);border:none;border-radius:6px;color:white;font-size:12px;font-weight:700;cursor:pointer">Open study mode</button><span>Drill these objectives in Domain Focus.</span></div>
       </div>
     `;
   } else {
@@ -3766,11 +4019,11 @@ function recordAttempt(mode){
     pd.n++;if(ok)pd.ok++;
     return{id:q.id,d:q.domain,type:q.type,ok,sec:Math.round(_questionTimings[q.id]||0)};
   });
-  const rec={mode,at:Date.now(),total:items.length,correct,
+  const rec={mode,at:Date.now(),key:'k'+Date.now().toString(36)+Math.random().toString(36).slice(2,8),variant:S.examVariant||null,label:S.sessionLabel||null,total:items.length,correct,
     score:items.length?Math.round(correct/items.length*100):0,
     dur:Math.round(((S.endTime||Date.now())-(S.startTime||Date.now())-(S.pausedMs||0))/1000),items};
   const attempts=_loadJson(ATTEMPTS_KEY,[]);attempts.push(rec);
-  while(attempts.length>40)attempts.shift();
+  while(attempts.length>200)attempts.shift();
   _saveJson(ATTEMPTS_KEY,attempts);
   const stats=_loadJson(STATS_KEY,{});
   items.forEach(it=>{
@@ -3778,11 +4031,12 @@ function recordAttempt(mode){
     st.a++;if(!it.ok)st.w++;st.last=it.ok;st.d=it.d;st.type=it.type;
   });
   _saveJson(STATS_KEY,stats);
+  if(cloudCfg()&&_cloud.status==='online')setTimeout(()=>{cloudSyncNow();},800);
 }
 
 function weakestDomains(n){
   const agg={};
-  _loadJson(ATTEMPTS_KEY,[]).forEach(a=>a.items.forEach(it=>{
+  _loadJson(ATTEMPTS_KEY,[]).forEach(a=>(a.items||[]).forEach(it=>{
     const g=agg[it.d]||(agg[it.d]={n:0,ok:0});
     g.n++;if(it.ok)g.ok++;
   }));
@@ -3792,7 +4046,7 @@ function weakestDomains(n){
 
 function missedLastTime(){
   const a=_loadJson(ATTEMPTS_KEY,[]);
-  return a.length?a[a.length-1].items.filter(i=>!i.ok).map(i=>i.id):[];
+  const last=a.length?a[a.length-1]:null;return last&&Array.isArray(last.items)?last.items.filter(i=>!i.ok).map(i=>i.id):[];
 }
 function everMissed(){
   const st=_loadJson(STATS_KEY,{});
@@ -3809,7 +4063,7 @@ function _resetForLaunch(cfg){
   Object.keys(_questionTimings).forEach(k=>delete _questionTimings[k]);
   S.studyCount=cfg.count||20;S.studyDomain=cfg.domain||'all';
   S.launchOpts=cfg.launchOpts||(cfg.pbq===false?{mcq:true,pbq:false}:{mcq:true,pbq:true,pbqCount:cfg.pbqCount!=null?cfg.pbqCount:2});
-  S.examFocus=cfg.focus||null;
+  S.examFocus=cfg.focus||null;S.examVariant=cfg.variant||1;S.sessionLabel=cfg.label||null;
   $('paused-badge').classList.add('hidden');
   const prevEl=$('x-prev');if(prevEl)prevEl.disabled=true;
   document.getElementById('exam-screen').setAttribute('data-ephase','item');
@@ -3835,7 +4089,7 @@ function _doLaunch(cfg){
   startTimer();
   startSnapshotAutosave();
   saveExamSnapshot();
-  const chip=$('x-mode-chip');if(chip)chip.textContent=S.mode==='exam'?'Exam':'Study';
+  const chip=$('x-mode-chip');if(chip)chip.textContent=S.mode==='exam'?(S.sessionLabel||'Exam'):'Study';
 }
 function resumeFromModal(){
   closeModal('modal-resume');
@@ -3898,28 +4152,161 @@ function refreshSettingsUI(){
   if($('screen-settings').classList.contains('active'))renderSettingsPage();
   if($('settings-layer').classList.contains('open'))$('settings-layer-root').innerHTML=settingsBoardMarkup('Mid-Exam','Exam is paused while Settings is open. Press Back to resume exactly where you left off.');
 }
+// ---------- CLOUD SYNC (optional, Supabase anon auth + RLS) ----------
+const CLOUD_KEY='sy0701_cloud';
+const CLOUD_MODULE='https://esm.sh/@supabase/supabase-js@2';
+let _sbClient=null;
+let _cloud={status:'local',message:'',syncedAt:null};
+function cloudCfg(){return _loadJson(CLOUD_KEY,null);}
+function saveCloudCfg(cfg){try{if(cfg)localStorage.setItem(CLOUD_KEY,JSON.stringify(cfg));else localStorage.removeItem(CLOUD_KEY);}catch(e){}}
+function setCloudState(status,message){
+  _cloud.status=status;_cloud.message=message||'';
+  const label=status==='online'?'Cloud synced':status==='connecting'?'Connecting…':status==='error'?'Cloud error':status==='configured'?'Cloud ready':'Local storage';
+  const el=document.getElementById('nav-cloud-state');
+  if(el){el.textContent=label;el.classList.toggle('online',status==='online');}
+  const st=document.getElementById('cloud-state');
+  if(st){
+    st.textContent=status==='online'?'Connected':status==='connecting'?'Connecting':status==='error'?'Error':status==='configured'?'Configured':'Local only';
+    st.className='cloud-state'+(status==='online'?' online':status==='error'?' error':'');
+  }
+  const msg=document.getElementById('cloud-msg');
+  if(msg)msg.textContent=message||'';
+}
+function cloudAttemptKey(a){
+  if(a.key)return a.key;
+  return 'legacy-'+a.at+'-'+a.mode+'-'+(a.total||0)+'-'+(a.score||0);
+}
+function attemptsWithKeys(){return _loadJson(ATTEMPTS_KEY,[]).map(a=>({...a,key:cloudAttemptKey(a)}));}
+async function cloudClient(){
+  const cfg=cloudCfg();
+  if(!cfg||!cfg.url||!cfg.key)throw new Error('Cloud sync is not configured.');
+  if(_sbClient)return _sbClient;
+  let mod;
+  try{mod=await import(CLOUD_MODULE);}catch(e){throw new Error('Could not load the Supabase client. Check your connection.');}
+  _sbClient=mod.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true}});
+  return _sbClient;
+}
+async function cloudEnsureSession(sb){
+  const {data:{session}}=await sb.auth.getSession();
+  if(session)return session;
+  const res=await sb.auth.signInAnonymously();
+  if(res.error)throw new Error(res.error.message);
+  return res.data.session;
+}
+function rebuildStatsFromAttempts(attempts){
+  const stats={};
+  attempts.slice().sort((a,b)=>a.at-b.at).forEach(a=>(a.items||[]).forEach(it=>{
+    const st=stats[it.id]||(stats[it.id]={a:0,w:0,last:false});
+    st.a++;if(!it.ok)st.w++;st.last=!!it.ok;st.d=it.d;st.type=it.type;
+  }));
+  _saveJson(STATS_KEY,stats);
+  if(cloudCfg()&&_cloud.status==='online')setTimeout(()=>{cloudSyncNow();},800);
+}
+async function cloudSync(){
+  if(typeof navigator!=='undefined'&&navigator.onLine===false)throw new Error('The browser is offline.');
+  setCloudState('connecting','Contacting Supabase…');
+  const sb=await cloudClient();
+  const session=await cloudEnsureSession(sb);
+  const uid=session.user.id;
+  const local=attemptsWithKeys();
+  if(local.length){
+    const rows=local.map(a=>({user_id:uid,client_key:a.key,mode:a.mode,variant:a.variant||null,label:a.label||null,score:a.score,correct:a.correct,total:a.total,duration:a.dur,items:a.items,at:new Date(a.at).toISOString()}));
+    const {error}=await sb.from('attempts').upsert(rows,{onConflict:'user_id,client_key',ignoreDuplicates:true});
+    if(error)throw new Error(error.message);
+  }
+  const {data,error}=await sb.from('attempts').select('*').eq('user_id',uid).order('at',{ascending:true}).limit(500);
+  if(error)throw new Error(error.message);
+  const merged=new Map();
+  local.forEach(a=>merged.set(a.key,a));
+  (data||[]).forEach(r=>{
+    if(merged.has(r.client_key))return;
+    merged.set(r.client_key,{mode:r.mode,at:Date.parse(r.at),total:r.total,correct:r.correct,score:r.score,dur:r.duration,items:r.items||[],variant:r.variant,label:r.label,key:r.client_key});
+  });
+  const all=[...merged.values()].sort((a,b)=>a.at-b.at).slice(-200);
+  _saveJson(ATTEMPTS_KEY,all);
+  rebuildStatsFromAttempts(all);
+  _cloud.syncedAt=Date.now();
+  setCloudState('online',`Synced ${all.length} attempt${all.length===1?'':'s'}.`);
+  return all.length;
+}
+async function cloudConnect(){
+  const url=(($('cloud-url')&&$('cloud-url').value)||'').trim();
+  const key=(($('cloud-key')&&$('cloud-key').value)||'').trim();
+  if(!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(url)){setCloudState('error','Enter the project URL, for example https://abcd.supabase.co');return;}
+  if(key.length<20){setCloudState('error','Enter the anon public key from Project Settings → API.');return;}
+  saveCloudCfg({url:url.replace(/\/$/,''),key});
+  _sbClient=null;
+  try{await cloudSync();refreshSettingsUI();}
+  catch(e){setCloudState('error',(e&&e.message)||'Connection failed.');}
+}
+async function cloudSyncNow(){
+  try{await cloudSync();refreshSettingsUI();}
+  catch(e){setCloudState('error',(e&&e.message)||'Sync failed.');}
+}
+async function cloudDisconnect(){
+  try{if(_sbClient)await _sbClient.auth.signOut();}catch(e){}
+  _sbClient=null;saveCloudCfg(null);
+  setCloudState('local','Cloud sync disabled. Local data is unchanged.');
+  refreshSettingsUI();
+}
+function cloudStatusMarkup(){
+  const cfg=cloudCfg();
+  const st=_cloud.status;
+  const label=st==='online'?'Connected':st==='connecting'?'Connecting':st==='error'?'Error':st==='configured'?'Configured':'Local only';
+  return `<div class="cloud-state${st==='online'?' online':st==='error'?' error':''}" id="cloud-state">${label}</div>
+  ${cfg?`<span class="cloud-note" style="margin:0">${esc(cfg.url.replace(/^https:\/\//,''))}${_cloud.syncedAt?` · ${new Date(_cloud.syncedAt).toLocaleTimeString()}`:''}</span>`:''}
+  <div class="cloud-note" id="cloud-msg">${esc(_cloud.message)}</div>`;
+}
+function exportProgress(){
+  const data={exportedAt:new Date().toISOString(),attempts:_loadJson(ATTEMPTS_KEY,[]),stats:_loadJson(STATS_KEY,{})};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='sy0-701-progress-'+_dayKey(Date.now())+'.json';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+
 function renderSettings(){
   const stats=_loadJson(STATS_KEY,{});
   const attempts=_loadJson(ATTEMPTS_KEY,[]);
   const t=document.documentElement.dataset.theme||'slate';
+  const cfg=cloudCfg();
   return `
   <div class="panel">
     <h3>Appearance</h3>
     <div class="themeset">
-      ${[['slate','Slate Dark','linear-gradient(135deg,#10141d 55%,#1a2030)'],['light','Light','linear-gradient(135deg,#e7e9ef 55%,#c9cede)'],['amoled','AMOLED','linear-gradient(135deg,#000 60%,#111)']]
+      ${[['slate','Slate','linear-gradient(135deg,#10141d 55%,#1a2030)'],['light','Light','linear-gradient(135deg,#e7e9ef 55%,#c9cede)'],['amoled','AMOLED','linear-gradient(135deg,#000 60%,#111)']]
         .map(([id,name,prev])=>`<button class="theme-card ${t===id?'selected':''}" data-themeopt="${id}" onclick="setTheme('${id}')"><div class="theme-prev" style="background:${prev}"></div><div class="theme-name">${name}</div></button>`).join('')}
     </div>
   </div>
   <div class="panel">
-    <h3>Timer Warnings</h3>
-    <div class="field-row"><span>Amber warning at</span><select onchange="setPref('amber',this.value)">${[10,15,20,30].map(m=>`<option value="${m*60}" ${PREFS.amber===m*60?'selected':''}>${m} minutes</option>`).join('')}</select></div>
-    <div class="field-row"><span>Critical warning at</span><select onchange="setPref('red',this.value)">${[1,3,5].map(m=>`<option value="${m*60}" ${PREFS.red===m*60?'selected':''}>${m} minutes</option>`).join('')}</select></div>
-    <div class="field-row"><span>Warn when the exam tab loses focus</span><select onchange="setPrefBool('focusNotice',this.value)"><option value="true" ${PREFS.focusNotice?'selected':''}>On</option><option value="false" ${PREFS.focusNotice?'':'selected'}>Off</option></select></div>
+    <h3>Exam behaviour</h3>
+    <div class="field-row"><span>Timer turns amber at</span><select onchange="setPref('amber',this.value)" aria-label="Amber warning">${[10,15,20,30].map(m=>`<option value="${m*60}" ${PREFS.amber===m*60?'selected':''}>${m} minutes</option>`).join('')}</select></div>
+    <div class="field-row"><span>Timer turns red at</span><select onchange="setPref('red',this.value)" aria-label="Red warning">${[1,3,5].map(m=>`<option value="${m*60}" ${PREFS.red===m*60?'selected':''}>${m} minutes</option>`).join('')}</select></div>
+    <div class="field-row"><span>Notice when the window loses focus</span><select onchange="setPrefBool('focusNotice',this.value)" aria-label="Focus notice"><option value="true" ${PREFS.focusNotice?'selected':''}>On</option><option value="false" ${PREFS.focusNotice?'':'selected'}>Off</option></select></div>
+  </div>
+  <div class="panel">
+    <h3>Cloud sync · Supabase</h3>
+    <div class="cloud-row">
+      <input class="cloud-input" id="cloud-url" placeholder="https://project.supabase.co" value="${cfg?esc(cfg.url):''}" aria-label="Supabase project URL" autocomplete="off" spellcheck="false">
+      <input class="cloud-input" id="cloud-key" type="password" placeholder="Anon public key" value="${cfg?esc(cfg.key):''}" aria-label="Supabase anon key" autocomplete="off">
+    </div>
+    <div class="cloud-row" style="margin-top:10px">
+      <button class="btn-primary" onclick="cloudConnect()">${cfg?'Reconnect':'Connect'}</button>
+      ${cfg?`<button class="btn-secondary" onclick="cloudSyncNow()">Sync now</button><button class="btn-danger-ghost" onclick="cloudDisconnect()">Disconnect</button>`:''}
+    </div>
+    <div style="margin-top:10px">${cloudStatusMarkup()}</div>
+    <div class="cloud-note">Optional. Attempt history is stored locally by default; connecting syncs it across devices through an anonymous session. Run <code>supabase/schema.sql</code> once in the project SQL editor. Row-level security limits each session to its own rows.</div>
   </div>
   <div class="panel">
     <h3>Data</h3>
-    <div class="field-row"><span>${attempts.length} recorded attempts · ${Object.keys(stats).length} tracked questions</span>
-    <button class="quick-card" style="max-width:200px" onclick="if(confirm('Erase all attempt history and mastery stats?')){_saveJson(ATTEMPTS_KEY,[]);_saveJson(STATS_KEY,{});refreshSettingsUI();}">Reset progress data</button></div>
+    <div class="field-row"><span>${attempts.length} attempts · ${Object.keys(stats).length} tracked questions</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn-secondary" onclick="exportProgress()">Export JSON</button>
+        <button class="btn-danger-ghost" onclick="if(confirm('Erase all attempt history and mastery stats?')){_saveJson(ATTEMPTS_KEY,[]);_saveJson(STATS_KEY,{});refreshSettingsUI();}">Reset data</button>
+      </div>
+    </div>
   </div>`;
 }
 let _settingsCtx=null;
@@ -3928,7 +4315,7 @@ function settingsBoardMarkup(eyebrow,sub){
   ${renderSettings()}`;
 }
 function renderSettingsPage(){
-  $('settings-root').innerHTML=settingsBoardMarkup('System','Theme, timer warnings and progress data. These settings also apply mid-exam — open them from the exam top bar; the exam pauses while Settings is open.');
+  $('settings-root').innerHTML=settingsBoardMarkup('Settings','Appearance, exam behaviour, cloud sync and stored data. Settings are also reachable mid-exam from the top bar; the exam pauses while they are open.');
 }
 
 function snapBanner(){
@@ -3957,65 +4344,79 @@ function renderDashboard(){
   const recent=base.slice(-5);
   const readiness=recent.length?Math.round(recent.reduce((s,a)=>s+a.score,0)/recent.length):0;
   const avg=attempts.length?Math.round(attempts.reduce((s,a)=>s+a.score,0)/attempts.length):0;
+  const answered=attempts.reduce((s,a)=>s+(a.total||0),0);
   const stats=_loadJson(STATS_KEY,{});
   const mastered=Object.values(stats).filter(s=>s.a>=2&&s.last).length;
   const nb=missedLastTime().length;
   const weak=weakestDomains(3);
   $('dashboard-root').innerHTML=`
-  <div class="tab-head"><div class="tab-eyebrow">Command Center</div><div class="tab-title">Readiness ${readiness}%</div>
-  <div class="tab-sub">${attempts.length?`Based on your last ${recent.length} session${recent.length>1?'s':''}. ${readiness>=75?'You are tracking well — keep drilling weak domains.':readiness>=50?'You are mid-charge — drill weakest domains, then retest misses.':'Early days. Run a full exam to establish your baseline.'}`:'No sessions yet. Launch your first exam or drill to establish a baseline.'}</div></div>
+  <div class="tab-head"><div class="tab-eyebrow">Overview</div><div class="tab-title">${attempts.length?`Readiness ${readiness}%`:'Security+ SY0-701'}</div>
+  <div class="tab-sub">${attempts.length?`Average of your last ${recent.length} session${recent.length>1?'s':''}. Pass mark is 75%.`:'No sessions recorded yet. Start with a full-length form or a short drill.'}</div></div>
   ${snapBanner()}
   <div class="stat-row">
-    <div class="stat-card"><div class="k">Exams</div><div class="v">${attempts.length}</div><div class="s">all sessions recorded</div></div>
-    <div class="stat-card"><div class="k">Average score</div><div class="v">${avg}%</div><div class="s">last 40 sessions</div></div>
-    <div class="stat-card"><div class="k">Mastered</div><div class="v">${mastered}</div><div class="s">2+ attempts, correct last</div></div>
-    <div class="stat-card"><div class="k">Needs review</div><div class="v" style="color:${nb?'var(--warning)':'var(--success)'}">${nb}</div><div class="s">missed in last session</div></div>
+    <div class="stat-card"><div class="k">Sessions</div><div class="v">${attempts.length}</div><div class="s">${exams.length} full-length</div></div>
+    <div class="stat-card"><div class="k">Average score</div><div class="v">${avg}%</div><div class="s">across all sessions</div></div>
+    <div class="stat-card"><div class="k">Questions</div><div class="v">${answered}</div><div class="s">answered in total</div></div>
+    <div class="stat-card"><div class="k">Mastered</div><div class="v">${mastered}</div><div class="s">correct on 2+ attempts</div></div>
   </div>
-  <div class="panel"><h3>Quick Start</h3><div class="quick-grid">
-    <button class="quick-card" onclick="location.hash='#/exam'"><b>Full Exam</b><span>90 questions · 90 min · SY0-701 blueprint</span></button>
-    <button class="quick-card" onclick="launchSession({mode:'study',count:15,timeLimit:900})"><b>Quick Drill</b><span>15 mixed questions · 15 min</span></button>
-    <button class="quick-card" onclick="location.hash='#/lab'"><b>PBQ Lab</b><span>Hands-on performance-based scenarios</span></button>
-    <button class="quick-card" onclick="location.hash='#/review'"><b>Review Queue</b><span>${nb?nb+' question'+(nb>1?'s':'')+' missed last time':'Nothing outstanding — nice'}</span></button>
+  <div class="panel"><h3>Start</h3><div class="quick-grid">
+    <button class="quick-card" onclick='launchSession(${JSON.stringify({mode:'exam',variant:1,label:'Exam A'})})'><b><svg class="ico"><use href="#i-exam"/></svg>Full exam</b><span>90 questions · 90 minutes · PBQs first</span></button>
+    <button class="quick-card" onclick="launchSession({mode:'study',count:20,timeLimit:1200,explain:false})"><b><svg class="ico"><use href="#i-clock"/></svg>20-question drill</b><span>Timed · mixed domains</span></button>
+    <button class="quick-card" onclick="location.hash='#/lab'"><b><svg class="ico"><use href="#i-lab"/></svg>PBQ Lab</b><span>Isolated performance-based scenarios</span></button>
+    <button class="quick-card" onclick="location.hash='#/review'"><b><svg class="ico"><use href="#i-review"/></svg>Review queue</b><span>${nb?`${nb} missed in the last session`:'No outstanding misses'}</span></button>
   </div></div>
-  <div class="panel"><h3>Weakest Domains</h3>${weak.length?`<div class="bar-row">${weak.map(w=>`
-    <div style="display:grid;grid-template-columns:76px 1fr 48px;gap:10px;align-items:center;margin-bottom:10px;width:100%">
-      <span class="mini-tag bad">DO ${w.d}</span>
+  <div class="panel"><h3>Weakest domains</h3>${weak.length?`<div class="bar-row">${weak.map(w=>`
+    <div style="display:grid;grid-template-columns:86px 1fr 48px;gap:10px;align-items:center;margin-bottom:10px;width:100%">
+      <span class="mini-tag${w.acc<0.75?' bad':''}">DO ${w.d}</span>
       <div class="bar-track-full"><div class="bar-fill" style="width:${Math.round(w.acc*100)}%"></div></div>
       <span class="pct">${Math.round(w.acc*100)}%</span>
     </div>`).join('')}</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">${weak.map(w=>`<button class="chip" onclick="launchSession({mode:'study',count:15,domain:'${w.d}',timeLimit:900})">Drill ${w.d} × 15</button>`).join('')}</div>`
-    :'<div style="color:var(--text-dim);font-size:12px">Not enough data yet — finish a couple of sessions and your weakest domains will appear here.</div>'}</div>`;
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${weak.map(w=>`<button class="chip" onclick="launchSession({mode:'study',count:15,domain:'${w.d}',timeLimit:900,explain:false})">Drill ${w.d} · 15 questions</button>`).join('')}</div>`
+    :'<div style="color:var(--text-dim);font-size:12px">Domain accuracy appears after your first completed session.</div>'}</div>`;
 }
 
 const EXAM_SETS=[
-  {name:'Full Exam',n:'90',kid:'Timed · Blueprint',cfg:{mode:'exam'}},
-  {name:'Set 2',n:'65',kid:'Timed · Balanced',cfg:{mode:'study',count:65,timeLimit:3900}},
-  {name:'Set 3',n:'45',kid:'Timed · Balanced',cfg:{mode:'study',count:45,timeLimit:2700}},
-  {name:'Set 4',n:'30',kid:'Timed · Balanced',cfg:{mode:'study',count:30,timeLimit:1800}},
-  {name:'Set 5',n:'20',kid:'Timed · Balanced',cfg:{mode:'study',count:20,timeLimit:1200}},
-  {name:'Set 6',n:'10',kid:'Timed · Balanced',cfg:{mode:'study',count:10,timeLimit:600}},
-  {name:'D1',n:'30',kid:'Domain 1 · Concepts',cfg:{mode:'study',count:30,domain:'1.0',timeLimit:1800}},
-  {name:'D2',n:'30',kid:'Domain 2 · Threats',cfg:{mode:'study',count:30,domain:'2.0',timeLimit:1800}},
-  {name:'D3',n:'30',kid:'Domain 3 · Architecture',cfg:{mode:'study',count:30,domain:'3.0',timeLimit:1800}},
-  {name:'D4',n:'30',kid:'Domain 4 · Operations',cfg:{mode:'study',count:30,domain:'4.0',timeLimit:1800}},
-  {name:'D5',n:'30',kid:'Domain 5 · Program Mgmt',cfg:{mode:'study',count:30,domain:'5.0',timeLimit:1800}},
+  {name:'Full Exam A',n:'90',meta:'90 min · PBQs first',group:'full',cfg:{mode:'exam',variant:1,label:'Exam A'}},
+  {name:'Full Exam B',n:'90',meta:'90 min · PBQs first',group:'full',cfg:{mode:'exam',variant:2,label:'Exam B'}},
+  {name:'Full Exam C',n:'90',meta:'90 min · PBQs first',group:'full',cfg:{mode:'exam',variant:3,label:'Exam C'}},
+  {name:'Full Exam D',n:'90',meta:'90 min · PBQs first',group:'full',cfg:{mode:'exam',variant:4,label:'Exam D'}},
+  {name:'Balanced 65',n:'65',meta:'65 min · mixed domains',group:'drill',cfg:{mode:'study',count:65,timeLimit:3900,explain:false}},
+  {name:'Balanced 45',n:'45',meta:'45 min · mixed domains',group:'drill',cfg:{mode:'study',count:45,timeLimit:2700,explain:false}},
+  {name:'Balanced 30',n:'30',meta:'30 min · mixed domains',group:'drill',cfg:{mode:'study',count:30,timeLimit:1800,explain:false}},
+  {name:'Balanced 20',n:'20',meta:'20 min · mixed domains',group:'drill',cfg:{mode:'study',count:20,timeLimit:1200,explain:false}},
+  {name:'Balanced 10',n:'10',meta:'10 min · mixed domains',group:'drill',cfg:{mode:'study',count:10,timeLimit:600,explain:false}},
+  {name:'Domain 1',n:'30',meta:'General Security Concepts · 30 min',group:'domain',cfg:{mode:'study',count:30,domain:'1.0',timeLimit:1800,explain:false}},
+  {name:'Domain 2',n:'30',meta:'Threats & Vulnerabilities · 30 min',group:'domain',cfg:{mode:'study',count:30,domain:'2.0',timeLimit:1800,explain:false}},
+  {name:'Domain 3',n:'30',meta:'Security Architecture · 30 min',group:'domain',cfg:{mode:'study',count:30,domain:'3.0',timeLimit:1800,explain:false}},
+  {name:'Domain 4',n:'30',meta:'Security Operations · 30 min',group:'domain',cfg:{mode:'study',count:30,domain:'4.0',timeLimit:1800,explain:false}},
+  {name:'Domain 5',n:'30',meta:'Program Management · 30 min',group:'domain',cfg:{mode:'study',count:30,domain:'5.0',timeLimit:1800,explain:false}},
 ];
+function _setCard(s){
+  return`<button class="set-card ${s.group==='full'?'exam-set':''}" onclick='launchSession(${JSON.stringify(s.cfg)})'>
+      <div class="k">${s.name}</div><div class="n">${s.n} <em>questions</em></div><div class="d">${s.meta}</div>
+    </button>`;
+}
 function renderSets(){
+  const full=EXAM_SETS.filter(s=>s.group==='full');
+  const drills=EXAM_SETS.filter(s=>s.group==='drill');
+  const domains=EXAM_SETS.filter(s=>s.group==='domain');
   $('sets-root').innerHTML=`
-  <div class="tab-head"><div class="tab-eyebrow">Exams</div><div class="tab-title">Exam Sets</div>
-  <div class="tab-sub">Set 1 is the full blueprint exam (pass/fail scoring). Sets 2–6 are balanced timed drills. D1–D5 hammer one domain each.</div></div>
-  <div class="set-grid">${EXAM_SETS.map((s,i)=>`
-    <button class="set-card" onclick='launchSession(${JSON.stringify(s.cfg)})'>
-      <div class="k">${s.kid}</div><div class="n">${s.n}</div><div class="d">${s.name}</div>
-    </button>`).join('')}</div>
-  <div class="panel" style="margin-top:16px"><h3>Recent Attempts</h3>${attemptRowsHtml(4)}</div>`;
+  <div class="tab-head"><div class="tab-eyebrow">Exams</div><div class="tab-title">Exam Forms</div>
+  <div class="tab-sub">Four full-length forms, each scored pass/fail against the SY0-701 blueprint. Drills are timed and balanced; domain sets isolate one objective area.</div></div>
+  <h3 class="section-label">Full-length · 90 questions · 90 minutes</h3>
+  <div class="set-grid">${full.map(_setCard).join('')}</div>
+  <h3 class="section-label">Timed drills</h3>
+  <div class="set-grid">${drills.map(_setCard).join('')}</div>
+  <h3 class="section-label">By domain</h3>
+  <div class="set-grid">${domains.map(_setCard).join('')}</div>
+  <div class="panel" style="margin-top:22px"><h3>Recent attempts</h3>${attemptRowsHtml(6)}</div>`;
 }
 
 const STUDY_MODES=[
-  {name:'Tutor Mode',d:'20 questions · untimed · explanations shown as you go',cfg:{mode:'study',count:20,explain:true}},
-  {name:'Speed Sprint',d:'50 questions · 25 min · exam discipline',cfg:{mode:'study',count:50,timeLimit:1500,explain:false}},
-  {name:'Random Mixed',d:'25 questions · MCQ + PBQ · untimed',cfg:{mode:'study',count:25,pbqCount:4}},
-  {name:'Weakest 20',d:'Auto-picked from your worst tracked questions',cfg:{mode:'study',count:20,explain:true}},
+  {name:'Tutor',icon:'i-study',d:'20 questions, untimed. Explanations shown after each answer.',cfg:{mode:'study',count:20,explain:true}},
+  {name:'Speed sprint',icon:'i-clock',d:'50 questions in 25 minutes. No explanations until the end.',cfg:{mode:'study',count:50,timeLimit:1500,explain:false}},
+  {name:'Mixed MCQ + PBQ',icon:'i-grid',d:'25 questions including 4 performance-based scenarios.',cfg:{mode:'study',count:25,pbqCount:4}},
+  {name:'Weakest 20',icon:'i-target',d:'Pulled from the questions you miss most often.',cfg:{mode:'study',count:20,explain:true}},
 ];
 function weakestTwenty(){
   const stats=_loadJson(STATS_KEY,{}),idx=_qIndex();
@@ -4028,20 +4429,20 @@ function weakestTwenty(){
 function renderStudy(){
   $('study-root').innerHTML=`
   <div class="tab-head"><div class="tab-eyebrow">Study</div><div class="tab-title">Study Modes</div>
-  <div class="tab-sub">Learn without the clock, or rehearse under pressure. Every attempt feeds your Review queue and Analytics.</div></div>
+  <div class="tab-sub">Untimed practice with explanations, or timed rehearsal without feedback. Every answer updates your review queue and analytics.</div></div>
   <div class="quick-grid">${STUDY_MODES.map((m,i)=>`
     <button class="quick-card" onclick='${i===3?`retestIds(weakestTwenty())`:`launchSession(${JSON.stringify(m.cfg)})`}'>
-      <b>${m.name}</b><span>${m.d}</span>
+      <b><svg class="ico"><use href="#${m.icon}"/></svg>${m.name}</b><span>${m.d}</span>
     </button>`).join('')}
-    <button class="quick-card" onclick='retestIds(missedLastTime())'><b>Retest Misses</b><span>Retake the questions you missed in your latest session</span></button>
+    <button class="quick-card" onclick='retestIds(missedLastTime())'><b><svg class="ico"><use href="#i-review"/></svg>Retest misses</b><span>Every question missed in your most recent session.</span></button>
   </div>`;
 }
 
 function pbqFamilies(){
-  const fams={'pbq-firewall':'Firewall Rules','pbq-log':'Log Analysis','pbq-sequence':'Incident Sequence','pbq-placement':'Network Placement','pbq-compliance':'Compliance Controls','pbq-vulnscan':'Vulnerability Scan','pbq-crypto':'Cryptography'};
-  return Object.entries(fams).map(([type,name])=>{
+  const fams={'pbq-firewall':['Firewall rules','i-shield'],'pbq-log':['Log analysis','i-file'],'pbq-sequence':['Incident sequence','i-list-check'],'pbq-placement':['Network placement','i-grid'],'pbq-compliance':['Compliance controls','i-check'],'pbq-vulnscan':['Vulnerability scan','i-alert'],'pbq-crypto':['Cryptography','i-target']};
+  return Object.entries(fams).map(([type,[name,icon]])=>{
     const seeds=PBQ_SEEDS.filter(q=>q.type===type);
-    return{name,type,n:seeds.length,ids:seeds.map(q=>q.id)};
+    return{name,icon,type,n:seeds.length,ids:seeds.map(q=>q.id)};
   }).filter(f=>f.n>0);
 }
 function launchPbqFamily(f){
@@ -4050,73 +4451,101 @@ function launchPbqFamily(f){
 function renderLab(){
   $('lab-root').innerHTML=`
   <div class="tab-head"><div class="tab-eyebrow">PBQ Lab</div><div class="tab-title">Performance-Based Questions</div>
-  <div class="tab-sub">Each family isolates one hands-on scenario type. Explanations on; re-run any family as many times as you like.</div></div>
+  <div class="tab-sub">Seven scenario types, each isolated for repeated practice. Untimed, with explanations.</div></div>
   <div class="quick-grid">${pbqFamilies().map(f=>`
     <button class="quick-card" onclick='launchPbqFamily(${JSON.stringify({name:f.name,type:f.type})})'>
-      <b>${f.name}</b><span>${f.n} scenario${f.n>1?'s':''} · untimed</span>
+      <b><svg class="ico"><use href="#${f.icon}"/></svg>${f.name}</b><span>${f.n} scenario${f.n>1?'s':''} · untimed</span>
     </button>`).join('')}</div>`;
 }
 
 function attemptRowsHtml(n){
   const attempts=_loadJson(ATTEMPTS_KEY,[]).slice(-n).reverse();
   if(!attempts.length)return'<div style="color:var(--text-dim);font-size:12px">No attempts recorded yet.</div>';
-  return`<div class="row-list">${attempts.map(a=>`<div class="review-row">
+  return`<div class="row-list">${attempts.map(a=>{
+    const label=a.label||(a.mode==='exam'?'Full exam':'Drill');
+    const d=new Date(a.at);
+    const date=d.toLocaleDateString(undefined,{month:'short',day:'numeric'})+' '+d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});
+    return`<div class="review-row">
     <div class="idx" style="color:${a.score>=75?'var(--success)':a.score>=50?'var(--warning)':'var(--danger)'}">${a.score}</div>
-    <div class="t">${a.mode==='exam'?'Full exam':'Drill'} · ${a.correct}/${a.total} correct · ${Math.floor(a.dur/60)}m${a.dur%60}s
-    <div class="m"><span class="mini-tag">${new Date(a.at).toLocaleDateString()}</span></div></div>
-  </div>`).join('')}</div>`;
+    <div class="t">${esc(label)}
+    <div class="m"><span class="mini-tag">${a.correct}/${a.total} correct</span><span class="mini-tag">${Math.floor(a.dur/60)}m ${a.dur%60}s</span><span class="mini-tag">${date}</span></div></div>
+  </div>`;}).join('')}</div>`;
 }
 function reviewRowHtml(id,idxObj){
   const q=idxObj[id];if(!q)return'';
   const stats=_loadJson(STATS_KEY,{})[id]||{};
   const isP=q.type.indexOf('pbq')===0;
   return`<div class="review-row"><div class="idx">${isP?'P':'M'}</div>
-  <div class="t">${esc((q.stem||'').slice(0,140))}${(q.stem||'').length>140?'…':''}
+  <div class="t">${esc((q.stem||'').slice(0,150))}${(q.stem||'').length>150?'…':''}
     <div class="m"><span class="mini-tag ${isP?'pbq':''}">${isP?'PBQ '+q.type.replace('pbq-',''):'MCQ '+q.type.replace('mcq-','')}</span>
     <span class="mini-tag">DO ${q.domain}</span>
     ${stats.a?`<span class="mini-tag ${stats.last?'':'bad'}">${stats.last?'Recovered':'Missed'} · ${stats.a}×</span>`:''}</div></div>
-  <button class="chip" onclick="retestIds(['${id}'])">Single retest</button></div>`;
+  <button class="chip" onclick="retestIds(['${id}'])">Retest</button></div>`;
 }
 function renderReview(){
   const idx=_qIndex();
   const last=missedLastTime(), ever=everMissed();
   $('review-root').innerHTML=`
   <div class="tab-head"><div class="tab-eyebrow">Review</div><div class="tab-title">Review Queue</div>
-  <div class="tab-sub">Misses feed this queue automatically. Retest singles, or take the whole set of last-session misses.</div></div>
-  ${last.length?`<div class="panel"><h3>Missed Last Session · ${last.length}</h3>
-    <div style="margin-bottom:12px"><button class="chip selected" onclick="retestIds(missedLastTime())">Retest all ${Math.min(last.length,25)} misses</button></div>
+  <div class="tab-sub">Questions you missed, ordered by most recent session. Retest one or all.</div></div>
+  ${last.length?`<div class="panel"><h3>Missed last session · ${last.length}</h3>
+    <div style="margin-bottom:12px"><button class="chip selected" onclick="retestIds(missedLastTime())">Retest ${Math.min(last.length,25)} questions</button></div>
     <div class="row-list">${last.slice(0,25).map(id=>reviewRowHtml(id,idx)).join('')}</div></div>`:''}
-  ${ever.length?`<div class="panel"><h3>Ever Missed · ${ever.length}</h3>
-    <div style="margin-bottom:12px"><button class="chip selected" onclick="retestIds(everMissed())">Retest 25 worst</button></div>
+  ${ever.length?`<div class="panel"><h3>Previously missed · ${ever.length}</h3>
+    <div style="margin-bottom:12px"><button class="chip selected" onclick="retestIds(everMissed())">Retest up to 25</button></div>
     <div class="row-list">${ever.slice(0,25).map(id=>reviewRowHtml(id,idx)).join('')}</div></div>`
-    :(!last.length?`<div class="panel"><h3>All Clear</h3><div style="color:var(--text-dim);font-size:12px">No misses tracked yet. Complete a session — everything you get wrong lands here automatically.</div></div>`:'')}`;
+    :(!last.length?`<div class="panel"><h3>No misses recorded</h3><div style="color:var(--text-dim);font-size:12px">Complete a session; incorrect answers are added here automatically.</div></div>`:'')}`;
 }
 
+const DOMAIN_NAMES={'1.0':'General Security Concepts','2.0':'Threats, Vulnerabilities and Mitigations','3.0':'Security Architecture','4.0':'Security Operations','5.0':'Security Program Management'};
+function _dayKey(ts){const d=new Date(ts);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function activityCells(attempts){
+  const byDay={};attempts.forEach(a=>{const k=_dayKey(a.at);byDay[k]=(byDay[k]||0)+1;});
+  const today=new Date();today.setHours(0,0,0,0);
+  const start=new Date(today);start.setDate(start.getDate()-83);start.setDate(start.getDate()-start.getDay());
+  const cells=[],d=new Date(start);
+  while(d<=today){const k=_dayKey(d.getTime());cells.push({k,n:byDay[k]||0,label:d.toLocaleDateString()});d.setDate(d.getDate()+1);}
+  return cells;
+}
 function renderAnalytics(){
   const attempts=_loadJson(ATTEMPTS_KEY,[]);
-  const last12=attempts.slice(-12);
+  const exams=attempts.filter(a=>a.mode==='exam');
+  const last15=attempts.slice(-15);
+  const last10=attempts.slice(-10);
+  const avg10=last10.length?Math.round(last10.reduce((s,a)=>s+a.score,0)/last10.length):0;
+  const passRate=exams.length?Math.round(exams.filter(a=>a.score>=75).length/exams.length*100):null;
+  const totalQ=attempts.reduce((s,a)=>s+(a.total||0),0);
+  const timeSec=attempts.reduce((s,a)=>s+(a.dur||0),0);
   const agg={};
-  attempts.forEach(a=>a.items.forEach(it=>{const g=agg[it.d]||(agg[it.d]={n:0,ok:0});g.n++;if(it.ok)g.ok++;}));
-  const domains=Object.entries(agg).map(([d,g])=>({d,acc:Math.round(g.ok/g.n*100),n:g.n})).sort((a,b)=>b.acc-a.acc);
+  attempts.forEach(a=>(a.items||[]).forEach(it=>{const g=agg[it.d]||(agg[it.d]={n:0,ok:0});g.n++;if(it.ok)g.ok++;}));
+  const domains=Object.entries(agg).map(([d,g])=>({d,acc:Math.round(g.ok/g.n*100),n:g.n})).sort((a,b)=>a.d.localeCompare(b.d));
+  const cells=activityCells(attempts);
   $('analytics-root').innerHTML=`
   <div class="tab-head"><div class="tab-eyebrow">Analytics</div><div class="tab-title">Progress</div>
-  <div class="tab-sub">Trend of your recent sessions and accuracy by exam domain.</div></div>
+  <div class="tab-sub">Score history and accuracy by exam domain, computed from recorded attempts on this device.</div></div>
   <div class="stat-row">
-    <div class="stat-card"><div class="k">Sessions</div><div class="v">${attempts.length}</div><div class="s">last 40 kept</div></div>
-    <div class="stat-card"><div class="k">Best score</div><div class="v">${attempts.length?Math.max(...attempts.map(a=>a.score)):'—'}%</div><div class="s">of any session</div></div>
-    <div class="stat-card"><div class="k">Total questions</div><div class="v">${attempts.reduce((s,a)=>s+a.total,0)}</div><div class="s">answered across sessions</div></div>
+    <div class="stat-card"><div class="k">Sessions</div><div class="v">${attempts.length}</div><div class="s">${exams.length} full-length · ${attempts.length-exams.length} drills</div></div>
+    <div class="stat-card"><div class="k">Average · last 10</div><div class="v">${attempts.length?avg10+'%':'—'}</div><div class="s">all modes</div></div>
+    <div class="stat-card"><div class="k">Full-exam pass rate</div><div class="v">${passRate===null?'—':passRate+'%'}</div><div class="s">scored at 75 or above</div></div>
+    <div class="stat-card"><div class="k">Time on task</div><div class="v">${Math.round(timeSec/60)}<span style="font-size:12px;color:var(--text-dim)"> min</span></div><div class="s">${totalQ} questions answered</div></div>
   </div>
-  <div class="panel"><h3>Score Trend</h3>${last12.length?`<div class="chart-box" style="display:flex;align-items:flex-end;gap:8px;height:130px">
-    ${last12.map(a=>`<div style="flex:1;text-align:center" title="${new Date(a.at).toLocaleDateString()} · ${a.score}%">
-      <div style="height:${Math.max(2,a.score)}px;background:linear-gradient(180deg,var(--accent),#7c5cff);border-radius:4px 4px 0 0;margin:auto;width:70%"></div>
-      <div style="font-size:9px;color:var(--text-dim);margin-top:4px">${a.score}</div></div>`).join('')}</div>`
-    :'<div style="color:var(--text-dim);font-size:12px">Complete a session to start the trend line.</div>'}</div>
-  <div class="panel"><h3>Domain Accuracy</h3>${domains.length?domains.map(d=>`
-    <div style="display:grid;grid-template-columns:76px 1fr 48px;gap:10px;align-items:center;margin-bottom:10px">
-      <span class="mini-tag">DO ${d.d}</span>
-      <div class="bar-track-full"><div class="bar-fill" style="width:${d.acc}%"></div></div>
-      <span class="pct">${d.acc}%</span></div>`).join(''):'<div style="color:var(--text-dim);font-size:12px">No data yet.</div>'}</div>
-  <div class="panel"><h3>Recent Attempts</h3>${attemptRowsHtml(8)}</div>`;
+  <div class="panel"><h3>Activity · last 12 weeks</h3>
+    <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+      <div class="hm">${cells.map(c=>`<div class="hm-cell${c.n?' l'+Math.min(4,c.n):''}" title="${c.label} · ${c.n} session${c.n===1?'':'s'}"></div>`).join('')}</div>
+      <div class="hm-legend">Less<span class="hm-cell"></span><span class="hm-cell l2"></span><span class="hm-cell l3"></span><span class="hm-cell l4"></span>More</div>
+    </div>
+  </div>
+  <div class="panel"><h3>Score trend</h3>${last15.length?`
+    <div class="trend">${last15.map(a=>`<div class="trend-col" title="${esc(a.label||a.mode)} · ${a.score}% · ${new Date(a.at).toLocaleDateString()}"><div class="trend-bar" style="height:${Math.max(4,a.score)}%"></div><div class="trend-lbl">${a.score}</div></div>`).join('')}</div>
+    <div class="trend-meta"><span>${new Date(last15[0].at).toLocaleDateString(undefined,{month:'short',day:'numeric'})}</span><span>${new Date(last15[last15.length-1].at).toLocaleDateString(undefined,{month:'short',day:'numeric'})}</span></div>`
+    :'<div style="color:var(--text-dim);font-size:12px">No sessions recorded yet.</div>'}</div>
+  <div class="panel"><h3>Domain accuracy</h3>${domains.length?domains.map(d=>`
+    <div style="display:grid;grid-template-columns:44px 1fr 52px;gap:12px;align-items:center;margin-bottom:11px">
+      <span class="mini-tag" title="${DOMAIN_NAMES[d.d]||''}">DO ${d.d.replace('.0','')}</span>
+      <div class="bar-track-full" title="${DOMAIN_NAMES[d.d]||''}"><div class="bar-fill" style="width:${d.acc}%"></div></div>
+      <span class="pct">${d.acc}%</span></div>`).join('')
+    :'<div style="color:var(--text-dim);font-size:12px">No domain data yet.</div>'}</div>
+  <div class="panel"><h3>Recent attempts</h3>${attemptRowsHtml(8)}</div>`;
 }
 
 // ---------- IN-EXAM SETTINGS LAYER (phone-stack forward/back) ----------
@@ -4130,6 +4559,7 @@ function closeSettingsLayer(){
   if(S.pauseStart!==null&&$('exam-screen').classList.contains('active')&&typeof resumeExam==='function')resumeExam();
 }
 
+if(cloudCfg())setCloudState('configured','Saved credentials. Run Sync now to pull remote attempts.');
 route();
 </script>
 <!-- PDF.js CDN -->
