@@ -1,6 +1,6 @@
-# SY0-701 Exam Simulator
+# 22mcq-pbq
 
-A vanilla HTML/CSS/JS Security+ (SY0-701) exam simulator — Study Mode and Exam Mode, built as a lightweight companion to my main [MCQ x PBQ Simulator](https://github.com/cyr6x/MCQ-X-PBQ-SIM-vercel) project.
+A vanilla HTML/CSS/JS Security+ (SY0-701) exam simulator — Study Mode and Exam Mode. Live at [22mcq-pbq-sim-vercel22.vercel.app](https://22mcq-pbq-sim-vercel22.vercel.app).
 
 ## What it does
 
