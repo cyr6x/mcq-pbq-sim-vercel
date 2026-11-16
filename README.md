@@ -6,8 +6,9 @@ Live: [22mcq-pbq-sim-vercel22.vercel.app](https://22mcq-pbq-sim-vercel22.vercel.
 
 ## What it does
 
-- **Five full-length exam forms (A–E)** — 90 questions, 90 minutes, 270-question bank.
-- **24 unique PBQs across the forms** drawn from a 30-scenario pool, with zero cross-form duplication and 5/4/6/5/4 PBQs per form. PBQs are interleaved through the form, not clustered at the front.
+- **Five full-length exam forms (A–E)** — 90 questions, 90 minutes, 450-question bank.
+- **24 unique PBQs across the forms** drawn from a 70-scenario pool, with zero cross-form duplication and 5/4/6/5/4 PBQs per form. PBQs are interleaved through the form, not clustered at the front.
+- **15 domain exams** — every domain has three disjoint 30-question sets (27 MCQs plus 3 PBQs, 30 minutes each) drawn from a 90-item pool, so a domain can be rehearsed three times without repeats.
 - **Nine interactive PBQ families** — firewall ACL configuration, log triage, process sequencing, zone placement, compliance matching, vulnerability prioritisation, cryptography/PKI decisions, terminal forensics and packet-capture analysis.
 - **Post-exam review inside the exam shell** — score summary (scaled /900, correct, partial, incorrect, incomplete, flagged), filters, and read-only item views with green/red/dashed-green option states, full explanations, distractor breakdowns and PBQ model solutions. Prev/Next and Back-to-Grid controls work on desktop and mobile.
 - **Study mode and drills** with explanations, hints, domain focus, weakest-topic retests and mixed MCQ + PBQ sessions.
