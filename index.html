@@ -1379,6 +1379,56 @@ button .ico{pointer-events:none;}
   .xrev-metrics .xrev-metric{padding:9px 10px;}
   .xrev-metrics .xrev-metric .v{font-size:15px;}
 }
+
+/* ==================== SY0-801 EXPERIMENTAL SECTION ==================== */
+.nav-badge{margin-left:auto;font-size:8.5px;font-weight:800;letter-spacing:.5px;padding:1px 5px;border-radius:4px;background:var(--warning);color:var(--surface);text-transform:uppercase;}
+.exp-wrap{max-width:1100px;margin:0 auto;}
+.exp-banner{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:14px;border:1px solid var(--warning);background:rgba(240,177,74,.09);margin:16px 0 22px;}
+.exp-banner .ico{width:18px;height:18px;flex-shrink:0;color:var(--warning);margin-top:1px;}
+.exp-banner b{display:block;font-size:12.5px;letter-spacing:.3px;text-transform:uppercase;color:var(--warning);margin-bottom:3px;}
+.exp-banner p{font-size:12.5px;line-height:1.6;color:var(--text-muted);margin:0;}
+.exp-banner a{color:var(--accent);text-decoration:none;}
+.exp-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:22px;}
+.exp-fact{background:var(--surface);padding:13px 15px;}
+.exp-fact .k{font-size:9.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--text-dim);font-weight:800;}
+.exp-fact .v{font-size:16px;font-weight:800;margin-top:3px;font-family:var(--font-mono);}
+.exp-fact .s{font-size:10.5px;color:var(--text-dim);margin-top:2px;}
+.exp-two{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;}
+@media(max-width:900px){.exp-two{grid-template-columns:1fr;}}
+@media(max-width:640px){
+  .exp-facts{grid-template-columns:1fr 1fr;}
+  .exp-fact .v{font-size:14px;}
+  .obj-row{flex-wrap:wrap;gap:6px 10px;}
+  .obj-row .txt{flex:1 1 100%;order:3;font-size:11.5px;}
+  .obj-row .cnt{margin-left:auto;}
+  .wbar{grid-template-columns:22px 1fr 68px;}
+  .exp-banner{padding:12px;gap:9px;}
+  .exp-banner p{font-size:12px;}
+}
+.wbar{display:grid;grid-template-columns:34px 1fr 82px;gap:9px;align-items:center;margin-bottom:10px;}
+.wbar .d{font-family:var(--font-mono);font-size:11.5px;font-weight:800;color:var(--text-muted);}
+.wbar .t{height:16px;background:var(--surface3);border-radius:5px;overflow:hidden;position:relative;display:flex;}
+.wbar .f701{height:100%;background:var(--border-light);}
+.wbar .f801{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-glow));}
+.wbar .n{font-family:var(--font-mono);font-size:10.5px;color:var(--text-dim);text-align:right;white-space:nowrap;}
+.wbar .n b{color:var(--text);}
+.exp-changes{margin:0;padding:0;list-style:none;}
+.exp-changes li{position:relative;padding:0 0 9px 16px;font-size:12.5px;line-height:1.55;color:var(--text-muted);}
+.exp-changes li::before{content:"";position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%;background:var(--accent);}
+.obj-group{margin-bottom:14px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--surface);}
+.obj-group-h{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface2);border-bottom:1px solid var(--border);}
+.obj-group-h b{font-size:12.5px;}
+.obj-group-h .pct{margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:800;}
+.obj-row{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--border);font-size:12px;}
+.obj-row:last-child{border-bottom:none;}
+.obj-row .num{font-family:var(--font-mono);font-weight:800;color:var(--accent);min-width:30px;}
+.obj-row .txt{flex:1;line-height:1.45;color:var(--text-muted);}
+.obj-row .cnt{font-family:var(--font-mono);font-size:10.5px;color:var(--text-dim);white-space:nowrap;}
+.obj-row .chip{padding:3px 9px;font-size:10.5px;}
+.track-note{display:none;align-items:center;gap:8px;padding:5px 14px;background:rgba(240,177,74,.1);border-bottom:1px solid var(--border);font-size:11px;color:var(--warning);font-weight:600;}
+#exam-screen[data-track="801"] .track-note{display:flex;}
+.track-note .ico{width:12px;height:12px;}
+.exp-pill{display:inline-flex;align-items:center;gap:5px;font-size:9.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:4px;border:1px solid var(--warning);color:var(--warning);background:rgba(240,177,74,.1);}
 </style>
 </head>
 <body>
@@ -1546,6 +1596,7 @@ button .ico{pointer-events:none;}
       </div>
     </div>
   </header>
+  <div class="track-note" id="track-note"><svg class="ico"><use href="#i-alert"/></svg>Experimental SY0-801 preview bank - unofficial, built from published V8 objectives. Not affiliated with CompTIA.</div>
   <div class="xfocus" id="focus-notice">Focus changed while the exam was running. The timer continued.<button onclick="dismissFocusNotice()">Dismiss</button></div>
 
   <!-- ITEM PHASE -->
@@ -1601,13 +1652,14 @@ button .ico{pointer-events:none;}
 <nav class="app-nav" id="app-nav" aria-label="Primary navigation">
   <div class="nav-brand">
     <div class="nav-logo"><svg class="ico"><use href="#i-shield"/></svg></div>
-    <div><b>22mcq-pbq</b><small>SY0-701 Simulator</small></div>
+    <div><b>22mcq-pbq</b><small>SY0-701 / 801 Simulator</small></div>
   </div>
   <div class="nav-label">Practice</div>
   <button class="nav-item" data-route="#/"><svg class="ico"><use href="#i-overview"/></svg>Overview</button>
   <button class="nav-item" data-route="#/exam"><svg class="ico"><use href="#i-exam"/></svg>Exams</button>
   <button class="nav-item" data-route="#/study"><svg class="ico"><use href="#i-study"/></svg>Study</button>
   <button class="nav-item" data-route="#/lab"><svg class="ico"><use href="#i-lab"/></svg>PBQ Lab</button>
+  <button class="nav-item" data-route="#/sy801"><svg class="ico"><use href="#i-lab"/></svg>SY0-801 Preview<span class="nav-badge">Exp</span></button>
   <div class="nav-label">Analyse</div>
   <button class="nav-item" data-route="#/review"><svg class="ico"><use href="#i-review"/></svg>Review</button>
   <button class="nav-item" data-route="#/analytics"><svg class="ico"><use href="#i-analytics"/></svg>Analytics</button>
@@ -1616,6 +1668,7 @@ button .ico{pointer-events:none;}
 </nav>
 <!-- TAB SCREENS (fresh UX layer) -->
 <div id="screen-dashboard" class="screen tab-screen"><div class="tab-wrap" id="dashboard-root"></div></div>
+<div id="screen-sy801" class="screen tab-screen"><div class="tab-wrap" id="sy801-root"></div></div>
 <div id="screen-sets" class="screen tab-screen"><div class="tab-wrap" id="sets-root"></div></div>
 <div id="screen-study" class="screen tab-screen"><div class="tab-wrap" id="study-root"></div></div>
 <div id="screen-lab" class="screen tab-screen"><div class="tab-wrap" id="lab-root"></div></div>
@@ -1787,6 +1840,8 @@ const S = {
   launchOpts: null,
   timeLimit: null,
   _scrollTop: false,
+  examTrack: '701',
+  sy801Tag: null,
 };
 
 // ============================================================
@@ -4493,6 +4548,434 @@ const PBQ_SEEDS = [
 
 const SEED_QUESTIONS = [...SEED_V1, ...BULK_MCQS];
 
+// ============================================================
+// SY0-801 (V8) EXPERIMENTAL PREVIEW BANK
+// Built from CompTIA's published SY0-801 V8 exam objectives
+// (document version 2.0, linked from comptia.org -> Security+ V8).
+// Unofficial study material: not affiliated with or endorsed by CompTIA.
+// ============================================================
+const SY801_DOMAINS={"1.0": "General Security Concepts", "2.0": "Threats, Vulnerabilities, and Attacks", "3.0": "Security Architecture", "4.0": "Security Operations", "5.0": "Security Program Management and Oversight"};
+const SY801_WEIGHTS={"1.0": 16, "2.0": 24, "3.0": 19, "4.0": 27, "5.0": 14};
+const SY801_CHANGES=[
+ "New objective 2.6 on AI threats and vulnerabilities: model manipulation, poisoning, prompt injection, data loss, bias, explainability, hallucinations, jailbreaking, evasion, privacy, ethics, session hijacking, code execution.",
+ "Large language models added to the attack-surface list in 2.4, next to public repositories, public object storage and shadow IT.",
+ "New vectors and indicators: RCS messaging, quishing (QR codes), deepfakes, session tokens, browser extensions, living-off-the-land tools, MFA bypass, impossible travel, concurrent sessions.",
+ "Incident response (4.7) gains investigation as a phase and adds negotiation inside containment, plus notification, mandatory external reporting and post-incident reporting (PIR).",
+ "Automation (4.6) adds agentic AI, chatbots, predictive analysis and AI-augmented baselines, with guardrails as a consideration.",
+ "Operations pick up CSPM and IPAM (4.3), secrets scanning and canary accounts (4.1), passkeys and passwordless (4.5), BIMI (4.1) and SCAP (4.4).",
+ "Audits and assessments (5.5) now name MITRE ATT&CK, the Cyber Kill Chain and the Diamond Model, plus known/unknown/partially known environments.",
+ "Governance artifacts (5.1) are regrouped as guidelines, standards, procedures and policies, including RFCs as encryption standards.",
+ "Objectives renumbered: IAM 4.6 to 4.5, automation 4.7 to 4.6, incident response 4.8 to 4.7, investigation 4.9 to 4.8.",
+ "Weights move from 12/22/18/28/20 to 16/24/19/27/14 and the objective count drops from 28 to 27, so Governance loses six points while Domain 1 gains four."
+];
+const SY801_OBJECTIVES={
+ "1.1": "Explain security concepts and controls",
+ "1.2": "Given a scenario, demonstrate the impact of change management processes on security",
+ "1.3": "Explain the importance of using appropriate cryptographic solutions",
+ "2.1": "Explain characteristics of threats and vulnerabilities",
+ "2.2": "Describe common threat actors and motivations",
+ "2.3": "Describe threat vectors and sources",
+ "2.4": "Explain types of vulnerabilities and attack surfaces",
+ "2.5": "Given a scenario, analyze indicators of malicious activity",
+ "2.6": "Summarize threats and vulnerabilities associated with AI usage",
+ "3.1": "Compare and contrast security implications of different architecture models",
+ "3.2": "Given a scenario, manage the security architecture to best protect the infrastructure",
+ "3.3": "Summarize concepts and strategies used to protect data",
+ "3.4": "Explain the importance of resilience and recovery in security architecture",
+ "4.1": "Given a scenario, apply mitigating controls, techniques and solutions to secure the environment",
+ "4.2": "Explain the security implications of proper hardware, software and data asset management",
+ "4.3": "Given a scenario, perform tasks associated with vulnerability management",
+ "4.4": "Explain security alerting and monitoring concepts and tools",
+ "4.5": "Given a scenario, apply concepts related to identity and access management",
+ "4.6": "Given a scenario, apply automation and orchestration solutions to secure operations",
+ "4.7": "Summarize concepts associated with incident response activities",
+ "4.8": "Given a scenario, use data, artifacts and sources to support a security investigation",
+ "5.1": "Explain the importance of governance, risk and compliance artifacts",
+ "5.2": "Explain the impact of risk management processes on the security of the organization",
+ "5.3": "Explain the assessment and management processes associated with third-party risk",
+ "5.4": "Summarize elements of effective security compliance",
+ "5.5": "Explain concepts associated with audit and assessment activities",
+ "5.6": "Given a scenario, apply security awareness concepts to improve organizational security"
+};
+const SY801_MCQS=[{"id":"e001","type":"mcq-single","exam":"801","domain":"1.0","obj":"1.1","stem":"Badge checks at every entrance to a data centre are which control category?","options":[{"id":"A","text":"Technical/logical","correct":false},{"id":"B","text":"Managerial/administrative","correct":false},{"id":"C","text":"Physical/environmental","correct":true},{"id":"D","text":"Operational","correct":false}],"explanation":"Badge checks are physical/environmental controls: they act on physical access to a facility. Technical/logical controls act through systems, managerial controls through process, and operational controls through day-to-day people-driven activity.","reference":"SY0-801 objective 1.1 - Explain security concepts and controls"},{"id":"e002","type":"mcq-single","exam":"801","domain":"1.0","obj":"1.1","stem":"A data centre installs bright lighting, warning signage and visible cameras primarily to discourage intruders. Which control type is this?","options":[{"id":"A","text":"Preventive","correct":false},{"id":"B","text":"Deterring","correct":true},{"id":"C","text":"Detective","correct":false},{"id":"D","text":"Corrective","correct":false}],"explanation":"Deterring controls discourage an attacker from attempting an action in the first place. The camera also detects and the light also prevents, but the stated purpose - discouraging the attempt - makes it deterring.","reference":"SY0-801 objective 1.1 - Explain security concepts and controls"},{"id":"e003","type":"mcq-single","exam":"801","domain":"1.0","obj":"1.1","stem":"A hospital runs a legacy MRI workstation on an unsupported OS that cannot be patched. The vendor places an inline intrusion prevention system in front of it. Which control type best describes the IPS in this role?","options":[{"id":"A","text":"Preventive","correct":false},{"id":"B","text":"Compensating","correct":true},{"id":"C","text":"Corrective","correct":false},{"id":"D","text":"Directive","correct":false}],"explanation":"The primary control (patching) is not possible, so an alternative control is substituted. That is the definition of a compensating control. The IPS is also preventive in mechanism, but its classification here comes from standing in for an unavailable control.","reference":"SY0-801 objective 1.1 - Explain security concepts and controls"},{"id":"e004","type":"mcq-single","exam":"801","domain":"1.0","obj":"1.1","stem":"A contract PDF must prove the sender approved it and that nobody altered it afterwards. Which solution satisfies BOTH requirements?","options":[{"id":"A","text":"Encrypt the PDF with the receiver's public key","correct":false},{"id":"B","text":"Hash the PDF and store the hash on the sender's laptop","correct":false},{"id":"C","text":"A digital signature created with the sender's private key and verified with the sender's public key","correct":true},{"id":"D","text":"AES-256 encryption of the PDF at rest","correct":false}],"explanation":"A digital signature is generated with the sender's private key and verified with the sender's public key. Verification proves origin (non-repudiation) and any change to the file invalidates the signature (integrity). Hashing alone proves nothing about who produced the hash, and encryption alone provides confidentiality, not proof of origin.","reference":"SY0-801 objective 1.1 - Explain security concepts and controls"},{"id":"e005","type":"mcq-single","exam":"801","domain":"1.0","obj":"1.2","stem":"A payment API starts failing immediately after a change is deployed. Rather than restore the backup, the team ships a corrective hotfix inside the same maintenance window and monitors it. What is this practice called?","options":[{"id":"A","text":"Backout planning","correct":false},{"id":"B","text":"Fail forward","correct":true},{"id":"C","text":"Impact analysis","correct":false},{"id":"D","text":"Standard operating procedure","correct":false}],"explanation":"Fail forward means fixing the failed change in place instead of rolling back, usually because rolling back is riskier or slower. A backout plan is the documented rollback path, which the team deliberately did not use.","reference":"SY0-801 objective 1.2 - Given a scenario, demonstrate the impact of change management processes on security"},{"id":"e006","type":"mcq-single","exam":"801","domain":"1.0","obj":"1.2","stem":"During a maintenance window a service restart breaks a legacy reporting job that nobody had mapped. Which change management element was missing?","options":[{"id":"A","text":"Version control","correct":false},{"id":"B","text":"Dependencies","correct":true},{"id":"C","text":"Backout planning","correct":false},{"id":"D","text":"Test results","correct":false}],"explanation":"Dependencies are the upstream and downstream systems a change can affect. Service restarts are explicitly called out as a technical implication in objective 1.2 precisely because unmapped dependencies surface as outages.","reference":"SY0-801 objective 1.2 - Given a scenario, demonstrate the impact of change management processes on security"},{"id":"e007","type":"mcq-single","exam":"801","domain":"1.0","obj":"1.2","stem":"Which document provides repeatable, step-by-step instructions for performing a routine technical task?","options":[{"id":"A","text":"Policy","correct":false},{"id":"B","text":"Standard","correct":false},{"id":"C","text":"Standard operating procedure","correct":true},{"id":"D","text":"Guideline","correct":false}],"explanation":"An SOP is the detailed, repeatable procedure. A policy states intent and is mandatory; a standard defines a required specification such as password length; a guideline is recommended rather than mandatory.","reference":"SY0-801 objective 1.2 - Given a scenario, demonstrate the impact of change management processes on security"},{"id":"e008","type":"mcq-single","exam":"801","domain":"1.0","obj":"1.3","stem":"A payroll table stores salaries in a single column. Database administrators must not read salaries, but the application must still query rows and enforce referential integrity. Which encryption level fits BEST?","options":[{"id":"A","text":"Full-disk encryption","correct":false},{"id":"B","text":"Volume encryption","correct":false},{"id":"C","text":"Record-level encryption of the salary values","correct":true},{"id":"D","text":"File-level encryption of the database file","correct":false}],"explanation":"Record-level (field/column) encryption protects specific values while leaving the surrounding rows readable and joinable, which keeps referential integrity intact. Full-disk, volume and file encryption all leave the data readable to anyone who can query the running database.","reference":"SY0-801 objective 1.3 - Explain the importance of using appropriate cryptographic solutions"},{"id":"e009","type":"mcq-single","exam":"801","domain":"1.0","obj":"1.3","stem":"An organisation must be able to recover encrypted archives if the only administrator who knows the passphrase leaves. Which PKI concept addresses this?","options":[{"id":"A","text":"Key escrow","correct":true},{"id":"B","text":"Key stretching","correct":false},{"id":"C","text":"Certificate signing request","correct":false},{"id":"D","text":"Wildcard certificate","correct":false}],"explanation":"Key escrow stores a copy of a key with a trusted third party so it can be recovered under defined circumstances. Key stretching hardens weak passwords; a CSR is part of certificate enrolment.","reference":"SY0-801 objective 1.3 - Explain the importance of using appropriate cryptographic solutions"},{"id":"e010","type":"mcq-multi","exam":"801","domain":"1.0","obj":"1.3","stem":"Which TWO mechanisms can report whether a certificate has been revoked?","options":[{"id":"A","text":"Certificate revocation list (CRL)","correct":true},{"id":"B","text":"Online Certificate Status Protocol (OCSP)","correct":true},{"id":"C","text":"Certificate signing request (CSR)","correct":false},{"id":"D","text":"Subject alternative name (SAN)","correct":false},{"id":"E","text":"Key derivation function (KDF)","correct":false}],"explanation":"CRLs are signed lists of revoked serial numbers; OCSP returns the status of one certificate. OCSP stapling reduces the client-side cost of checking. CSR, SAN and KDF play no part in revocation status.","reference":"SY0-801 objective 1.3 - Explain the importance of using appropriate cryptographic solutions","selectCount":2},{"id":"e011","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.1","stem":"A vulnerability scan returns two findings. One is CVSS 9.8 on an isolated lab host for which no exploit exists. The other is CVSS 7.5 on an internet-facing load balancer that is being exploited in the wild. Which should be prioritised first?","options":[{"id":"A","text":"The 9.8 finding, because CVSS is the primary ranking","correct":false},{"id":"B","text":"The 7.5 finding, because it is exposed and actively exploited","correct":true},{"id":"C","text":"Both at the same time, because either could be a breach","correct":false},{"id":"D","text":"Neither until the vendor publishes a patch","correct":false}],"explanation":"Objective 2.1 pairs scoring with likelihood, impact and prioritisation. CVSS measures severity, not exposure or exploitation. An actively exploited internet-facing service outranks a higher score on an isolated host that nobody can reach.","reference":"SY0-801 objective 2.1 - Explain characteristics of threats and vulnerabilities"},{"id":"e012","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.2","stem":"Which threat actor is MOST likely to conduct long-term espionage with sustained funding and advanced capability?","options":[{"id":"A","text":"Hacktivist","correct":false},{"id":"B","text":"State-sponsored actor","correct":true},{"id":"C","text":"Unskilled attacker","correct":false},{"id":"D","text":"Accidental insider","correct":false}],"explanation":"State-sponsored actors combine funding, patience and sophistication, and their usual motivation is espionage or political influence rather than notoriety or financial gain.","reference":"SY0-801 objective 2.2 - Describe common threat actors and motivations"},{"id":"e013","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.2","stem":"An employee emails a customer list to a personal address so they can work from home over the weekend. They gain nothing from it and there is no malicious intent. Which actor category is this?","options":[{"id":"A","text":"Malicious insider","correct":false},{"id":"B","text":"Accidental/unintentional insider","correct":true},{"id":"C","text":"Competitor","correct":false},{"id":"D","text":"Organised crime","correct":false}],"explanation":"Objective 2.2 separates malicious insiders from accidental ones. Convenience-driven policy violation with no intent is an accidental/unintentional insider event, and the control response is training and monitoring rather than disciplinary action.","reference":"SY0-801 objective 2.2 - Describe common threat actors and motivations"},{"id":"e014","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.3","stem":"Attackers start using a carrier messaging standard that supports rich media, read receipts and verified business profiles, because the organisation only filters plain SMS links. Which vector does this describe?","options":[{"id":"A","text":"Rich Communication Services (RCS)","correct":true},{"id":"B","text":"Near-field communication (NFC)","correct":false},{"id":"C","text":"Virtual Network Computing (VNC)","correct":false},{"id":"D","text":"Simple Mail Transfer Protocol (SMTP)","correct":false}],"explanation":"RCS is the newer carrier messaging standard and is explicitly listed as a message-based vector in objective 2.3. NFC is a short-range physical proximity signal; VNC is remote desktop; SMTP is email.","reference":"SY0-801 objective 2.3 - Describe threat vectors and sources"},{"id":"e015","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.3","stem":"A malicious browser extension reads the authentication cookie right after login and replays it from another country. Which vector and artifact does this illustrate?","options":[{"id":"A","text":"Browser-based vector using a stolen session token","correct":true},{"id":"B","text":"Network-based vector using a session key","correct":false},{"id":"C","text":"Endpoint-based vector using a keylogger","correct":false},{"id":"D","text":"Supply chain-based vector using a poisoned update","correct":false}],"explanation":"Browser extensions, cookies and session tokens are all listed under the browser-based vector in objective 2.3. Replaying the token lets the attacker inherit the authenticated session without knowing the password, which is why session tokens are called out separately from credentials.","reference":"SY0-801 objective 2.3 - Describe threat vectors and sources","tag":"new"},{"id":"e016","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.3","stem":"An intruder uses certutil and rundll32, already present on the host, to download and execute a payload, and never drops a distinct malware binary. Which vector is in use?","options":[{"id":"A","text":"Living-off-the-land built-in tools","correct":true},{"id":"B","text":"External media","correct":false},{"id":"C","text":"Signal-based","correct":false},{"id":"D","text":"Human-based impersonation","correct":false}],"explanation":"Living-off-the-land means abusing binaries the operating system already ships so that nothing new appears on disk. It is listed under built-in tools in objective 2.3 and often produces fileless activity that signature-based tooling misses.","reference":"SY0-801 objective 2.3 - Describe threat vectors and sources","tag":"new"},{"id":"e017","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.3","stem":"A QR code pasted over a parking meter leads users to a credential-harvesting page. What is this technique called?","options":[{"id":"A","text":"Smishing","correct":false},{"id":"B","text":"Vishing","correct":false},{"id":"C","text":"Quishing","correct":true},{"id":"D","text":"Whaling","correct":false}],"explanation":"Quishing is QR-code phishing, new to the V8 social engineering list in objective 2.5. Smishing is SMS, vishing is voice, and whaling targets executives specifically.","reference":"SY0-801 objective 2.3 - Describe threat vectors and sources","tag":"new"},{"id":"e018","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.4","stem":"An application checks a file's permissions, and the file is replaced with a different one before the application opens it. Which vulnerability class is this?","options":[{"id":"A","text":"Race condition (time-of-check to time-of-use)","correct":true},{"id":"B","text":"Buffer overflow","correct":false},{"id":"C","text":"Directory traversal","correct":false},{"id":"D","text":"Replay attack","correct":false}],"explanation":"The window between the permission check (time-of-check) and the use (time-of-use) is the classic TOCTOU race condition, listed under application vulnerabilities in objective 2.4.","reference":"SY0-801 objective 2.4 - Explain types of vulnerabilities and attack surfaces"},{"id":"e019","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.4","stem":"A developer commits an API key to a public Git repository while debugging. Which attack surface does objective 2.4 use to describe this?","options":[{"id":"A","text":"Hardcoded secrets in public repositories","correct":true},{"id":"B","text":"Unpatched systems","correct":false},{"id":"C","text":"Rogue devices","correct":false},{"id":"D","text":"Public object storage","correct":false}],"explanation":"Objective 2.4 lists code-level weaknesses (hardcoded secrets, unsafe exception handling) and public repositories as separate attack surfaces. Secrets scanning in objective 4.1 exists specifically to catch this before commit.","reference":"SY0-801 objective 2.4 - Explain types of vulnerabilities and attack surfaces"},{"id":"e020","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.4","stem":"Which technology is named as an attack surface in SY0-801 but was not listed in SY0-701?","options":[{"id":"A","text":"Large language models","correct":true},{"id":"B","text":"VPN concentrators","correct":false},{"id":"C","text":"USB hubs","correct":false},{"id":"D","text":"Print servers","correct":false}],"explanation":"Large language models join the attack surface list in objective 2.4 alongside misconfiguration, shadow IT and public object storage. The separate AI risk objective (2.6) then covers what can go wrong when they are used.","reference":"SY0-801 objective 2.4 - Explain types of vulnerabilities and attack surfaces","tag":"new"},{"id":"e021","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.5","stem":"A user authenticates from Nairobi and, twenty minutes later, from Frankfurt. Both sessions remain active and MFA was satisfied only once. Which pair of indicators is present?","options":[{"id":"A","text":"Impossible travel and concurrent sessions","correct":true},{"id":"B","text":"Account lockout and password spraying","correct":false},{"id":"C","text":"Log manipulation and time skew","correct":false},{"id":"D","text":"Excessive resource consumption and fileless malware","correct":false}],"explanation":"Impossible travel and concurrent sessions are both named indicators in objective 2.5. Together with a single MFA satisfaction they suggest the session token was stolen rather than the password guessed.","reference":"SY0-801 objective 2.5 - Given a scenario, analyze indicators of malicious activity"},{"id":"e022","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.5","stem":"After gaining access, an attacker deletes authentication entries from the audit log. Which indicator of compromise does this represent?","options":[{"id":"A","text":"Log manipulation","correct":true},{"id":"B","text":"Plaintext strings","correct":false},{"id":"C","text":"Account lockout","correct":false},{"id":"D","text":"Excessive resource consumption","correct":false}],"explanation":"Log manipulation is an explicit indicator in objective 2.5. Defences include shipping logs off-host immediately, file/log integrity monitoring (objective 4.8) and write-once storage.","reference":"SY0-801 objective 2.5 - Given a scenario, analyze indicators of malicious activity"},{"id":"e023","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.6","stem":"An assistant summarises web pages on request. One page contains hidden text instructing the assistant to email the conversation history to an external address. Which AI threat is this?","options":[{"id":"A","text":"Indirect prompt injection","correct":true},{"id":"B","text":"Data poisoning","correct":false},{"id":"C","text":"Model manipulation","correct":false},{"id":"D","text":"Hallucination","correct":false}],"explanation":"Indirect prompt injection hides instructions in content the model later ingests, rather than in the user's own prompt. Data poisoning and model manipulation change the model or its training data; hallucination is fabricated output.","reference":"SY0-801 objective 2.6 - Summarize threats and vulnerabilities associated with AI usage","tag":"new"},{"id":"e024","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.6","stem":"An attacker contributes thousands of subtly biased documents to the corpus used to train a support model, so it later misclassifies similar inputs. Which AI threat is this?","options":[{"id":"A","text":"Model manipulation","correct":false},{"id":"B","text":"Data poisoning","correct":true},{"id":"C","text":"Jailbreaking","correct":false},{"id":"D","text":"Evasion","correct":false}],"explanation":"Poisoning tampers with the data used to train or fine-tune a model. Model manipulation covers tampering with the model itself; jailbreaking and evasion operate on prompts and inputs at run time.","reference":"SY0-801 objective 2.6 - Summarize threats and vulnerabilities associated with AI usage","tag":"new"},{"id":"e025","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.6","stem":"A model denies a loan application and the bank cannot explain which factors produced the decision when the regulator asks. Which AI concern does this raise?","options":[{"id":"A","text":"Explainability","correct":true},{"id":"B","text":"Hallucination","correct":false},{"id":"C","text":"Bias","correct":false},{"id":"D","text":"Data loss","correct":false}],"explanation":"Explainability is the ability to account for how a model reached an output. Bias is skewed outcomes, hallucination is invented content, and data loss is disclosure or destruction of data.","reference":"SY0-801 objective 2.6 - Summarize threats and vulnerabilities associated with AI usage","tag":"new"},{"id":"e026","type":"mcq-multi","exam":"801","domain":"2.0","obj":"2.6","stem":"Which TWO AI threats involve tampering with the model itself or with the data used to train or tune it?","options":[{"id":"A","text":"Model manipulation","correct":true},{"id":"B","text":"Poisoning","correct":true},{"id":"C","text":"Jailbreaking","correct":false},{"id":"D","text":"Hallucination","correct":false},{"id":"E","text":"Evasion","correct":false}],"explanation":"Model manipulation and poisoning alter the model or the data behind it and persist across users. Jailbreaking and evasion are input-level techniques, and hallucination is an output-quality issue.","reference":"SY0-801 objective 2.6 - Summarize threats and vulnerabilities associated with AI usage","selectCount":2,"tag":"new"},{"id":"e027","type":"mcq-single","exam":"801","domain":"2.0","obj":"2.6","stem":"A user composes a chain of prompts specifically to bypass a chatbot's safety guardrails and make it produce restricted content. Which AI threat is this?","options":[{"id":"A","text":"Jailbreaking","correct":true},{"id":"B","text":"Evasion","correct":false},{"id":"C","text":"Session hijacking","correct":false},{"id":"D","text":"Code execution","correct":false}],"explanation":"Jailbreaking is deliberate circumvention of model guardrails. Evasion aims to avoid detection or classification, session hijacking steals an authenticated AI session, and code execution abuses the model or its tooling to run commands.","reference":"SY0-801 objective 2.6 - Summarize threats and vulnerabilities associated with AI usage","tag":"new"},{"id":"e028","type":"mcq-single","exam":"801","domain":"3.0","obj":"3.1","stem":"A team migrates an application to serverless functions. Who is responsible for patching the runtime operating system that executes the functions?","options":[{"id":"A","text":"The cloud provider","correct":true},{"id":"B","text":"The application team","correct":false},{"id":"C","text":"The customer, because functions run on customer hosts","correct":false},{"id":"D","text":"Nobody, because serverless has no OS","correct":false}],"explanation":"In function-as-a-service the provider owns the runtime and its patching; the customer owns code, configuration, identity and data. Responsibility is an explicit technical consideration in objective 3.1.","reference":"SY0-801 objective 3.1 - Compare and contrast security implications of different architecture models"},{"id":"e029","type":"mcq-single","exam":"801","domain":"3.0","obj":"3.1","stem":"Several government agencies share a cloud environment that is restricted to those tenants and not offered to the public. Which deployment model is this?","options":[{"id":"A","text":"Public","correct":false},{"id":"B","text":"Private","correct":false},{"id":"C","text":"Community","correct":true},{"id":"D","text":"Hybrid","correct":false}],"explanation":"A community cloud is shared by organisations with common requirements and is not open to the general public. Objective 3.1 lists hybrid, private, public and community deployment models.","reference":"SY0-801 objective 3.1 - Compare and contrast security implications of different architecture models"},{"id":"e030","type":"mcq-single","exam":"801","domain":"3.0","obj":"3.1","stem":"A multinational runs workloads in several clouds but must keep EU customer records inside the EU. Which business consideration drives the placement decision?","options":[{"id":"A","text":"Data sovereignty","correct":true},{"id":"B","text":"Scalability","correct":false},{"id":"C","text":"Usability","correct":false},{"id":"D","text":"Ease of recovery","correct":false}],"explanation":"Data sovereignty is the legal and regulatory constraint on where data may reside. Data classification may drive handling requirements, but the geographic restriction itself is sovereignty.","reference":"SY0-801 objective 3.1 - Compare and contrast security implications of different architecture models"},{"id":"e031","type":"mcq-single","exam":"801","domain":"3.0","obj":"3.2","stem":"Public web servers must be reachable from the internet, application servers must accept traffic only from the web tier, and the database must accept traffic only from the application tier. Which design meets this?","options":[{"id":"A","text":"One flat subnet with host firewalls on each server","correct":false},{"id":"B","text":"Separate security zones with device placement enforced by segmentation and access control","correct":true},{"id":"C","text":"A single VLAN with 802.1X on every port","correct":false},{"id":"D","text":"Putting the database in the same zone as the web servers and relying on strong passwords","correct":false}],"explanation":"Objective 3.2 covers device placement, security zones and segmentation. Distinct zones with least-privilege rules between them are what actually enforce the tiering; a shared subnet still permits lateral traffic if a host is compromised.","reference":"SY0-801 objective 3.2 - Given a scenario, manage the security architecture to best protect the infrastructure"},{"id":"e032","type":"mcq-single","exam":"801","domain":"3.0","obj":"3.2","stem":"An administrator accumulates permissions from three successive roles over two years until they can approve, deploy and audit their own changes. Which concept describes this?","options":[{"id":"A","text":"Privilege creep","correct":true},{"id":"B","text":"Least privilege","correct":false},{"id":"C","text":"Separation of duties","correct":false},{"id":"D","text":"Role-based access control","correct":false}],"explanation":"Privilege creep is the gradual accumulation of rights that no longer match the current role. It is an explicit objective 3.2 term, and periodic access review is the control that catches it.","reference":"SY0-801 objective 3.2 - Given a scenario, manage the security architecture to best protect the infrastructure"},{"id":"e033","type":"mcq-single","exam":"801","domain":"3.0","obj":"3.2","stem":"Management interfaces must not share the production data path and must remain reachable when the production network is down. Which control satisfies this?","options":[{"id":"A","text":"Out-of-band management","correct":true},{"id":"B","text":"A jump host on the production VLAN","correct":false},{"id":"C","text":"A VPN concentrator in the DMZ","correct":false},{"id":"D","text":"A read-only service account","correct":false}],"explanation":"Out-of-band management uses a separate, dedicated path - often a management VLAN or separate console network - so administrative access survives a production outage and cannot be reached from the data plane.","reference":"SY0-801 objective 3.2 - Given a scenario, manage the security architecture to best protect the infrastructure"},{"id":"e034","type":"mcq-single","exam":"801","domain":"3.0","obj":"3.3","stem":"Card numbers must be replaced with reversible non-sensitive values of the same length that preserve referential integrity in downstream joins. Which technique is this?","options":[{"id":"A","text":"Tokenization","correct":true},{"id":"B","text":"Data masking","correct":false},{"id":"C","text":"Hashing","correct":false},{"id":"D","text":"Deidentification","correct":false}],"explanation":"Tokenization substitutes a token for the sensitive value and keeps a mapping so it can be reversed by authorised systems. Masking permanently obscures characters, hashing is one-way, and deidentification removes association with an identity.","reference":"SY0-801 objective 3.3 - Summarize concepts and strategies used to protect data"},{"id":"e035","type":"mcq-single","exam":"801","domain":"3.0","obj":"3.3","stem":"A hospital sends patient records to a SaaS billing vendor for processing and remains responsible for how the data is used. Which role does the vendor hold?","options":[{"id":"A","text":"Data controller","correct":false},{"id":"B","text":"Data processor","correct":true},{"id":"C","text":"Data owner","correct":false},{"id":"D","text":"Data steward","correct":false}],"explanation":"The hospital determines purpose and means and is the controller; the vendor processes on the controller's behalf and is the processor. Objective 3.3 lists owner, custodian, steward, operator, controller and subprocessor as distinct roles.","reference":"SY0-801 objective 3.3 - Summarize concepts and strategies used to protect data"},{"id":"e036","type":"mcq-single","exam":"801","domain":"3.0","obj":"3.3","stem":"Restricting access to records based on the physical location from which the request originates is called:","options":[{"id":"A","text":"Geofencing","correct":true},{"id":"B","text":"Data placement","correct":false},{"id":"C","text":"Marking and labelling","correct":false},{"id":"D","text":"Data retention","correct":false}],"explanation":"Geofencing applies location-based restrictions to data access. Data placement is where data is stored; marking and labelling is classification metadata on the data itself.","reference":"SY0-801 objective 3.3 - Summarize concepts and strategies used to protect data"},{"id":"e037","type":"mcq-single","exam":"801","domain":"3.0","obj":"3.4","stem":"A service has an RPO of 15 minutes and an RTO of 4 hours. Which statement is correct?","options":[{"id":"A","text":"Up to 15 minutes of data may be lost and service must be restored within 4 hours","correct":true},{"id":"B","text":"Service must be restored within 15 minutes and no data may be lost","correct":false},{"id":"C","text":"Up to 4 hours of data may be lost and service must be restored within 15 minutes","correct":false},{"id":"D","text":"Backups must complete within 15 minutes of the outage","correct":false}],"explanation":"RPO bounds acceptable data loss measured backwards from the incident; RTO bounds acceptable downtime measured forwards to restored service. They are independent and are both listed under recovery metrics in objective 3.4.","reference":"SY0-801 objective 3.4 - Explain the importance of resilience and recovery in security architecture"},{"id":"e038","type":"mcq-single","exam":"801","domain":"3.0","obj":"3.4","stem":"Which site type has no pre-installed hardware and therefore the longest recovery time?","options":[{"id":"A","text":"Hot site","correct":false},{"id":"B","text":"Warm site","correct":false},{"id":"C","text":"Cold site","correct":true},{"id":"D","text":"Mobile site","correct":false}],"explanation":"A cold site provides space and utilities only. Warm sites have some infrastructure, and hot sites are ready to take over immediately - which is why they cost the most.","reference":"SY0-801 objective 3.4 - Explain the importance of resilience and recovery in security architecture"},{"id":"e039","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.1","stem":"A decoy administrative account has no legitimate use; any authentication attempt triggers a high-priority alert. What is this called?","options":[{"id":"A","text":"Canary account","correct":true},{"id":"B","text":"Honeynet","correct":false},{"id":"C","text":"Honeyfile","correct":false},{"id":"D","text":"Privileged access workstation","correct":false}],"explanation":"A canary account is a deception control that exists only to be attacked. Honeynets are networks, honeyfiles are decoy documents, and a PAW is a hardened administrative endpoint.","reference":"SY0-801 objective 4.1 - Given a scenario, apply mitigating controls, techniques and solutions to secure the environment","tag":"new"},{"id":"e040","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.1","stem":"Marketing wants its brand logo displayed beside outgoing mail in participating mailboxes. Which combination is required?","options":[{"id":"A","text":"BIMI with an enforced DMARC policy","correct":true},{"id":"B","text":"SPF alone","correct":false},{"id":"C","text":"DKIM with a 1024-bit key","correct":false},{"id":"D","text":"A TLS certificate on the mail gateway","correct":false}],"explanation":"Brand Indicators for Message Identification requires an enforced DMARC policy plus a published brand logo record. SPF and DKIM authenticate the message but do not drive logo display.","reference":"SY0-801 objective 4.1 - Given a scenario, apply mitigating controls, techniques and solutions to secure the environment","tag":"new"},{"id":"e041","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.1","stem":"A rogue access point appears in the office, broadcasting the corporate SSID to capture credentials. Which control detects and blocks it?","options":[{"id":"A","text":"Wireless intrusion prevention system (WIPS)","correct":true},{"id":"B","text":"Host-based intrusion prevention system (HIPS)","correct":false},{"id":"C","text":"Network-based intrusion detection system (NIDS) in promiscuous mode","correct":false},{"id":"D","text":"A content filter","correct":false}],"explanation":"A WIPS monitors the radio spectrum for rogue access points and deauthenticates or blocks them. NIDS sees wired traffic only, and HIPS runs on endpoints.","reference":"SY0-801 objective 4.1 - Given a scenario, apply mitigating controls, techniques and solutions to secure the environment"},{"id":"e042","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.2","stem":"Which phase of the asset management life cycle includes sanitising media before it leaves the organisation?","options":[{"id":"A","text":"Acquisition/procurement","correct":false},{"id":"B","text":"Assignment/accounting","correct":false},{"id":"C","text":"Monitoring/asset tracking","correct":false},{"id":"D","text":"Disposal/decommissioning","correct":true}],"explanation":"Disposal/decommissioning is where sanitisation and destruction happen. Objective 4.2 defines the life cycle as planning, acquisition, assignment, monitoring, and disposal.","reference":"SY0-801 objective 4.2 - Explain the security implications of proper hardware, software and data asset management"},{"id":"e043","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.3","stem":"Cloud workloads keep drifting away from the approved baseline - public buckets appear, encryption is disabled, logging is turned off. Which tool is designed to identify this?","options":[{"id":"A","text":"Cloud security posture management (CSPM)","correct":true},{"id":"B","text":"IP address management (IPAM)","correct":false},{"id":"C","text":"Security information and event management (SIEM)","correct":false},{"id":"D","text":"A packet analyzer","correct":false}],"explanation":"CSPM continuously compares cloud configuration against policy and flags drift and misconfiguration. IPAM manages address space, SIEM correlates events, and a packet analyzer inspects traffic.","reference":"SY0-801 objective 4.3 - Given a scenario, perform tasks associated with vulnerability management","tag":"new"},{"id":"e044","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.3","stem":"After a merger two sites both use 10.0.0.0/24, and site-to-site tunnels now conflict. Which practice resolves this systematically?","options":[{"id":"A","text":"IP address management (IPAM)","correct":true},{"id":"B","text":"NetFlow sampling","correct":false},{"id":"C","text":"Port mirroring","correct":false},{"id":"D","text":"802.1X","correct":false}],"explanation":"IPAM inventories subnets and allocations so overlaps are found before deployment. Objective 4.3 lists IPAM as a vulnerability-management identification method for exactly this reason.","reference":"SY0-801 objective 4.3 - Given a scenario, perform tasks associated with vulnerability management","tag":"new"},{"id":"e045","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.4","stem":"Analysts need a summary of traffic volumes and top talkers between subnets, but capturing full packets is too expensive. Which data source fits?","options":[{"id":"A","text":"NetFlow/IPFIX records","correct":true},{"id":"B","text":"Full packet capture","correct":false},{"id":"C","text":"System images","correct":false},{"id":"D","text":"Memory dumps","correct":false}],"explanation":"Flow records describe who talked to whom, how much and when, without payload. Objective 4.4 lists NetFlow and SNMP as monitoring protocols, while 4.8 lists NetFlow/IPFIX as an investigation data source.","reference":"SY0-801 objective 4.4 - Explain security alerting and monitoring concepts and tools"},{"id":"e046","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.4","stem":"A SIEM generates so many alerts that analysts ignore it; roughly 80% are benign duplicate detections. What is the MOST appropriate first action?","options":[{"id":"A","text":"Tune the alert thresholds and correlation rules","correct":true},{"id":"B","text":"Disable the highest-volume detections","correct":false},{"id":"C","text":"Hire more analysts","correct":false},{"id":"D","text":"Replace the SIEM with a packet analyzer","correct":false}],"explanation":"Alert tuning is an explicit 4.4 activity. Suppressing detections without analysis creates blind spots, and staffing or tool replacement does not address noisy logic.","reference":"SY0-801 objective 4.4 - Explain security alerting and monitoring concepts and tools"},{"id":"e047","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.5","stem":"Which authentication method is phishing-resistant and does not rely on a shared secret being sent to the server?","options":[{"id":"A","text":"Passkey (FIDO2 credential)","correct":true},{"id":"B","text":"SMS one-time password","correct":false},{"id":"C","text":"Password plus security question","correct":false},{"id":"D","text":"TOTP soft token","correct":false}],"explanation":"Passkeys are bound to the relying party's origin and use public-key cryptography, so a lookalike site cannot replay them. OTPs, including TOTP and SMS, can be relayed by a real-time phishing proxy.","reference":"SY0-801 objective 4.5 - Given a scenario, apply concepts related to identity and access management","tag":"new"},{"id":"e048","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.5","stem":"An engineer needs administrator rights for a single 30-minute task and nothing more. Which access model fits BEST?","options":[{"id":"A","text":"Just-in-time access","correct":true},{"id":"B","text":"Role-based access control with a standing admin role","correct":false},{"id":"C","text":"Mandatory access control","correct":false},{"id":"D","text":"Discretionary access control","correct":false}],"explanation":"Just-in-time access grants elevated rights for a bounded period after approval, then removes them. A standing admin role creates exactly the standing privilege that JIT is designed to eliminate.","reference":"SY0-801 objective 4.5 - Given a scenario, apply concepts related to identity and access management"},{"id":"e049","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.5","stem":"Which set of properties is MOST important for an emergency access ('break-glass') account?","options":[{"id":"A","text":"Documented ownership, vaulted credentials, monitored use and periodic testing","correct":true},{"id":"B","text":"Shared by the whole team and excluded from logging to avoid noise","correct":false},{"id":"C","text":"Granted permanent domain administrator rights with a non-expiring password","correct":false},{"id":"D","text":"Stored in the ticketing system as a plain-text note","correct":false}],"explanation":"Emergency access accounts must work when normal identity systems fail, so they are vaulted, tightly owned, excluded from ordinary workflows, and heavily monitored. Every use should generate an alert and a review.","reference":"SY0-801 objective 4.5 - Given a scenario, apply concepts related to identity and access management"},{"id":"e050","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.6","stem":"An agentic AI assistant is given permission to disable user accounts when it detects suspicious behaviour. Which control is MOST important before enabling it?","options":[{"id":"A","text":"Guardrails that bound its actions with human approval for destructive operations","correct":true},{"id":"B","text":"A larger context window so it can see more logs","correct":false},{"id":"C","text":"A more capable model so it makes fewer mistakes","correct":false},{"id":"D","text":"Removing logging to reduce cost","correct":false}],"explanation":"Objective 4.6 lists guardrails and automation logic as core considerations for automation, and explicitly names agentic AI. An agent with write access needs hard limits and human approval for irreversible actions, not a better model.","reference":"SY0-801 objective 4.6 - Given a scenario, apply automation and orchestration solutions to secure operations","tag":"new"},{"id":"e051","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.6","stem":"Terraform templates define the approved state of infrastructure, and a scheduled job re-applies them whenever drift is detected. Which automation use case is this?","options":[{"id":"A","text":"Desired state management","correct":true},{"id":"B","text":"Ticket management","correct":false},{"id":"C","text":"Anomaly detection","correct":false},{"id":"D","text":"User provisioning","correct":false}],"explanation":"Desired state management continuously reconciles actual configuration to a declared baseline. It is listed under automation use cases in objective 4.6.","reference":"SY0-801 objective 4.6 - Given a scenario, apply automation and orchestration solutions to secure operations"},{"id":"e052","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.7","stem":"During a ransomware incident, which activity belongs to the NEGOTIATION step?","options":[{"id":"A","text":"Engaging the actor through an approved channel, with legal, to buy recovery time and verify any decryptor","correct":true},{"id":"B","text":"Restoring systems from verified backups","correct":false},{"id":"C","text":"Sending breach notifications to affected customers","correct":false},{"id":"D","text":"Removing the malware from infected hosts","correct":false}],"explanation":"SY0-801 places negotiation inside containment, between isolation and eradication. It covers controlled engagement and verification of recovery claims; the payment decision is an executive and legal call, and notification is a separate, later step.","reference":"SY0-801 objective 4.7 - Summarize concepts associated with incident response activities","tag":"new"},{"id":"e053","type":"mcq-multi","exam":"801","domain":"4.0","obj":"4.7","stem":"In a confirmed breach of customer personal data, which TWO are external notification recipients named in objective 4.7?","options":[{"id":"A","text":"Affected customers","correct":true},{"id":"B","text":"Law enforcement","correct":true},{"id":"C","text":"The internal help desk","correct":false},{"id":"D","text":"The security operations centre","correct":false},{"id":"E","text":"The vendor's marketing team","correct":false}],"explanation":"Objective 4.7 separates notification/external reporting into stakeholders, customers, law enforcement and mandatory reporting. The help desk and SOC are internal, and marketing is not a notification recipient.","reference":"SY0-801 objective 4.7 - Summarize concepts associated with incident response activities","selectCount":2},{"id":"e054","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.7","stem":"Which post-incident artifact records root cause and the corrective actions agreed after an incident?","options":[{"id":"A","text":"Post-incident report (PIR)","correct":true},{"id":"B","text":"Backout plan","correct":false},{"id":"C","text":"Rules of engagement","correct":false},{"id":"D","text":"Statement of work","correct":false}],"explanation":"The PIR captures root cause analysis, lessons learned and assigned follow-up actions. It closes the post-incident phase in objective 4.7.","reference":"SY0-801 objective 4.7 - Summarize concepts associated with incident response activities","tag":"new"},{"id":"e055","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.8","stem":"Why is a memory dump captured before a disk image during an investigation?","options":[{"id":"A","text":"Memory contents are more volatile and are lost on shutdown or reboot","correct":true},{"id":"B","text":"Memory dumps are smaller and therefore more reliable","correct":false},{"id":"C","text":"Disk images require a warrant but memory does not","correct":false},{"id":"D","text":"Disk images cannot be hashed for integrity","correct":false}],"explanation":"Volatile data - RAM, running processes, network connections and session keys - disappears when the host loses power. Objective 4.8 lists memory dumps, system images and bit-level copies as distinct sources, and preservation drives the order.","reference":"SY0-801 objective 4.8 - Given a scenario, use data, artifacts and sources to support a security investigation"},{"id":"e056","type":"mcq-single","exam":"801","domain":"4.0","obj":"4.8","stem":"What does IPFIX provide to an investigation?","options":[{"id":"A","text":"Flow records describing sessions between hosts","correct":true},{"id":"B","text":"Full packet payloads","correct":false},{"id":"C","text":"A bit-level copy of a disk","correct":false},{"id":"D","text":"The contents of physical memory","correct":false}],"explanation":"IPFIX is the standardised flow-export format, alongside NetFlow. It answers who, when and how much, but not what was said - payload requires packet capture.","reference":"SY0-801 objective 4.8 - Given a scenario, use data, artifacts and sources to support a security investigation"},{"id":"e057","type":"mcq-single","exam":"801","domain":"5.0","obj":"5.1","stem":"A document states that all workforce passwords must be at least 14 characters and must not be reused across systems. Which GRC artifact is this?","options":[{"id":"A","text":"Policy","correct":false},{"id":"B","text":"Standard","correct":true},{"id":"C","text":"Procedure","correct":false},{"id":"D","text":"Guideline","correct":false}],"explanation":"A standard specifies mandatory, measurable requirements such as length and reuse rules. The policy states the intent, the procedure describes how to comply, and a guideline is advisory.","reference":"SY0-801 objective 5.1 - Explain the importance of governance, risk and compliance artifacts"},{"id":"e058","type":"mcq-single","exam":"801","domain":"5.0","obj":"5.1","stem":"Which artifact gives step-by-step response instructions for one specific alert, including commands and escalation contacts?","options":[{"id":"A","text":"Runbook","correct":true},{"id":"B","text":"Acceptable use policy","correct":false},{"id":"C","text":"Business continuity plan","correct":false},{"id":"D","text":"Reference architecture","correct":false}],"explanation":"A runbook is task-specific operational guidance. An AUP governs acceptable behaviour, a BCP covers continuity of the business, and a reference architecture is a design template.","reference":"SY0-801 objective 5.1 - Explain the importance of governance, risk and compliance artifacts"},{"id":"e059","type":"mcq-single","exam":"801","domain":"5.0","obj":"5.2","stem":"An asset is worth $80,000 and a flood would destroy 25% of it. The flood is expected once every four years. What is the annualised loss expectancy (ALE)?","options":[{"id":"A","text":"$5,000","correct":true},{"id":"B","text":"$20,000","correct":false},{"id":"C","text":"$80,000","correct":false},{"id":"D","text":"$320,000","correct":false}],"explanation":"SLE = $80,000 x 0.25 = $20,000. ARO = 1/4 = 0.25. ALE = SLE x ARO = $5,000. Objective 5.2 lists SLE, ARO and ALE as the quantitative risk terms.","reference":"SY0-801 objective 5.2 - Explain the impact of risk management processes on the security of the organization"},{"id":"e060","type":"mcq-single","exam":"801","domain":"5.0","obj":"5.3","stem":"Migrating an application away from a vendor would cost more than the contract is worth and would take two years. Which third-party risk is this?","options":[{"id":"A","text":"Vendor lock-in","correct":true},{"id":"B","text":"Conflict of interest","correct":false},{"id":"C","text":"Residual risk","correct":false},{"id":"D","text":"Due diligence","correct":false}],"explanation":"Vendor lock-in is the practical or financial inability to leave a provider. Objective 5.3 lists it alongside ROI, geography, staffing and legal constraints as a limitation to assess before signing.","reference":"SY0-801 objective 5.3 - Explain the assessment and management processes associated with third-party risk"},{"id":"e061","type":"mcq-single","exam":"801","domain":"5.0","obj":"5.4","stem":"A hospital is the controller of patient data and uses a SaaS vendor as processor. A patient exercises the right to be forgotten. Who must action the request?","options":[{"id":"A","text":"The hospital, which instructs the processor to delete the data","correct":true},{"id":"B","text":"The patient must contact the SaaS vendor directly","correct":false},{"id":"C","text":"The SaaS vendor, because it stores the data","correct":false},{"id":"D","text":"Nobody, because controller obligations do not survive outsourcing","correct":false}],"explanation":"The controller determines purpose and means, so the controller owns the request and directs the processor. Objective 5.4 lists controller vs processor, right to be forgotten and processing restrictions together for this reason.","reference":"SY0-801 objective 5.4 - Summarize elements of effective security compliance"},{"id":"e062","type":"mcq-single","exam":"801","domain":"5.0","obj":"5.5","stem":"Which model attributes an intrusion to four connected elements - adversary, capability, infrastructure and victim?","options":[{"id":"A","text":"Diamond Model of Intrusion Analysis","correct":true},{"id":"B","text":"MITRE ATT&CK","correct":false},{"id":"C","text":"Cyber Kill Chain","correct":false},{"id":"D","text":"NIST CSF","correct":false}],"explanation":"The Diamond Model arranges adversary, capability, infrastructure and victim at four points. ATT&CK catalogues adversary tactics and techniques, and the Kill Chain describes sequential phases of an attack.","reference":"SY0-801 objective 5.5 - Explain concepts associated with audit and assessment activities","tag":"new"},{"id":"e063","type":"mcq-single","exam":"801","domain":"5.0","obj":"5.5","stem":"A tester is given valid credentials and network access but no source code and only partial knowledge of internal design. Which testing environment is this?","options":[{"id":"A","text":"Known environment","correct":false},{"id":"B","text":"Unknown environment","correct":false},{"id":"C","text":"Partially known environment","correct":true},{"id":"D","text":"Physical testing","correct":false}],"explanation":"Partially known (grey-box) testing supplies some inside knowledge without full disclosure. Known is full disclosure (white-box); unknown simulates an external attacker (black-box).","reference":"SY0-801 objective 5.5 - Explain concepts associated with audit and assessment activities"},{"id":"e064","type":"mcq-single","exam":"801","domain":"5.0","obj":"5.6","stem":"An employee fails a third consecutive phishing simulation. Which training type is MOST appropriate?","options":[{"id":"A","text":"Corrective training","correct":true},{"id":"B","text":"Initial/onboarding training","correct":false},{"id":"C","text":"Ongoing awareness campaign","correct":false},{"id":"D","text":"Executive briefing","correct":false}],"explanation":"Corrective training targets a specific demonstrated weakness after a failure. Initial training is for new starters, and ongoing awareness is the general campaign for everyone.","reference":"SY0-801 objective 5.6 - Given a scenario, apply security awareness concepts to improve organizational security"}];
+const SY801_PBQS=[
+ {
+  "id": "sy801-p1",
+  "type": "pbq-placement",
+  "exam": "801",
+  "domain": "2.0",
+  "obj": "2.6",
+  "title": "AI Threat Classification",
+  "scenario": "A security review of the organisation's AI features produced the findings below. Classify each finding by the AI threat it represents. Two findings are not AI-specific threats - place them in the Not an AI risk zone.",
+  "items": [
+   {
+    "id": "ai1",
+    "label": "Retrieved web content hides instructions that make the assistant forward chat history",
+    "icon": "file",
+    "correct": "prompt"
+   },
+   {
+    "id": "ai2",
+    "label": "A user chains crafted prompts to bypass the model's safety guardrails",
+    "icon": "grid",
+    "correct": "prompt"
+   },
+   {
+    "id": "ai3",
+    "label": "Contributors seed biased documents into the corpus used to fine-tune the model",
+    "icon": "file",
+    "correct": "poison"
+   },
+   {
+    "id": "ai4",
+    "label": "An attacker publishes a fine-tuned model with a hidden trigger phrase",
+    "icon": "target",
+    "correct": "model"
+   },
+   {
+    "id": "ai5",
+    "label": "Crafted inputs are tuned until the fraud classifier stops flagging them",
+    "icon": "alert",
+    "correct": "model"
+   },
+   {
+    "id": "ai6",
+    "label": "The assistant invents a refund policy that does not exist and a customer relies on it",
+    "icon": "file",
+    "correct": "output"
+   },
+   {
+    "id": "ai7",
+    "label": "The hiring model systematically downgrades candidates from one region",
+    "icon": "grid",
+    "correct": "output"
+   },
+   {
+    "id": "ai8",
+    "label": "A regulator asks why a loan was denied and nobody can explain the model's reasoning",
+    "icon": "check",
+    "correct": "output"
+   },
+   {
+    "id": "ai9",
+    "label": "A prompt causes the assistant to reveal another tenant's conversation history",
+    "icon": "lock",
+    "correct": "privacy"
+   },
+   {
+    "id": "ai10",
+    "label": "A stolen session token is replayed against the internal AI console",
+    "icon": "key",
+    "correct": "privacy"
+   },
+   {
+    "id": "ai11",
+    "label": "A prompt makes the assistant's code tool run shell commands on its host",
+    "icon": "terminal",
+    "correct": "privacy"
+   },
+   {
+    "id": "ai12",
+    "label": "A volumetric DDoS saturates the public marketing website",
+    "icon": "cloud",
+    "correct": "na"
+   },
+   {
+    "id": "ai13",
+    "label": "A visitor follows an employee through the badge-controlled lobby door",
+    "icon": "home",
+    "correct": "na"
+   }
+  ],
+  "zones": [
+   {
+    "id": "prompt",
+    "label": "Prompt injection / jailbreaking",
+    "desc": "Instructions or guardrail bypass in the input"
+   },
+   {
+    "id": "poison",
+    "label": "Data poisoning",
+    "desc": "Tampering with training or retrieval data"
+   },
+   {
+    "id": "model",
+    "label": "Model manipulation / evasion",
+    "desc": "Tampering with the model or dodging its decisions"
+   },
+   {
+    "id": "output",
+    "label": "Output quality",
+    "desc": "Bias, hallucination, explainability"
+   },
+   {
+    "id": "privacy",
+    "label": "Privacy, session and code execution",
+    "desc": "Data loss, hijacked session, code execution"
+   },
+   {
+    "id": "na",
+    "label": "Not an AI risk",
+    "desc": "Not specific to AI usage"
+   }
+  ],
+  "explanation": "Objective 2.6 separates threats that act on the prompt (injection, jailbreaking), on the training or retrieval data (poisoning), on the model itself (manipulation, evasion), on the quality of the output (bias, hallucination, explainability), and on exposure or execution (data loss, privacy, session hijacking, code execution). A DDoS and a tailgating attempt are real threats but they are not AI-specific risks.",
+  "reference": "SY0-801 objective 2.6 - AI threats and vulnerabilities"
+ },
+ {
+  "id": "sy801-p2",
+  "type": "pbq-sequence",
+  "exam": "801",
+  "domain": "4.0",
+  "obj": "4.7",
+  "title": "Incident Response with Negotiation",
+  "scenario": "A ransomware incident has been confirmed on 40 endpoints and two file servers. Order the response activities according to the SY0-801 incident response process. One action is not a valid step in the process - place it in the Invalid Step zone.",
+  "items": [
+   {
+    "id": "ir0",
+    "label": "Preparation: maintain playbooks, run tabletop exercises and confirm roles before an incident",
+    "correctPosition": 0
+   },
+   {
+    "id": "ir1",
+    "label": "Identification: detection, internal and external advisories, and threat hunting to scope the event",
+    "correctPosition": 1
+   },
+   {
+    "id": "ir2",
+    "label": "Investigation: digital forensics with chain of custody, preservation and e-discovery",
+    "correctPosition": 2
+   },
+   {
+    "id": "ir3",
+    "label": "Containment: quarantine and isolate affected hosts and accounts",
+    "correctPosition": 3
+   },
+   {
+    "id": "ir4",
+    "label": "Negotiation: engage the actor through an approved channel with legal to buy time and verify any decryptor",
+    "correctPosition": 4
+   },
+   {
+    "id": "ir5",
+    "label": "Eradication and recovery: remove the malware and restore from verified, immutable backups",
+    "correctPosition": 5
+   },
+   {
+    "id": "ir6",
+    "label": "Notification and external reporting: stakeholders, customers, law enforcement and any mandatory reporting",
+    "correctPosition": 6
+   },
+   {
+    "id": "ir7",
+    "label": "Post-incident: lessons learned, root cause analysis and a post-incident report",
+    "correctPosition": 7
+   },
+   {
+    "id": "ir-invalid",
+    "label": "Pay the ransom immediately and delay all notification until systems are restored",
+    "correctPosition": -1,
+    "invalid": true
+   }
+  ],
+  "explanation": "SY0-801 keeps preparation, identification, investigation, containment, eradication/recovery, notification/reporting and post-incident activity, and places negotiation inside containment. Payment is not a process step; it is an executive and legal decision that is never made before containment or in place of notification obligations.",
+  "reference": "SY0-801 objective 4.7 - Incident response"
+ },
+ {
+  "id": "sy801-p3",
+  "type": "pbq-compliance",
+  "exam": "801",
+  "domain": "2.0",
+  "obj": "2.3",
+  "title": "Threat Vector Identification",
+  "scenario": "A threat-intelligence review mapped recent intrusions against the organisation. Match each scenario to the threat vector it represents.",
+  "pairs": [
+   {
+    "id": "v1",
+    "scenario": "A contractor receives a rich-media message on their phone linking to a fake payroll portal.",
+    "correct": "Message-based (SMS/RCS)"
+   },
+   {
+    "id": "v2",
+    "scenario": "A sticker placed over a restaurant table's QR code sends diners to a card-harvesting page.",
+    "correct": "Image-based (QR code)"
+   },
+   {
+    "id": "v3",
+    "scenario": "An extension reads the authentication cookie after login and replays it from another country.",
+    "correct": "Browser-based (session token)"
+   },
+   {
+    "id": "v4",
+    "scenario": "certutil is used to download and run a payload, and no new binary is written to disk.",
+    "correct": "Built-in tools (living off the land)"
+   },
+   {
+    "id": "v5",
+    "scenario": "A managed service provider's update channel pushes a backdoored agent to every customer.",
+    "correct": "Supply chain (third party/MSP)"
+   },
+   {
+    "id": "v6",
+    "scenario": "A video call from a synthetic 'CFO' authorises an urgent wire transfer.",
+    "correct": "Human-based (deepfake impersonation)"
+   },
+   {
+    "id": "v7",
+    "scenario": "A USB drive labelled 'HR salaries' is dropped in the lobby and plugged into a workstation.",
+    "correct": "External media (malicious USB)"
+   },
+   {
+    "id": "v8",
+    "scenario": "An attacker sniffs keystrokes from a wireless keyboard over Bluetooth.",
+    "correct": "Signal-based (Bluetooth/NFC)"
+   },
+   {
+    "id": "v9",
+    "scenario": "An intruder follows an employee through the badge-controlled lobby door.",
+    "correct": "Physical (tailgating)"
+   },
+   {
+    "id": "v10",
+    "scenario": "A marketing email arrives without the corporate logo in the recipient's inbox.",
+    "correct": "Not a threat vector"
+   }
+  ],
+  "frameworks": [
+   "Message-based (SMS/RCS)",
+   "Image-based (QR code)",
+   "Browser-based (session token)",
+   "Built-in tools (living off the land)",
+   "Supply chain (third party/MSP)",
+   "Human-based (deepfake impersonation)",
+   "External media (malicious USB)",
+   "Signal-based (Bluetooth/NFC)",
+   "Physical (tailgating)",
+   "Not a threat vector"
+  ],
+  "explanation": "Objective 2.3 groups vectors by delivery path: message (email, SMS, RCS, IM, collaboration), image (QR codes, embedded content), attachment (macros, RTF, PDF), browser (extensions, JavaScript, cookies, session tokens, password managers), network, remote access, endpoint, built-in tools, supply chain, external media, human, IoT, OT, physical and signal. Missing BIMI branding is a mail-authentication and branding gap, not a vector.",
+  "reference": "SY0-801 objective 2.3 - Threat vectors and sources"
+ },
+ {
+  "id": "sy801-p4",
+  "type": "pbq-placement",
+  "exam": "801",
+  "domain": "1.0",
+  "obj": "1.1",
+  "title": "Control Type Classification",
+  "scenario": "A controls inventory is being classified for a risk assessment. Place each control under the control type it primarily represents.",
+  "items": [
+   {
+    "id": "c1",
+    "label": "Web application firewall blocks a SQL injection attempt",
+    "icon": "shield",
+    "correct": "preventive"
+   },
+   {
+    "id": "c2",
+    "label": "EDR blocks execution of a known malicious binary",
+    "icon": "shield",
+    "correct": "preventive"
+   },
+   {
+    "id": "c3",
+    "label": "SIEM correlates failed logins and raises an alert",
+    "icon": "alert",
+    "correct": "detective"
+   },
+   {
+    "id": "c4",
+    "label": "File integrity monitoring reports a changed system binary",
+    "icon": "file",
+    "correct": "detective"
+   },
+   {
+    "id": "c5",
+    "label": "Team restores a server from last night's verified backup",
+    "icon": "refresh",
+    "correct": "corrective"
+   },
+   {
+    "id": "c6",
+    "label": "Patch is applied to remove the exploited flaw after an incident",
+    "icon": "check",
+    "correct": "corrective"
+   },
+   {
+    "id": "c7",
+    "label": "Warning signage and lighting discourage anyone from attempting entry",
+    "icon": "home",
+    "correct": "deterring"
+   },
+   {
+    "id": "c8",
+    "label": "Inline IPS protects a legacy device that cannot be patched",
+    "icon": "lock",
+    "correct": "compensating"
+   },
+   {
+    "id": "c9",
+    "label": "Acceptable use policy states which software may be installed",
+    "icon": "file",
+    "correct": "directive"
+   },
+   {
+    "id": "c10",
+    "label": "Security awareness training tells staff how to report phishing",
+    "icon": "study",
+    "correct": "directive"
+   },
+   {
+    "id": "c11",
+    "label": "Badge reader restricts entry to the server room",
+    "icon": "lock",
+    "correct": "preventive"
+   },
+   {
+    "id": "c12",
+    "label": "Honeytoken file alerts when it is opened",
+    "icon": "target",
+    "correct": "detective"
+   }
+  ],
+  "zones": [
+   {
+    "id": "preventive",
+    "label": "Preventive",
+    "desc": "Stops the event"
+   },
+   {
+    "id": "detective",
+    "label": "Detective",
+    "desc": "Discovers or alerts on the event"
+   },
+   {
+    "id": "corrective",
+    "label": "Corrective",
+    "desc": "Restores after the event"
+   },
+   {
+    "id": "deterring",
+    "label": "Deterring",
+    "desc": "Discourages the attempt"
+   },
+   {
+    "id": "compensating",
+    "label": "Compensating",
+    "desc": "Substitutes for an unavailable control"
+   },
+   {
+    "id": "directive",
+    "label": "Directive",
+    "desc": "Directs behaviour through rules"
+   }
+  ],
+  "explanation": "Objective 1.1 lists preventive, deterring, corrective, detective, compensating and directive as the control types, and separates them from the categories (technical/logical, managerial/administrative, physical/environmental, operational). Blocking controls are preventive, alerting controls are detective, recovery actions are corrective, discouragement is deterring, substitution for an impossible control is compensating, and rules that direct behaviour are directive.",
+  "reference": "SY0-801 objective 1.1 - Security concepts and controls"
+ }
+];
+const SY801_META={code:'SY0-801',version:'V8',objectives:'2.0',launch:'17 November 2026',built:'November 2026',source:'comptia.org/en-us/certifications/security/v8/'};
+
 
 // ============================================================
 // UTILITIES
@@ -4627,7 +5110,227 @@ function _shuffleQuestion(q){
   }
 }
 
+
+// ============================================================
+// SY0-801 PREVIEW: TRACK HELPERS AND EXAM ASSEMBLY
+// ============================================================
+function domLabel(d){
+  const map=S.examTrack==='801'?SY801_DOMAINS:DOMAINS;
+  return map[d]||DOMAINS[d]||d;
+}
+function _syncTrackChrome(){
+  const ex=document.getElementById('exam-screen');
+  if(ex) ex.setAttribute('data-track', S.examTrack==='801'?'801':'701');
+  const chip=document.getElementById('x-mode-chip');
+  if(!chip) return;
+  if(S.examTrack==='801') chip.textContent='SY0-801 · Experimental';
+  else chip.textContent=S.mode==='exam'?(S.sessionLabel||'Exam'):'Study';
+}
+
+// V7 objective -> V8 objective. SY0-801 keeps most V7 content but renumbers
+// Domain 4 and folds V7 concepts/mitigations into 1.1 and 4.1.
+const V7_TO_V8={'1.1':'1.1','1.2':'1.1','1.3':'1.2','1.4':'1.3',
+  '2.1':'2.2','2.2':'2.3','2.3':'2.4','2.4':'2.5','2.5':'4.1',
+  '3.1':'3.1','3.2':'3.2','3.3':'3.3','3.4':'3.4',
+  '4.1':'4.1','4.2':'4.2','4.3':'4.3','4.4':'4.4','4.5':'4.1',
+  '4.6':'4.5','4.7':'4.6','4.8':'4.7','4.9':'4.8',
+  '5.1':'5.1','5.2':'5.2','5.3':'5.3','5.4':'5.4','5.5':'5.5','5.6':'5.6'};
+
+function carryTo801(q){
+  const obj=V7_TO_V8[q.obj]||q.obj;
+  const dom=String(obj).split('.')[0]+'.0';
+  const title=SY801_OBJECTIVES[obj]||'';
+  return Object.assign({},q,{exam:'801',carried:true,v7obj:q.obj,obj,domain:dom,
+    reference:'SY0-801 objective '+obj+' - '+title+' (carried forward from V7)'});
+}
+function sy801CarriedPool(){ return SEED_QUESTIONS.map(carryTo801); }
+
+function _sy801PBQs(variant){
+  const native=seededShuffle(SY801_PBQS,0x8012000+(variant||1));
+  const core=['pbq002','pbq007'].map(id=>PBQ_SEEDS.find(q=>q.id===id)).filter(Boolean);
+  return [...native, ...core];
+}
+
+function buildSY801Questions(){
+  const opts=S.launchOpts||{};
+  if(Array.isArray(opts.explicitIds)){
+    const idx=_qIndex();
+    S.questions=opts.explicitIds.map(id=>idx[id]).filter(Boolean)
+      .map(q=>q.exam==='801'?q:carryTo801(q));
+    S.timeRemaining=0;S.showExplanations=true;
+    return;
+  }
+  if(S.mode==='exam'){
+    const variant=S.examVariant||1;
+    const pbqs=_sy801PBQs(variant);
+    const need=90-pbqs.length;
+    const native=seededShuffle(SY801_MCQS,0x8010000+variant);
+    const carried=seededShuffle(sy801CarriedPool(),0x8011000+variant);
+    const targets={};let sum=0;
+    Object.keys(SY801_WEIGHTS).forEach(d=>{targets[d]=Math.round(need*SY801_WEIGHTS[d]/100);sum+=targets[d];});
+    let drift=need-sum,guard=0;const keys=Object.keys(targets);
+    while(drift!==0&&guard++<20){const d=keys[guard%keys.length];drift>0?(targets[d]++,drift--):(targets[d]--,drift++);}
+    const picked=[],used=new Set();
+    const take=(pool,d,limit)=>{
+      let left=limit;
+      for(const q of pool){
+        if(left<=0)break;
+        if(q.domain!==d||used.has(q.id))continue;
+        picked.push(q);used.add(q.id);left--;
+      }
+      return limit-left;
+    };
+    keys.forEach(d=>{
+      let got=take(native,d,targets[d]);
+      take(carried,d,targets[d]-got);
+    });
+    const rest=seededShuffle([...native,...carried],0x8013000+variant);
+    for(const q of rest){ if(picked.length>=need)break; if(used.has(q.id))continue; picked.push(q);used.add(q.id); }
+    S.questions=buildStrictExamOrder(pbqs.map(q=>Object.assign({},q,{_isPBQ:true})),picked.slice(0,need),variant+7);
+    S.timeRemaining=5400;
+    S.sessionLabel=S.sessionLabel||'SY0-801 Preview';
+  } else {
+    let pool=SY801_MCQS.slice();
+    if(S.sy801Tag) pool=pool.filter(q=>q.tag===S.sy801Tag);
+    if(S.studyDomain&&S.studyDomain!=='all') pool=pool.filter(q=>q.domain===S.studyDomain);
+    if(!pool.length) pool=SY801_MCQS.slice();
+    const want=Math.max(1,Number(S.studyCount)||15);
+    let qs=shuffle(pool).slice(0,want);
+    const pbqCount=S.sy801Tag?0:(opts.pbqCount!=null?Number(opts.pbqCount):0);
+    if(pbqCount>0){
+      let pPool=SY801_PBQS.filter(q=>!S.studyDomain||S.studyDomain==='all'||q.domain===S.studyDomain);
+      if(!pPool.length)pPool=SY801_PBQS.slice();
+      qs=[...qs.slice(0,Math.max(0,want-pbqCount)),...shuffle(pPool).slice(0,pbqCount)];
+    }
+    S.questions=shuffle(qs);
+    S.timeRemaining=0;
+    S.showExplanations=true;
+  }
+}
+
+function launchSY801(cfg){
+  const base={mode:'exam',track:'801',variant:1,label:'SY0-801 Preview'};
+  launchSession(Object.assign(base,cfg||{}));
+}
+
+function sy801Counts(){
+  const byObj={},byDom={};
+  SY801_MCQS.forEach(q=>{
+    byObj[q.obj]=(byObj[q.obj]||0)+1;
+    byDom[q.domain]=(byDom[q.domain]||0)+1;
+  });
+  return {byObj,byDom};
+}
+
+function renderSY801(){
+  const {byObj,byDom}=sy801Counts();
+  const newCount=SY801_MCQS.filter(q=>q.tag==='new').length;
+  const root=$('sy801-root');
+  if(!root)return;
+  const weightKeys=Object.keys(SY801_DOMAINS);
+  const wbars=weightKeys.map(d=>{
+    const v7=DOMAIN_WEIGHTS[d],v8=SY801_WEIGHTS[d];
+    return `<div class="wbar"><span class="d">${d.replace('.0','')}</span>
+      <div class="t"><div class="f701" style="width:${v7/30*100}%"></div><div class="f801" style="width:${v8/30*100}%"></div></div>
+      <span class="n"><b>${v8}%</b> <span style="color:var(--text-dim)">vs ${v7}%</span></span></div>`;
+  }).join('');
+
+  const groups=weightKeys.map(d=>{
+    const objs=Object.keys(SY801_OBJECTIVES).filter(o=>o.startsWith(d.replace('.0','.')));
+    const rows=objs.map(o=>{
+      const n=byObj[o]||0;
+      return `<div class="obj-row"><span class="num">${o}</span>
+        <span class="txt">${esc(SY801_OBJECTIVES[o])}</span>
+        <span class="cnt">${n} item${n===1?'':'s'}</span>
+        <button class="chip" onclick="launchSY801({mode:'study',count:12,domain:'${d}',explain:true,label:'SY0-801 · ${o} drill'})">Drill</button></div>`;
+    }).join('');
+    return `<div class="obj-group">
+      <div class="obj-group-h"><b>${esc(SY801_DOMAINS[d])}</b><span class="pct">${SY801_WEIGHTS[d]}%</span></div>
+      ${rows}</div>`;
+  }).join('');
+
+  root.innerHTML=`
+  <div class="exp-wrap">
+    <div class="tab-head">
+      <div class="tab-eyebrow">Experimental · ${SY801_META.code} ${SY801_META.version}</div>
+      <div class="tab-title">SY0-801 Preview</div>
+      <div class="tab-sub">Mapped to CompTIA's published V8 exam objectives (document ${SY801_META.objectives}). ${SY801_MCQS.length} MCQs and ${SY801_PBQS.length} PBQs written for this page, plus V7 items carried forward with renumbered objectives.</div>
+    </div>
+
+    <div class="exp-banner">
+      <svg class="ico"><use href="#i-alert"/></svg>
+      <div>
+        <b>Experimental · unofficial · not affiliated with CompTIA</b>
+        <p>Built ${SY801_META.built} from the objective list CompTIA publishes at
+        <a href="https://${SY801_META.source}" target="_blank" rel="noopener">${SY801_META.source}</a>.
+        The exam launches ${SY801_META.launch}; content, weighting and question style are inferred from the published objectives and may change after launch.
+        Scores here are practice only and do not predict the live exam. Keep using the SY0-701 forms as your primary baseline until you have booked V8.</p>
+      </div>
+    </div>
+
+    <div class="exp-facts">
+      <div class="exp-fact"><div class="k">Launch</div><div class="v">17 Nov 2026</div><div class="s">SY0-701 English retires 11 Jun 2027</div></div>
+      <div class="exp-fact"><div class="k">Format</div><div class="v">90 / 90</div><div class="s">max questions / minutes</div></div>
+      <div class="exp-fact"><div class="k">Passing score</div><div class="v">750</div><div class="s">scale of 100-900</div></div>
+      <div class="exp-fact"><div class="k">Objectives</div><div class="v">27</div><div class="s">5 domains, 9 scenario-based</div></div>
+      <div class="exp-fact"><div class="k">New objective</div><div class="v">2.6</div><div class="s">AI threats and vulnerabilities</div></div>
+    </div>
+
+    <div class="panel" style="margin-bottom:22px">
+      <h3>Start an experimental session</h3>
+      <div class="quick-grid">
+        <button class="quick-card" onclick="launchSY801({mode:'exam',variant:1,label:'SY0-801 Preview'})">
+          <b><svg class="ico"><use href="#i-exam"/></svg>Full 90-item preview</b><span>90 questions · 90 minutes · 6 PBQs · V8 weights</span></button>
+        <button class="quick-card" onclick="launchSY801({mode:'study',count:${newCount},tag:'new',explain:true,label:'SY0-801 · New in V8'})">
+          <b><svg class="ico"><use href="#i-target"/></svg>New in V8</b><span>${newCount} items on AI, RCS, quishing, negotiation and more</span></button>
+        <button class="quick-card" onclick="launchSY801({mode:'study',count:20,explain:true,pbqCount:2,label:'SY0-801 · Mixed drill'})">
+          <b><svg class="ico"><use href="#i-grid"/></svg>Mixed V8 drill</b><span>20 MCQs with 2 PBQs · untimed</span></button>
+        <button class="quick-card" onclick="launchSY801({mode:'study',count:12,domain:'2.0',explain:true,label:'SY0-801 · Domain 2 drill'})">
+          <b><svg class="ico"><use href="#i-alert"/></svg>Domain 2 drill</b><span>Threats, vulnerabilities and attacks · 24%</span></button>
+      </div>
+      <div class="cloud-note" style="margin-top:12px">Full preview draws ${SY801_MCQS.length} native V8 items plus carried-forward V7 questions remapped to V8 objective numbers, so the domain weighting matches 16 / 24 / 19 / 27 / 14.</div>
+    </div>
+
+    <div class="exp-two">
+      <div class="panel">
+        <h3>Domain weight: V7 vs V8</h3>
+        <div style="font-size:11px;color:var(--text-dim);margin-bottom:12px;display:flex;gap:14px">
+          <span><span style="display:inline-block;width:9px;height:9px;background:var(--border-light);border-radius:2px;margin-right:5px"></span>SY0-701</span>
+          <span><span style="display:inline-block;width:9px;height:9px;background:var(--accent);border-radius:2px;margin-right:5px"></span>SY0-801</span>
+        </div>
+        ${wbars}
+        <div style="font-size:12px;line-height:1.6;color:var(--text-muted);margin-top:12px">
+          Governance loses six points and Domain 1 gains four. Domains 2 and 4 are 51% of the exam, so those are the highest-yield study blocks.
+        </div>
+      </div>
+      <div class="panel">
+        <h3>What changed in V8</h3>
+        <ul class="exp-changes">${SY801_CHANGES.map(c=>`<li>${esc(c)}</li>`).join('')}</ul>
+      </div>
+    </div>
+
+    <h3 class="section-label">Objective coverage · ${Object.keys(SY801_OBJECTIVES).length} objectives</h3>
+    ${groups}
+
+    <div class="panel" style="margin-top:6px">
+      <h3>Provenance and limits</h3>
+      <div style="font-size:12px;line-height:1.7;color:var(--text-muted)">
+        <div><b>Source:</b> CompTIA Security+ V8 exam objectives, exam number SY0-801, document version ${SY801_META.objectives}, linked from CompTIA's Security+ V8 page.</div>
+        <div><b>Exam facts:</b> up to 90 questions, 90 minutes, 750 on a 100-900 scale, English only at launch. CompTIA dates the launch "on or around 17 November 2026"; confirm before booking.</div>
+        <div><b>Built:</b> ${SY801_META.built}, ahead of the launch, after the objective list was published.</div>
+        <div><b>Scope:</b> Every item on this page maps to a published objective or sub-bullet. There is no dump content and no reconstructed live exam material.</div>
+        <div><b>Limits:</b> Question style, difficulty mix and PBQ formats are our own approximation. V7 questions carried into this section keep their original wording, with objective numbers remapped to V8.</div>
+      </div>
+    </div>
+  </div>`;
+}
+
 function buildExamQuestions() {
+  if (S.examTrack === '801') {
+    buildSY801Questions();
+    S.questions = S.questions.map(_shuffleQuestion);
+    return;
+  }
   const mode = S.mode;
   if (mode === 'exam') {
     const variant = EXAM_VARIANTS.find(v=>v.id===(S.examVariant||1)) || EXAM_VARIANTS[0];
@@ -4657,8 +5360,7 @@ function buildExamQuestions() {
     const typeMCQ = ('mcq' in opts) ? !!opts.mcq : $('type-mcq').checked;
     const typePBQ = ('pbq' in opts) ? !!opts.pbq : $('type-pbq').checked;
     if (Array.isArray(opts.explicitIds)) {
-      const idx = {};
-      [...SEED_QUESTIONS, ...PBQ_SEEDS].forEach(q => idx[q.id]=q);
+      const idx = _qIndex();
       S.questions = opts.explicitIds.map(id => idx[id]).filter(Boolean);
       S.timeRemaining = 0;
       S.showExplanations = true;
@@ -4810,7 +5512,7 @@ function renderQ() {
   if (!q) return;
 
   // Update top bar
-  $('tb-domain').textContent = `Domain ${q.domain} — ${DOMAINS[q.domain]||''}`;
+  $('tb-domain').textContent = `Domain ${q.domain} — ${domLabel(q.domain)}`;
   $('tb-qcount').textContent = `${S.currentIdx+1} of ${S.questions.length}`;
   const isFlagged = S.flags.has(q.id);
   $('tb-flag-btn').className = 'xbtn xbtn-lg' + (isFlagged?' flagged':'');
@@ -6185,7 +6887,7 @@ function calcScaledScore(rawPct) {
 function computeAndShowResults() {
   recordAttempt('exam');
   const domainScores={};
-  Object.keys(DOMAINS).forEach(d=>domainScores[d]={pts:0,max:0,pbqs:0,pbqPts:0});
+  Object.keys(S.examTrack==='801'?SY801_DOMAINS:DOMAINS).forEach(d=>domainScores[d]={pts:0,max:0,pbqs:0,pbqPts:0});
 
   let totalPts=0,maxPts=0;
   const pbqResults=[];
@@ -6218,7 +6920,8 @@ function computeAndShowResults() {
   const pfEl=$('r-pf');pfEl.textContent=passed?'✓ PASS':'✗ FAIL';pfEl.className=`pass-fail-badge ${passed?'pass':'fail'}`;
   $('r-raw').textContent=`Raw: ${rawPct}% (${S.questions.length} questions weighted)`;
   $('r-headline').textContent=passed?'Congratulations!':'Keep Studying';
-  $('r-sub').textContent=`SY0-701 CompTIA Security+ · Scaled Score: ${scaled} · ${passed?'PASS (≥750)':'FAIL (<750)'}`;
+  const track=S.examTrack==='801'?'SY0-801 (V8) Experimental Preview':'SY0-701 CompTIA Security+';
+  $('r-sub').textContent=`${track} · Scaled Score: ${scaled} · ${passed?'PASS (≥750)':'FAIL (<750)'}`;
 
   // Time-pressured detection (questions answered in last 5 mins)
   const examDuration = S.endTime - S.startTime - (S.pausedMs || 0);
@@ -6251,7 +6954,7 @@ function computeAndShowResults() {
     domEl.innerHTML+=`
       <div class="db-row">
         <div class="db-row-header">
-          <span style="font-size:12px">${DOMAINS[d]}</span>
+          <span style="font-size:12px">${domLabel(d)}</span>
           <span class="db-pct ${pct>=75?'pass':pct>=50?'amber':'fail'}">${pct}%</span>
         </div>
         <div class="db-bar-bg">
@@ -6324,7 +7027,7 @@ function showReview(filter){
   const ex=$('exam-screen');
   ex.setAttribute('data-review-mode','true');
   ex.setAttribute('data-ephase','review');
-  const chip=$('x-mode-chip');if(chip)chip.textContent='Review';
+  const chip=$('x-mode-chip');if(chip)chip.textContent=S.examTrack==='801'?'SY0-801 · Review':'Review';
   const lbl=$('tb-review-label');if(lbl)lbl.textContent='Grid';
   buildNavigator();
   renderExamReview(S.revFilter);
@@ -6353,6 +7056,12 @@ function backToDashboardFromReview(){
 }
 
 function newExamFromReview(){
+  if(S.examTrack==='801'){
+    const next=(((S.examVariant||1))%3)+1;
+    exitReviewMode();
+    launchSY801({mode:'exam',variant:next,label:'SY0-801 Preview '+next});
+    return;
+  }
   const n=EXAM_VARIANTS.length;
   const next=(((S.examVariant||1))%n)+1;
   exitReviewMode();
@@ -6707,6 +7416,7 @@ function saveExamSnapshot(){
       times:Object.assign({},_questionTimings),studyCount:S.studyCount,launchOpts:S.launchOpts,
       examFocus:S.examFocus,showExplanations:S.showExplanations,timeLimit:S.timeLimit||null,
       examVariant:S.examVariant||1,sessionLabel:S.sessionLabel||null,
+      examTrack:S.examTrack||'701',sy801Tag:S.sy801Tag||null,
       savedAt:Date.now()});
   }catch(e){}
 }
@@ -6734,11 +7444,12 @@ function resumeExamFromSnapshot(){
   S.startTime=Date.now()-(d.elapsedMs||0);S.endTime=null;
   S.studyCount=d.studyCount||20;S.launchOpts=d.launchOpts||null;S.examFocus=d.examFocus||null;
   S.examVariant=d.examVariant||1;S.sessionLabel=d.sessionLabel||null;
+  S.examTrack=d.examTrack==='801'?'801':'701';S.sy801Tag=d.sy801Tag||null;
   S.showExplanations=!!d.showExplanations;
   S.reviewMode=false;S.reviewPhase=false;S.reviewFilter='all';S.timeWarnShown=false;S.hintUsed=new Set();
   S.pausedMs=0;S.pauseStart=null;
   $('paused-badge').classList.add('hidden');
-  const chip=$('x-mode-chip');if(chip)chip.textContent=S.mode==='exam'?(S.sessionLabel||'Exam'):'Study';
+  _syncTrackChrome();
   $('x-prev').disabled=S.currentIdx===0;
   document.getElementById('exam-screen').setAttribute('data-ephase','item');
   document.getElementById('exam-screen').removeAttribute('data-review-mode');
@@ -6992,7 +7703,7 @@ function showStudySummary() {
     domEl.innerHTML += `
       <div class="db-row">
         <div class="db-row-header">
-          <span style="font-size:12px">${DOMAINS[d] || d}</span>
+          <span style="font-size:12px">${domLabel(d)}</span>
           <span class="db-pct ${pass ? 'pass' : 'fail'}">${pctD}% (${s.correct}/${s.total})</span>
         </div>
         <div class="db-bar-bg">
@@ -7010,7 +7721,7 @@ function showStudySummary() {
       <div style="font-size:13px;font-weight:700;color:var(--warning);margin-bottom:10px;display:flex;align-items:center;gap:7px"><svg class="ico" style="width:14px;height:14px"><use href="#i-alert"/></svg>Sub-objectives to revisit</div>
       ${weakObjs.map(([obj, s]) => `
         <div class="pbq-result-row">
-          <span class="pbq-type-label">Objective ${obj} — ${DOMAINS[s.domain] || s.domain}</span>
+          <span class="pbq-type-label">Objective ${obj} — ${domLabel(s.domain) || s.domain}</span>
           <span style="font-size:12px;font-weight:700;color:var(--danger)">${Math.round(s.correct/s.total*100)}% (${s.correct}/${s.total})</span>
         </div>
       `).join('')}
@@ -7054,7 +7765,7 @@ function recordAttempt(mode){
     pd.n++;if(ok)pd.ok++;
     return{id:q.id,d:q.domain,type:q.type,ok,sc:Math.round(sc*100)/100,sec:Math.round(_questionTimings[q.id]||0)};
   });
-  const rec={mode,at:Date.now(),key:'k'+Date.now().toString(36)+Math.random().toString(36).slice(2,8),variant:S.examVariant||null,label:S.sessionLabel||null,total:items.length,correct,
+  const rec={mode,at:Date.now(),key:'k'+Date.now().toString(36)+Math.random().toString(36).slice(2,8),variant:S.examVariant||null,label:S.sessionLabel||null,track:S.examTrack||'701',total:items.length,correct,
     score:weightedMax?Math.round(weightedPts/weightedMax*100):0,
     dur:Math.round(((S.endTime||Date.now())-(S.startTime||Date.now())-(S.pausedMs||0))/1000),items};
   const attempts=_loadJson(ATTEMPTS_KEY,[]);attempts.push(rec);
@@ -7099,6 +7810,8 @@ function _resetForLaunch(cfg){
   S.studyCount=cfg.count||20;S.studyDomain=cfg.domain||'all';
   S.launchOpts=cfg.launchOpts||(cfg.pbq===false?{mcq:true,pbq:false}:{mcq:true,pbq:true,pbqCount:cfg.pbqCount!=null?cfg.pbqCount:2});
   S.examFocus=cfg.focus||null;S.examVariant=cfg.variant||1;S.sessionLabel=cfg.label||null;
+  S.examTrack=cfg.track==='801'?'801':'701';S.sy801Tag=cfg.tag||null;
+  _syncTrackChrome();
   $('paused-badge').classList.add('hidden');
   const prevEl=$('x-prev');if(prevEl)prevEl.disabled=true;
   const _ex=document.getElementById('exam-screen');
@@ -7128,7 +7841,7 @@ function _doLaunch(cfg){
   startTimer();
   startSnapshotAutosave();
   saveExamSnapshot();
-  const chip=$('x-mode-chip');if(chip)chip.textContent=S.mode==='exam'?(S.sessionLabel||'Exam'):'Study';
+  _syncTrackChrome();
 }
 function resumeFromModal(){
   closeModal('modal-resume');
@@ -7142,11 +7855,13 @@ function startPendingLaunch(){
 function retestIds(ids){
   const list=[...new Set(ids)].slice(0,25);
   if(!list.length)return;
-  launchSession({mode:'study',count:list.length,explain:true,launchOpts:{mcq:false,pbq:false,explicitIds:list}});
+  const idx=_qIndex();
+  const track=list.some(id=>String(id).indexOf('sy801-')===0||(idx[id]&&idx[id].exam==='801'))?'801':'701';
+  launchSession({mode:'study',count:list.length,explain:true,track,launchOpts:{mcq:false,pbq:false,explicitIds:list}});
 }
 
 // ---------- ROUTER ----------
-const ROUTES={'#/':'screen-dashboard','#/exam':'screen-sets','#/study':'screen-study','#/lab':'screen-lab','#/review':'screen-review','#/analytics':'screen-analytics','#/settings':'screen-settings'};
+const ROUTES={'#/':'screen-dashboard','#/exam':'screen-sets','#/study':'screen-study','#/lab':'screen-lab','#/sy801':'screen-sy801','#/review':'screen-review','#/analytics':'screen-analytics','#/settings':'screen-settings'};
 let _lastHash=null;
 function route(){
   let h=location.hash||'#/';
@@ -7157,7 +7872,7 @@ function route(){
     return;
   }
   _lastHash=h;
-  const map={'screen-dashboard':renderDashboard,'screen-sets':renderSets,'screen-study':renderStudy,'screen-lab':renderLab,'screen-review':renderReview,'screen-analytics':renderAnalytics,'screen-settings':renderSettingsPage};
+  const map={'screen-dashboard':renderDashboard,'screen-sets':renderSets,'screen-study':renderStudy,'screen-lab':renderLab,'screen-sy801':renderSY801,'screen-review':renderReview,'screen-analytics':renderAnalytics,'screen-settings':renderSettingsPage};
   showScreen(ROUTES[h]);
   (map[ROUTES[h]]||renderDashboard)();
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.route===h));
@@ -7186,7 +7901,7 @@ function setPrefBool(key,val){
   savePrefs();
   refreshSettingsUI();
 }
-function _qIndex(){const idx={};[...SEED_QUESTIONS,...PBQ_SEEDS].forEach(q=>idx[q.id]=q);return idx;}
+function _qIndex(){const idx={};[...SEED_QUESTIONS,...PBQ_SEEDS,...SY801_MCQS,...SY801_PBQS].forEach(q=>idx[q.id]=q);return idx;}
 function refreshSettingsUI(){
   if($('screen-settings').classList.contains('active'))renderSettingsPage();
   if($('settings-layer').classList.contains('open'))$('settings-layer-root').innerHTML=settingsBoardMarkup('Mid-Exam','Exam is paused while Settings is open. Press Back to resume exactly where you left off.');
@@ -7403,6 +8118,7 @@ function renderDashboard(){
     <button class="quick-card" onclick='launchSession(${JSON.stringify({mode:'exam',variant:1,label:'Exam A'})})'><b><svg class="ico"><use href="#i-exam"/></svg>Full exam</b><span>90 questions · 90 minutes · PBQs interleaved</span></button>
     <button class="quick-card" onclick="launchSession({mode:'study',count:20,timeLimit:1200,explain:false})"><b><svg class="ico"><use href="#i-clock"/></svg>20-question drill</b><span>Timed · mixed domains</span></button>
     <button class="quick-card" onclick="location.hash='#/lab'"><b><svg class="ico"><use href="#i-lab"/></svg>PBQ Lab</b><span>9 families · 30 interactive scenarios</span></button>
+    <button class="quick-card" onclick="location.hash='#/sy801'"><b><svg class="ico"><use href="#i-target"/></svg>SY0-801 preview</b><span>Experimental · V8 objectives, AI coverage, 90-item preview</span></button>
     <button class="quick-card" onclick="location.hash='#/review'"><b><svg class="ico"><use href="#i-review"/></svg>Review queue</b><span>${nb?`${nb} missed in the last session`:'No outstanding misses'}</span></button>
   </div></div>
   <div class="panel"><h3>Weakest domains</h3>${weak.length?`<div class="bar-row">${weak.map(w=>`
@@ -7446,6 +8162,13 @@ function renderSets(){
   <div class="tab-sub">Five full-length forms, each scored pass/fail against the SY0-701 blueprint. Every form draws a unique PBQ set interleaved through the 90 items, with no cross-form duplication. Drills are timed and balanced; domain sets isolate one objective area.</div></div>
   <h3 class="section-label">Full-length · 90 questions · 90 minutes</h3>
   <div class="set-grid">${full.map(_setCard).join('')}</div>
+  <h3 class="section-label">Experimental</h3>
+  <div class="set-grid">
+    <button class="set-card" onclick="location.hash='#/sy801'">
+      <div class="k">SY0-801 Preview <span class="exp-pill">Exp</span></div><div class="n">90 <em>questions</em></div>
+      <div class="d">V8 objectives · 16/24/19/27/14 · AI objective 2.6</div>
+    </button>
+  </div>
   <h3 class="section-label">Timed drills</h3>
   <div class="set-grid">${drills.map(_setCard).join('')}</div>
   <h3 class="section-label">By domain</h3>
