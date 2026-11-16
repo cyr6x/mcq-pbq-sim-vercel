@@ -5124,7 +5124,7 @@ function launchDomainExam(d,k){
   const ids=domainExamIds(d,k);
   if(!ids.length) return;
   const label=`Domain ${String(d).replace('.0','')} · Exam ${k}`;
-  launchSession({mode:'study',count:ids.length,timeLimit:1800,explain:false,label,
+  launchSession({mode:'exam',count:ids.length,timeLimit:1800,explain:false,label,
     launchOpts:{mcq:true,pbq:false,explicitIds:ids}});
 }
 function domainExamSections(){
@@ -5436,6 +5436,16 @@ function buildExamQuestions() {
   }
   const mode = S.mode;
   if (mode === 'exam') {
+    // Fixed-id exam sets (per-domain exams) keep exam-mode scoring and review
+    // while drawing an exact, pre-computed question list.
+    const fixed = (S.launchOpts||{}).explicitIds;
+    if (Array.isArray(fixed)) {
+      const idx = _qIndex();
+      S.questions = fixed.map(id => idx[id]).filter(Boolean);
+      S.timeRemaining = 5400;
+      S.sessionLabel = S.sessionLabel || 'Exam';
+      return;
+    }
     const variant = EXAM_VARIANTS.find(v=>v.id===(S.examVariant||1)) || EXAM_VARIANTS[0];
     const formPBQs = pbqForms()[variant.id-1] || [];
     const need = 90 - formPBQs.length;
@@ -8197,7 +8207,7 @@ function discardAttemptNow(){discardExamSnapshot();renderDashboard();}
 
 function renderDashboard(){
   const attempts=_loadJson(ATTEMPTS_KEY,[]);
-  const exams=attempts.filter(a=>a.mode==='exam');
+  const exams=attempts.filter(a=>a.mode==='exam'&&a.total===90);
   const base=exams.length?exams:attempts;
   const recent=base.slice(-5);
   const readiness=recent.length?Math.round(recent.reduce((s,a)=>s+a.score,0)/recent.length):0;
@@ -8398,7 +8408,7 @@ function activityCells(attempts){
 }
 function renderAnalytics(){
   const attempts=_loadJson(ATTEMPTS_KEY,[]);
-  const exams=attempts.filter(a=>a.mode==='exam');
+  const exams=attempts.filter(a=>a.mode==='exam'&&a.total===90);
   const last15=attempts.slice(-15);
   const last10=attempts.slice(-10);
   const avg10=last10.length?Math.round(last10.reduce((s,a)=>s+a.score,0)/last10.length):0;
