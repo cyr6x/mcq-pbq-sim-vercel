@@ -1,7 +1,7 @@
 # Project State
 
 ## Objective
-SY0-701 Security+ exam simulator: five full-length exam forms, drills, interactive PBQ practice, post-exam review and analytics. Deployed as a single static page.
+SY0-701 Security+ exam simulator: five full-length exam forms, drills, interactive PBQ practice, post-exam review and analytics, plus a clearly labelled **experimental SY0-801 (V8) preview section**. Deployed as a single static page.
 
 ## Stack
 - frontend: vanilla HTML/CSS/JS, one file (`index.html`), no build step
@@ -24,8 +24,18 @@ SY0-701 Security+ exam simulator: five full-length exam forms, drills, interacti
 - Icons: inline SVG sprite (`<symbol id="i-*">`) at top of `<body>`; `.ico` class inherits stroke.
 - Cloud sync: settings panel → dynamic `import()` of `@supabase/supabase-js` only when configured; local data is never deleted by connecting; uploads are idempotent via `client_key`; RLS scopes rows to `auth.uid()`.
 
+## SY0-801 Experimental Preview (added 2026-11)
+- **Status: experimental, unofficial, not affiliated with CompTIA.** Content is authored from CompTIA's published SY0-801 V8 exam objectives (document version 2.0, linked from `comptia.org/en-us/certifications/security/v8/`). No dump content, no reconstructed live items.
+- Exam facts reflected in the UI: launch 17 Nov 2026; up to 90 questions in 90 minutes; 750/900; English only; SY0-701 English retires 11 Jun 2027; 27 objectives across 5 domains with weights **16 / 24 / 19 / 27 / 14**.
+- Data block (inserted right after `SEED_QUESTIONS`): `SY801_DOMAINS`, `SY801_WEIGHTS`, `SY801_CHANGES`, `SY801_OBJECTIVES` (27 entries), `SY801_MCQS` (**64** native items, 3 multi-select, ids `e001`–`e064`, `exam:'801'`; 18 carry `tag:'new'`), `SY801_PBQS` (**4** native PBQs reusing existing engines: `sy801-p1` AI threat placement 2.6, `sy801-p2` IR sequence incl. negotiation 4.7, `sy801-p3` threat-vector compliance 2.3, `sy801-p4` control-type placement 1.1), `SY801_META`.
+- Track flag: `S.examTrack` (`'701'` default / `'801'`) and `S.sy801Tag`; both are written to and restored from `sy0701_exam_snapshot`. Attempt records now carry `track`.
+- Assembly: `buildExamQuestions()` branches to `buildSY801Questions()` when `S.examTrack==='801'`. Full preview = 4 native PBQs + `pbq002`/`pbq007` (the two genre-crossing V7 PBQs carried forward) + 84 MCQs allocated by V8 domain weight, filled from native 801 items first and then from **carried-forward V7 items remapped through `V7_TO_V8`** (e.g. V7 4.8 IR → V8 4.7; V7 2.5 mitigations → V8 4.1). V7 numbering is dropped (`carried:true`, `v7obj` kept, `reference` rewritten).
+- UI: `#/sy801` screen (`renderSY801`) with an experimental banner + non-affiliation disclaimer, exam-fact strip, V7-vs-V8 weight bars, "what changed in V8" list, per-objective coverage rows with a drill button each, and provenance/limits. Nav entry `SY0-801 Preview` with an `Exp` badge; dashboard and exam-set cards link to it. During an 801 session `#exam-screen[data-track="801"]` shows a persistent `.track-note` band and the mode chip reads `SY0-801 · Experimental`; results subtitle reads `SY0-801 (V8) Experimental Preview`.
+- Domain labels in the item header, results breakdown and weak-objective callout route through `domLabel(d)`, which switches to `SY801_DOMAINS` on the 801 track.
+- `_qIndex()` and `retestIds()` are track-aware, so retesting an 801 item (or `sy801-*` PBQ) reopens on the 801 track; `newExamFromReview()` cycles the 801 seed (variants 1–3) instead of the 701 variant list.
+
 ## Current Feature / Task
-Exam-form partitioning, interactive PBQ coverage, in-exam post-exam review, content audit and mobile polish.
+SY0-801 experimental preview shipped alongside the stable SY0-701 simulator; next up is the queued 701 content rework (PBQ scope retagging, variation engine, objective drills, cheatsheet PBQs, liquid-glass chrome).
 
 ## Implemented
 - Five full-length forms (A–E) with 5/4/6/5/4 PBQs and zero cross-form duplication; each form carries distinct PBQ types.
@@ -45,6 +55,7 @@ Exam-form partitioning, interactive PBQ coverage, in-exam post-exam review, cont
 
 ## Verified
 - Both inline script blocks parse (`node --check`).
+- SY0-801 preview: 78-assertion jsdom suite (`/tmp/t2/test801.js`) — bank integrity, 27-objective map, routing, 90-item assembly with 6 PBQs and V8 domain mix, timer 5400, track chrome, snapshot round-trip, results labelling, tag/domain/mixed drills, all 4 native PBQs rendered and graded (incl. partial credit), cross-track retest, 701 regression, zero console errors. 41-assertion regression suite (`/tmp/t2/test701.js`) — all routes, all 30 PBQs and 270 MCQs render and grade, 5 exam variants, snapshot and timer paths, 801 entry points on dashboard/sets.
 - jsdom whitebox suites: 156 assertions covering boot, content audit (option correctness, `selectCount` parity, `whyWrong` keys), partitioning, per-form assembly, perfect/empty scoring, all 30 PBQs live + review rendering, all 270 MCQs live + review rendering, multi-select cap/read-only, post-exam review filters/navigation/model solutions, PBQ lab launches, sequence + firewall scoring, XSS escaping, routes/themes, and a randomized fuzz submit/review pass on every form.
 - Cloud sync fallback/validation paths exercised locally; live Supabase project not available in this environment.
 
@@ -52,6 +63,7 @@ Exam-form partitioning, interactive PBQ coverage, in-exam post-exam review, cont
 - Cloud sync against a real Supabase project is unverified (no credentials). SQL file reviewed by inspection only.
 - Bulk MCQ text is inherited from the original bank; audited for answer-count correctness and domain mapping, not professionally reviewed for clinical phrasing.
 - No real-browser E2E in the sandbox (browser binaries unavailable); layout is verified by CSS inspection plus jsdom DOM assertions.
+- SY0-801 content is an approximation of an exam that had not yet launched at build time: objective mapping is per the published PDF, but question style, difficulty mix and PBQ formats are our own. Native 801 coverage is uneven (64 items over 27 objectives, from 1 to 5 per objective); the full preview fills the gap with carried-forward V7 items, so an 801 form mixes both flavours. Carried items keep V7 wording and may reference V7-only detail not explicitly listed in V8.
 
 ## Security Notes
 - Only the Supabase anon key is entered in the browser (by design). Never add a service-role key.
