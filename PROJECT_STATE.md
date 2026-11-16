@@ -14,7 +14,7 @@ SY0-701 Security+ exam simulator: five full-length exam forms, drills, interacti
 ## Architecture Facts
 - Single `<script>` block holds the engine + shell. `const S` is a lexical global (not on `window`); tests must use `window.eval`.
 - Screen system: `.screen.active`. Hash router `route()` reads `location.hash`; `ROUTES` maps hashes to screens. The exam screen is a full-screen flow protected from routing while live (`isExamLive()`).
-- Question bank: `SEED_V1` (15) + `BULK_MCQS` (255) = **270 MCQs**; `PBQ_SEEDS` = **30 PBQs across 9 families** (`pbq-firewall`, `pbq-log`, `pbq-sequence`, `pbq-placement`, `pbq-compliance`, `pbq-vulnscan`, `pbq-crypto`, `pbq-terminal`, `pbq-packet`).
+- Question bank: `SEED_V1` (15) + `BULK_MCQS` (255) + `DOMAIN_EXPANSION_MCQ` (180) = **450 MCQs**, exactly **90 per domain**; `PBQ_SEEDS` = **70 PBQs across 9 families** (30 original + 40 in `DOMAIN_EXPANSION_PBQ`, pushed onto the array at load; at least 9 PBQs per domain) (`pbq-firewall`, `pbq-log`, `pbq-sequence`, `pbq-placement`, `pbq-compliance`, `pbq-vulnscan`, `pbq-crypto`, `pbq-terminal`, `pbq-packet`).
 - Exam forms: `EXAM_VARIANTS` = A–E with deterministic seeds. `EXAM_PBQ_DISTRIBUTION = [5,4,6,5,4]` (24 PBQs allocated). `partitionPBQsByForm(pool, 5)` returns five disjoint PBQ slices (zero cross-form overlap, type variety maximised per form); cached by `pbqForms()`.
 - Form order: `buildStrictExamOrder(pbqs, mcqs, variantId)` interleaves PBQs into the 90 items using seeded per-PBQ segments (one PBQ per segment, never at index 0 or 89), so PBQs are scattered rather than clustered. Exam = 90 items / 5400 s.
 - Review: post-exam review runs **inside `#exam-screen`**. `showReview(filter)` sets `S.reviewMode`, `#exam-screen[data-review-mode="true"]` and `data-ephase="review"`; `renderExamReview(f)` paints the grid from `#exam-review-phase`; `openReviewItem(i)` sets `data-ephase="item"` and renders the read-only item with `renderReviewChrome()`.
@@ -34,8 +34,16 @@ SY0-701 Security+ exam simulator: five full-length exam forms, drills, interacti
 - Domain labels in the item header, results breakdown and weak-objective callout route through `domLabel(d)`, which switches to `SY801_DOMAINS` on the 801 track.
 - `_qIndex()` and `retestIds()` are track-aware, so retesting an 801 item (or `sy801-*` PBQ) reopens on the 801 track; `newExamFromReview()` cycles the 801 seed (variants 1–3) instead of the 701 variant list.
 
+## Per-Domain Exams (added 2026-11)
+- Every domain runs **three disjoint 30-question exams** (`Domain N · Exam 1/2/3`): 27 MCQs + 3 PBQs, 30-minute timer, no explanations until review.
+- Pooling: `_domainExamPools()` groups each domain's 90 MCQs by sub-objective, gives each objective a proportional quota for the 81 slots that will be used (27 x 3), trims the remainder from the largest objectives, and deals the result round-robin across the three exams. Objective order rotates each rank so the modulo-3 deal cannot send the same objectives to the same exam every cycle. PBQs are grouped by engine type and dealt the same way, so each exam gets a mix of families. All three exams in a domain use **90 distinct MCQs and 9 distinct PBQs**; pools are cached for the page lifetime, so ordering is stable across launches and re-renders.
+- Launch path: `launchDomainExam(d,k)` builds an explicit id list (`domainExamIds`) with the three PBQs spliced in at positions 8, 17 and 26, then calls `launchSession({mode:'study',timeLimit:1800,explain:false,label:'Domain N · Exam k',launchOpts:{explicitIds}})`. It reuses the existing explicit-id branch of `buildExamQuestions`, so no new question-selection engine is involved. Because a label is supplied, `_syncTrackChrome()` shows the set name in the exam top bar instead of a generic "Study" chip.
+- UI: `renderSets()` renders one section per domain plus three cards each (15 cards total) via `domainExamSections()`; the dashboard has a `Domain exams` quick card. Card copy states 27 MCQs / 3 PBQs / 30 min.
+- The old single "Domain 1-5 · 30 questions" drill cards were removed from `EXAM_SETS`; the study-mode domain filter still exists for free-form drills.
+- Content provenance: the 180 new MCQs and 40 new PBQs were written for this page against the published SY0-701 objective list (no dump content). New items use ids `dx001`-`dx180` and `pbq031`-`pbq070`; every item carries `obj` and a `reference` of the form `Objective X.Y - <topic>`.
+
 ## Current Feature / Task
-SY0-801 experimental preview shipped alongside the stable SY0-701 simulator; next up is the queued 701 content rework (PBQ scope retagging, variation engine, objective drills, cheatsheet PBQs, liquid-glass chrome).
+Per-domain exam sets shipped on top of an expanded 450-MCQ / 70-PBQ bank. Next up is the remaining 701 rework: PBQ scope retagging to official objectives, the pairwise-overlap variation engine for full forms, objective mini-sections, cheatsheet `pbq-match` PBQs and liquid-glass chrome.
 
 ## Implemented
 - Five full-length forms (A–E) with 5/4/6/5/4 PBQs and zero cross-form duplication; each form carries distinct PBQ types.
@@ -56,13 +64,16 @@ SY0-801 experimental preview shipped alongside the stable SY0-701 simulator; nex
 ## Verified
 - Both inline script blocks parse (`node --check`).
 - SY0-801 preview: 78-assertion jsdom suite (`/tmp/t2/test801.js`) — bank integrity, 27-objective map, routing, 90-item assembly with 6 PBQs and V8 domain mix, timer 5400, track chrome, snapshot round-trip, results labelling, tag/domain/mixed drills, all 4 native PBQs rendered and graded (incl. partial credit), cross-track retest, 701 regression, zero console errors. 41-assertion regression suite (`/tmp/t2/test701.js`) — all routes, all 30 PBQs and 270 MCQs render and grade, 5 exam variants, snapshot and timer paths, 801 entry points on dashboard/sets.
-- jsdom whitebox suites: 156 assertions covering boot, content audit (option correctness, `selectCount` parity, `whyWrong` keys), partitioning, per-form assembly, perfect/empty scoring, all 30 PBQs live + review rendering, all 270 MCQs live + review rendering, multi-select cap/read-only, post-exam review filters/navigation/model solutions, PBQ lab launches, sequence + firewall scoring, XSS escaping, routes/themes, and a randomized fuzz submit/review pass on every form.
+- jsdom whitebox suites: 41 assertions on domain exams (`/tmp/t4/test_domains.js`) — bank totals (450/70), 90 MCQs per domain, answer-key parity, no duplicate stems, 15 exam sets of exactly 30 items with 3 interleaved PBQs, disjointness across the three exams in each domain, every set launched and rendered, timer 1800, full-credit scoring, all 40 new PBQs rendered and scored, five full forms and the 801 preview still intact.
+- 47-assertion full regression suite (`/tmp/t4/test_regress.js`) — every one of the 450 MCQs and 70 PBQs rendered and graded, all routes, sets-screen clicks (Full Exam A, Domain 3 · Exam 2), snapshot round-trip, results labelling, 801 track and drills, PBQ lab.
+- Earlier 156-assertion suite covered boot, `selectCount` parity, `whyWrong` keys, partitioning, post-exam review filters/navigation/model solutions, multi-select cap/read-only, XSS escaping, routes/themes and a randomized fuzz submit/review pass; those invariants are unchanged by this feature.
 - Cloud sync fallback/validation paths exercised locally; live Supabase project not available in this environment.
 
 ## Known Issues
 - Cloud sync against a real Supabase project is unverified (no credentials). SQL file reviewed by inspection only.
 - Bulk MCQ text is inherited from the original bank; audited for answer-count correctness and domain mapping, not professionally reviewed for clinical phrasing.
 - No real-browser E2E in the sandbox (browser binaries unavailable); layout is verified by CSS inspection plus jsdom DOM assertions.
+- Domain-exam content: the 180 new MCQs and 40 new PBQs are original but written quickly against the objective list; they are not peer-reviewed for exam realism. The three exams per domain are disjoint by construction, but the pool is fixed, so a fourth sitting repeats content.
 - SY0-801 content is an approximation of an exam that had not yet launched at build time: objective mapping is per the published PDF, but question style, difficulty mix and PBQ formats are our own. Native 801 coverage is uneven (64 items over 27 objectives, from 1 to 5 per objective); the full preview fills the gap with carried-forward V7 items, so an 801 form mixes both flavours. Since 64 < 84 MCQ slots, **every preview form contains the entire native MCQ bank plus 20 carried items** (measured variants 1-3: 64 native / 20 carried, 71-72 of 90 items shared between forms). Repeated 801 forms therefore repeat most content until the native bank grows past ~84 items. Carried items keep V7 wording and may reference V7-only detail not explicitly listed in V8.
 
 ## Security Notes
