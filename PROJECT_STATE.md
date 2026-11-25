@@ -43,6 +43,26 @@ SY0-701 Security+ exam simulator: five full-length exam forms, drills, interacti
 - The old single "Domain 1-5 · 30 questions" drill cards were removed from `EXAM_SETS`; the study-mode domain filter still exists for free-form drills.
 - Content provenance: the 180 new MCQs and 40 new PBQs were written for this page against the published SY0-701 objective list (no dump content). New items use ids `dx001`-`dx180` and `pbq031`-`pbq070`; every item carries `obj` and a `reference` of the form `Objective X.Y - <topic>`.
 
+## Polish + Bug-Fix Pass (2026-11-25)
+- **Premium layer**: one token-driven CSS block appended at the end of the stylesheet (`PREMIUM LAYER`), with per-theme values for slate, light and AMOLED (`--accent-2`, `--grad-accent`, `--hairline`, `--highlight`, `--glass`, `--card-grad`, `--lift`, `--ring-track`). Glass sidebar, exam top bar and navigator drawer; gradient accents on the brand mark, primary buttons, eyebrow dots and Full Exam cards; tinted icon tiles and lift on quick cards; selected answers get an accent ring and a filled letter; amber/red timer pill states; modal and pause blur with entrance motion. `prefers-reduced-motion` disables the new motion.
+- **Exam progress rail**: `#x-progress-fill` under the exam top bar tracks answered / total from `updateNavigator()`; hidden in review.
+- **Results hero**: `setResultRing(p, passed, ofText, markDeg, kicker)` drives a conic `.score-ring` (animated through the registered `--p` property) with a tick at the pass mark (750 for exams, 70% for study). `#results-screen[data-outcome]` tints the hero glow.
+- **Bugs fixed**:
+  1. Mid-exam Item Review grid showed Correct / Incorrect / % per item while the exam was live (answer-key leak). It now shows only Answered / Incomplete until submission.
+  2. Results tiles counted skipped items as both Incorrect and Skipped. Incorrect now excludes skipped, so Correct + Partial + Incorrect + Skipped = total (same rule as `reviewMetrics()`).
+  3. Results page was a column flexbox with `justify-content:center` and overflow, which clipped the top of the score card and left-aligned the content. It is now a centred block layout.
+  4. "Retake Exam" went to the dashboard; it now relaunches the same config (`retakeExam()` from `S.lastCfg`, which is also saved in the snapshot). "Home" opened the unrouted legacy welcome screen; it is now "Dashboard" (`backToDashboardFromReview()`).
+  5. Untimed study sessions (`timeRemaining 0`) painted every navigator chip as "time running out" and turned the timer red.
+  6. Keyboard `P` could pause but not resume (the handler returned early while paused). Keys are also ignored while a modal is open (Escape still closes it), and `P` does not resume behind the in-exam settings layer.
+  7. Hint button promised a "-10% score penalty" that was never applied, and the hint vanished on the next re-render. Copy is now "rules out one wrong option"; the eliminated option is stored in `S.hintPick` and re-shown.
+  8. Snapshot `elapsedMs` included paused time, so a resumed exam billed pauses as working time.
+  9. Analytics pass rate and attempt colours used raw >= 75 while the engine passes at raw >= 70 (750 scaled), so a 72-74% run read PASS on results and FAIL in analytics. All thresholds now follow `calcScaledScore()`; dashboard copy states the 70% raw / 750 rule.
+  10. Dashboard "Weakest domains" rows were nested inside a 3-column grid, squeezing each row into the 76 px label column (and overflowing by 71 px on phones).
+  11. Log-triage PBQ selects had inline `min-width:360px`, overflowing 390 px phones by 12 px.
+  12. Study summary tiles now show Correct / Partial / Incorrect / Skipped, the second card is titled "Objectives to Revisit", and the "Open study mode" button exits review first.
+  13. Dashboard stat captions corrected: "Questions · served across all sessions" (it counts skipped items) and "Mastered · seen 2+ times, right last time".
+- **Tests committed** in `tests/` (excluded from Vercel by `.vercelignore`). Run with a local server: `python3 -m http.server 8000`, then `node tests/whitebox.js` (142 assertions) and `node tests/examsim.js [screenshot-dir]` (123 assertions, full 90-item Form A driven through the UI). `BASE_URL` overrides the page URL. Requires Playwright + Chromium.
+
 ## Current Feature / Task
 Per-domain exam sets shipped on top of an expanded 450-MCQ / 70-PBQ bank. Next up is the remaining 701 rework: PBQ scope retagging to official objectives, the pairwise-overlap variation engine for full forms, objective mini-sections, cheatsheet `pbq-match` PBQs and liquid-glass chrome.
 
@@ -63,6 +83,7 @@ Per-domain exam sets shipped on top of an expanded 450-MCQ / 70-PBQ bank. Next u
 - Results and history accuracy use the same full-credit rule (`score >= 0.999`); partial PBQ credit is a separate metric.
 
 ## Verified
+- 2026-11-25, real headless Chromium (Playwright): `tests/whitebox.js` 142/142 — bank integrity (450 MCQs, 70 PBQs, 90 per domain, key counts, no duplicate ids/stems/options), all 74 PBQs (incl. 801) score 1.0 with the oracle and 0 blank and render live + review, all 514 MCQs render/grade, five forms (90 unique, 5/4/6/5/4 PBQs, first/last MCQ, domain weights within ±2, no cross-form PBQ), all-correct = 900 PASS, blank tiles sum to 90, live review hides grading, 15 domain exams (30 items, 3 PBQs, 1800 s, disjoint), three 801 forms, study mode, keyboard, reload + resume, retake/dashboard actions, pass-threshold consistency, XSS escaping, no horizontal overflow at 1440 and 390 px. `tests/examsim.js` 123/123 — Form A taken end to end through the UI (clicks, multi-select cap, PBQ selects, flags, pause/resume by button and key, mid-exam review, end-exam modal, results vs independent recomputation, attempt record, 90-item read-only review walk, filters, dashboard/analytics). Zero console errors besides blocked CDN fetches in the sandbox.
 - Both inline script blocks parse (`node --check`).
 - SY0-801 preview: 78-assertion jsdom suite (`/tmp/t2/test801.js`) — bank integrity, 27-objective map, routing, 90-item assembly with 6 PBQs and V8 domain mix, timer 5400, track chrome, snapshot round-trip, results labelling, tag/domain/mixed drills, all 4 native PBQs rendered and graded (incl. partial credit), cross-track retest, 701 regression, zero console errors. 41-assertion regression suite (`/tmp/t2/test701.js`) — all routes, all 30 PBQs and 270 MCQs render and grade, 5 exam variants, snapshot and timer paths, 801 entry points on dashboard/sets.
 - jsdom whitebox suites: 41 assertions on domain exams (`/tmp/t4/test_domains.js`) — bank totals (450/70), 90 MCQs per domain, answer-key parity, no duplicate stems, 15 exam sets of exactly 30 items with 3 interleaved PBQs, disjointness across the three exams in each domain, every set launched and rendered, timer 1800, full-credit scoring, all 40 new PBQs rendered and scored, five full forms and the 801 preview still intact.
@@ -73,7 +94,8 @@ Per-domain exam sets shipped on top of an expanded 450-MCQ / 70-PBQ bank. Next u
 ## Known Issues
 - Cloud sync against a real Supabase project is unverified (no credentials). SQL file reviewed by inspection only.
 - Bulk MCQ text is inherited from the original bank; audited for answer-count correctness and domain mapping, not professionally reviewed for clinical phrasing.
-- No real-browser E2E in the sandbox (browser binaries unavailable); layout is verified by CSS inspection plus jsdom DOM assertions.
+- Real-browser E2E now runs in headless Chromium (see `tests/`); there is still no Safari/Firefox or physical-device pass.
+- Firewall PBQ defaults are seeded at submit (by design), so an unvisited firewall item counts as answered and can earn partial credit.
 - Domain-exam content: the 180 new MCQs and 40 new PBQs are original but written quickly against the objective list; they are not peer-reviewed for exam realism. The three exams per domain are disjoint by construction, but the pool is fixed, so a fourth sitting repeats content.
 - SY0-801 content is an approximation of an exam that had not yet launched at build time: objective mapping is per the published PDF, but question style, difficulty mix and PBQ formats are our own. Native 801 coverage is uneven (64 items over 27 objectives, from 1 to 5 per objective); the full preview fills the gap with carried-forward V7 items, so an 801 form mixes both flavours. Since 64 < 84 MCQ slots, **every preview form contains the entire native MCQ bank plus 20 carried items** (measured variants 1-3: 64 native / 20 carried, 71-72 of 90 items shared between forms). Repeated 801 forms therefore repeat most content until the native bank grows past ~84 items. Carried items keep V7 wording and may reference V7-only detail not explicitly listed in V8.
 
