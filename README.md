@@ -48,3 +48,17 @@ Opening `index.html` directly also works.
 ## Status
 
 Active. See `PROJECT_STATE.md` for architecture invariants, state keys and the verification checklist.
+
+## Tests
+
+Start a local server (`python3 -m http.server 8000`), then:
+
+```bash
+node tests/whitebox.js
+```
+
+```bash
+node tests/examsim.js
+```
+
+`whitebox.js` checks engine and layout invariants in headless Chromium; `examsim.js` takes a full 90-item exam through the UI. Both need Playwright with Chromium, and `BASE_URL` overrides the page URL. `tests/` is excluded from the Vercel deploy.
