@@ -32,7 +32,7 @@ const ok = (c, m) => { if (c) { pass++; } else { fail++; console.log('  FAIL: ' 
   ok(await E(`window.eval('S.timeRemaining')`) <= 5400 && await E(`window.eval('S.timeRemaining')`) >= 5395, 'timer ~5400');
   const pbqIdx = await E(`window.eval('S.questions.map((q,i)=>q.type.startsWith("pbq")?i:-1).filter(i=>i>=0)')`);
   ok(pbqIdx.length === 5, 'Form A has 5 PBQs, got ' + pbqIdx.length);
-  ok(!pbqIdx.includes(0) && !pbqIdx.includes(89), 'no PBQ at first/last slot');
+  ok(pbqIdx.join(',') === '0,1,2,3,4', 'PBQs open the form (default), got ' + pbqIdx.join(','));
   await p.screenshot({ path: `${OUT}/${TAG}-exam-q1.png` });
 
   // ---- answer every item through the UI

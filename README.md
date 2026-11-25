@@ -16,6 +16,14 @@ Live: [22mcq-pbq-sim-vercel22.vercel.app](https://22mcq-pbq-sim-vercel22.vercel.
 - **Analytics** — readiness, domain accuracy, weak objectives, activity heatmap, score trend and attempt history.
 - **Light / dark / AMOLED themes**, optional Supabase sync, and a resumable exam snapshot.
 
+### Cloud sync setup
+
+1. In your Supabase project open **SQL -> New query**, paste `supabase/schema.sql`, and run it.
+2. In the app open **Settings -> Cloud sync**, paste the project URL and the **publishable** key (Project Settings -> API), then press **Connect**.
+3. On another device, paste the sync key shown in Settings into "Sync key from another device".
+
+No Supabase sign-in is involved. Never paste a secret or service-role key into the app; it refuses them.
+
 ### Experimental: SY0-801 (V8) preview
 
 Security+ V8 (SY0-801) launches on 17 November 2026. The `SY0-801 Preview` nav item opens a section that is visually marked experimental and carries a non-affiliation disclaimer. It contains:
@@ -60,5 +68,7 @@ node tests/whitebox.js
 ```bash
 node tests/examsim.js
 ```
+
+`tests/cloudsync.js` checks cloud sync end to end; it needs a Postgres with `supabase/schema.sql` applied and `node tests/fakerest.js` running (`npm i pg`).
 
 `whitebox.js` checks engine and layout invariants in headless Chromium; `examsim.js` takes a full 90-item exam through the UI. Both need Playwright with Chromium, and `BASE_URL` overrides the page URL. `tests/` is excluded from the Vercel deploy.
