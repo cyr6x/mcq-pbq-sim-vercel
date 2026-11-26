@@ -110,12 +110,47 @@ const section = s => console.log('# ' + s);
   forms.res.forEach((f, i) => {
     ok(f.n === 90 && f.uniq === 90, `form ${f.id}: 90 unique (${f.n}/${f.uniq})`);
     ok(f.pbq === distr[i], `form ${f.id}: ${distr[i]} PBQs, got ${f.pbq}`);
-    ok(!f.first.startsWith('pbq') && !f.last.startsWith('pbq'), `form ${f.id}: first/last MCQ`);
+    ok(f.first.startsWith('pbq') && !f.last.startsWith('pbq'), `form ${f.id}: PBQs open the form by default`);
     ok(f.t === 5400, `form ${f.id}: 5400 s`);
     const w = { '1.0': 12, '2.0': 22, '3.0': 18, '4.0': 28, '5.0': 20 }, mc = 90 - f.pbq;
     Object.entries(w).forEach(([d, pc]) => ok(Math.abs((f.dom[d] || 0) - mc * pc / 100) <= 2, `form ${f.id} domain ${d} ${f.dom[d]} vs ~${(mc * pc / 100).toFixed(1)}`));
   });
   ok(forms.cross === 0, 'no PBQ shared across forms');
+
+  section('PBQ placement setting');
+  const place = await W(`(()=>{const r={};
+    PREFS.pbqFirst=true;_resetForLaunch({mode:'exam',variant:3,label:'C'});buildExamQuestions();
+    const n=S.questions.filter(q=>q.type.startsWith('pbq')).length;
+    r.first=S.questions.slice(0,n).every(q=>q.type.startsWith('pbq'));
+    PREFS.pbqFirst=false;_resetForLaunch({mode:'exam',variant:3,label:'C'});buildExamQuestions();
+    const idx=S.questions.map((q,i)=>q.type.startsWith('pbq')?i:-1).filter(i=>i>=0);
+    r.spread=idx.length===n&&idx[0]>0&&idx[idx.length-1]<89&&idx[idx.length-1]-idx[0]>40;
+    r.domInter=!domainExamIds('4.0',1).slice(0,3).every(id=>/^pbq/.test(id));
+    PREFS.pbqFirst=true;r.domFirst=domainExamIds('4.0',1).slice(0,3).every(id=>/^pbq/.test(id));
+    S.questions=[];return r;})()`);
+  ok(place.first, 'pbqFirst=true: all PBQs lead the form');
+  ok(place.spread, 'pbqFirst=false: PBQs spread through the form');
+  ok(place.domFirst && place.domInter, 'domain exams follow the setting in both modes');
+
+  section('realism: PBQ size, scope, MCQ stems, distractors');
+  const real = await W(`(()=>{
+    const over=PBQ_SEEDS.filter(q=>pbqDecisions(q)>PBQ_MAX_DECISIONS).map(q=>q.id+':'+pbqDecisions(q));
+    const under=PBQ_SEEDS.filter(q=>pbqDecisions(q)<3).map(q=>q.id);
+    const oosInForms=pbqForms().flat().filter(q=>q.outOfScope).map(q=>q.id);
+    const oosInDomain=['1.0','2.0','3.0','4.0','5.0'].flatMap(d=>[1,2,3].flatMap(k=>domainExamIds(d,k))).filter(id=>PBQ_OUT_OF_SCOPE[id]);
+    const wc=s=>String(s).split('**').filter((_,i)=>i%2===0).join(' ').trim().split(' ').filter(Boolean).length;
+    const stems=SEED_QUESTIONS.map(q=>wc(q.stem)).sort((a,b)=>a-b);
+    const shortStems=SEED_QUESTIONS.filter(q=>wc(q.stem)<12).map(q=>q.id);
+    const joke=SEED_QUESTIONS.filter(q=>q.options.some(o=>/cafeteria|lunch|menu|cable management|office supply|parking|gut feeling|holiday|power distribution|marketing materials/i.test(o.text))).map(q=>q.id);
+    const countWords=PBQ_SEEDS.filter(q=>q._trimmedFrom&&new RegExp('(^|[^a-z])'+_NUMW[q._trimmedFrom]+'([^a-z]|$)','i').test(q.scenario||'')).map(q=>q.id);
+    return {over,under,oosInForms,oosInDomain,median:stems[stems.length>>1],shortStems,joke,countWords};})()`);
+  ok(!real.over.length, 'no PBQ above the decision cap: ' + real.over.join(','));
+  ok(!real.under.length, 'no PBQ trimmed below 3 decisions: ' + real.under.join(','));
+  ok(!real.oosInForms.length && !real.oosInDomain.length, 'out-of-scope PBQs never drawn into exams');
+  ok(real.median >= 22, 'MCQ median stem is scenario length (>=22 words), got ' + real.median);
+  ok(!real.shortStems.length, 'no MCQ stem under 12 words: ' + real.shortStems.join(','));
+  ok(!real.joke.length, 'no throwaway distractors: ' + real.joke.join(','));
+  ok(!real.countWords.length, 'PBQ scenario counts match trimmed items: ' + real.countWords.join(','));
 
   section('full-credit and blank exams via the engine');
   for (const v of [1, 3]) {
